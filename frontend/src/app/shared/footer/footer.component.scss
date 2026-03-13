@@ -1,0 +1,120 @@
+.footer {
+  background: var(--lthd-bg);
+  color: var(--lthd-text);
+  padding: 4rem 1.5rem 2rem;
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+}
+
+.block-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  margin: 0 0 1rem;
+  color: var(--lthd-text);
+}
+
+.block--follow .block-title {
+  font-size: 1.5rem;
+}
+
+.block--links,
+.block--contact,
+.block--faq {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.link,
+.contact-line a {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: var(--lthd-text);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.contact-line {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  color: var(--lthd-text);
+}
+
+.socials {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--lthd-text);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: bold;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  &:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+}
+
+.btn-faq {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  height: 64px;
+  padding: 0 1.5rem;
+  background: var(--lthd-cta-gradient);
+  border-radius: 30px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 1.25rem;
+  color: #000;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  &:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 4px;
+  }
+}
+
+.brand {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 8vw, 6rem);
+  text-align: center;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--lthd-text);
+  text-stroke: 1px var(--lthd-text);
+  margin: 0;
+  line-height: 1.2;
+}

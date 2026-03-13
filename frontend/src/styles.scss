@@ -1,0 +1,48 @@
+/* Festival design tokens (Figma WEB-LTHĐ – fileKey 87kkETUfjp8hXlq7gi3Mo9) */
+:root {
+  --lthd-bg: #060606;
+  --lthd-text: #ffffff;
+  --lthd-text-muted: #d9d9d9;
+  --lthd-cta-gradient: linear-gradient(
+    73.58deg,
+    rgb(103, 131, 146) 8.871%,
+    rgb(161, 193, 198) 23.822%,
+    rgb(255, 255, 255) 42.511%,
+    rgb(255, 255, 255) 59.955%,
+    rgb(255, 241, 227) 75.321%,
+    rgb(255, 218, 212) 95.256%
+  );
+  --lthd-cta-gradient-alt: linear-gradient(
+    69deg,
+    rgb(103, 131, 146) 8.871%,
+    rgb(161, 193, 198) 23.822%,
+    rgb(255, 255, 255) 42.511%,
+    rgb(255, 255, 255) 59.955%,
+    rgb(255, 241, 227) 75.321%,
+    rgb(255, 218, 212) 95.256%
+  );
+  --lthd-border: rgba(255, 255, 255, 0.3);
+  --lthd-overlay: rgba(0, 0, 0, 0.3);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--lthd-bg);
+  color: var(--lthd-text);
+}
+
+/* Optional: replace placeholders with exports from Figma (WEB-LTHĐ). */
+/* Logo: node 198:965 | Teaser: TEASER 1 | Stripes/icons: see design file. */

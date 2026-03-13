@@ -1,0 +1,15 @@
+<section class="ticker" aria-label="News ticker">
+  <div class="ticker-stripes" aria-hidden="true">
+    <div class="ticker-track">
+      @for (i of items; track i) {
+        <span class="ticker-text">HOT NEWS</span>
+        <span class="ticker-dot" aria-hidden="true"></span>
+      }
+    </div>
+    <div class="ticker-track ticker-track--alt" aria-hidden="true">
+      @for (i of itemsAlt; track i) {
+        <span class="ticker-text-alt">Long Tranh • Hồ Đấu</span>
+      }
+    </div>
+  </div>
+</section>

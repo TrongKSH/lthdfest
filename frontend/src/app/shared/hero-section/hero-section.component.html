@@ -1,0 +1,19 @@
+<section class="hero" aria-label="Hero">
+  <div class="hero-bg">
+    <img
+      class="hero-img"
+      [src]="imageUrl() || '/assets/images/teaser-placeholder.svg'"
+      [alt]="eventName() || 'Festival teaser'"
+      width="1728"
+      height="1020"
+    />
+    <div class="hero-overlay" aria-hidden="true"></div>
+  </div>
+  <a
+    class="cta"
+    href="#bands"
+    (click)="scrollTo($event, 'bands')"
+  >
+    MUA VÉ NGAY
+  </a>
+</section>

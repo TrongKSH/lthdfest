@@ -1,0 +1,9 @@
+<app-header />
+<app-hero-section
+  [imageUrl]="festival()?.imageUrl ?? undefined"
+  [eventName]="festival()?.name ?? ''"
+/>
+<app-news-ticker />
+<app-bands-section />
+<app-countdown-section />
+<app-footer />

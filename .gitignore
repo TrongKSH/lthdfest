@@ -1,0 +1,14 @@
+# Backend (.NET)
+backend/**/bin/
+backend/**/obj/
+backend/**/.vs/
+*.user
+*.suo
+
+# Frontend (Angular) – see also frontend/.gitignore
+frontend/node_modules/
+frontend/dist/
+
+# OS
+.DS_Store
+Thumbs.db

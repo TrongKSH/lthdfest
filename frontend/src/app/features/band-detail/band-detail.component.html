@@ -1,0 +1,17 @@
+<div class="detail">
+  <a routerLink="/" class="back">← Trang chủ</a>
+  @if (band(); as b) {
+    <article>
+      @if (b.imageUrl) {
+        <img [src]="b.imageUrl" [alt]="b.name" class="thumb" />
+      }
+      <h1>{{ b.name }}</h1>
+      @if (b.genre) {
+        <p class="genre">{{ b.genre }}</p>
+      }
+      <p class="bio">{{ b.shortBio }}</p>
+    </article>
+  } @else {
+    <p>Đang tải...</p>
+  }
+</div>

@@ -1,0 +1,19 @@
+<section class="countdown" aria-labelledby="countdown-label">
+  <div class="countdown-stripes" aria-hidden="true"></div>
+  <div class="countdown-content">
+    <div class="sign sign--warning">
+      <span class="sign-label">WARNING</span>
+      <span class="sign-value" id="countdown-label">
+        @if (daysLeft() !== null) {
+          Còn {{ daysLeft() }} ngày
+        } @else {
+          —
+        }
+      </span>
+    </div>
+    <div class="sign sign--caution">
+      <span class="sign-label">CAUTION</span>
+      <span class="sign-value">{{ formattedDate() || '8/05/2026' }}</span>
+    </div>
+  </div>
+</section>

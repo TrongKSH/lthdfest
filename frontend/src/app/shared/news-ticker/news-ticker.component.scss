@@ -1,0 +1,78 @@
+.ticker {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--lthd-bg);
+}
+
+.ticker-stripes {
+  position: relative;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ticker-track {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+  padding: 0.75rem 0;
+  background: white;
+  transform: rotate(-9.62deg);
+  width: 120%;
+  margin-left: -10%;
+  white-space: nowrap;
+  animation: scroll-left 25s linear infinite;
+}
+
+.ticker-track--alt {
+  transform: rotate(7.28deg);
+  margin-left: -5%;
+  animation: scroll-right 30s linear infinite;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: rotate(-9.62deg) translateX(0);
+  }
+  100% {
+    transform: rotate(-9.62deg) translateX(-50%);
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: rotate(7.28deg) translateX(-50%);
+  }
+  100% {
+    transform: rotate(7.28deg) translateX(0);
+  }
+}
+
+.ticker-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 24px;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.ticker-text-alt {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 24px;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.ticker-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #000;
+  flex-shrink: 0;
+}

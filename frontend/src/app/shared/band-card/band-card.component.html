@@ -1,0 +1,12 @@
+<a
+  [routerLink]="['/bands', band().id]"
+  class="card"
+  [attr.aria-label]="'Xem thông tin ' + band().name"
+>
+  @if (band().imageUrl) {
+    <img class="card-img" [src]="band().imageUrl" [alt]="band().name" />
+  } @else {
+    <span class="card-placeholder">?</span>
+  }
+  <span class="card-name">{{ band().name }}</span>
+</a>
