@@ -1,19 +1,24 @@
 <section class="hero" aria-label="Hero">
   <div class="hero-bg">
-    <img
-      class="hero-img"
-      [src]="imageUrl() || '/assets/images/teaser-placeholder.svg'"
-      [alt]="eventName() || 'Festival teaser'"
-      width="1728"
-      height="1020"
-    />
+    <video
+      class="hero-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      [attr.aria-label]="eventName() || 'Festival teaser'"
+    >
+      <source src="/assets/images/lthd-teaser.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-bg-image" aria-hidden="true"></div>
     <div class="hero-overlay" aria-hidden="true"></div>
   </div>
   <a
     class="cta"
     href="#bands"
     (click)="scrollTo($event, 'bands')"
+    aria-label="Mua vé ngay"
   >
-    MUA VÉ NGAY
+    <img class="cta-img" src="/assets/images/buyticket-btn.png" alt="MUA VÉ NGAY" />
   </a>
 </section>

@@ -34,7 +34,7 @@
 .card-placeholder {
   font-family: 'Inter', sans-serif;
   font-weight: 900;
-  font-size: 96px;
+  font-size: clamp(3rem, 15vw, 96px);
   color: var(--lthd-text-muted);
   line-height: 1;
 }

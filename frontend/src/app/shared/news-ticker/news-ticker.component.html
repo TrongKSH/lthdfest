@@ -1,15 +1,63 @@
 <section class="ticker" aria-label="News ticker">
+  <div class="ticker-bg" aria-hidden="true">
+    <img class="ticker-bg-img" src="/assets/images/lthd-ticker-background.jpg" alt="" />
+    <div class="ticker-bg-overlay"></div>
+  </div>
+  <div class="ticker-center" aria-hidden="true">
+    <img class="ticker-center-img" src="/assets/images/free.png" alt="" />
+  </div>
   <div class="ticker-stripes" aria-hidden="true">
-    <div class="ticker-track">
-      @for (i of items; track i) {
-        <span class="ticker-text">HOT NEWS</span>
-        <span class="ticker-dot" aria-hidden="true"></span>
-      }
+    <div class="ticker-track ticker-track--top">
+      <div class="ticker-track-inner">
+        <div class="ticker-track-content">
+          @for (i of items; track i) {
+            <span class="ticker-text">HOT NEWS</span>
+            <span class="ticker-dot" aria-hidden="true"></span>
+          }
+        </div>
+        <div class="ticker-track-content" aria-hidden="true">
+          @for (i of items; track i) {
+            <span class="ticker-text">HOT NEWS</span>
+            <span class="ticker-dot" aria-hidden="true"></span>
+          }
+        </div>
+      </div>
     </div>
-    <div class="ticker-track ticker-track--alt" aria-hidden="true">
-      @for (i of itemsAlt; track i) {
-        <span class="ticker-text-alt">Long Tranh • Hồ Đấu</span>
-      }
+    <div class="ticker-track ticker-track--mid">
+      <div class="ticker-track-inner">
+        <div class="ticker-track-content">
+          @for (i of items; track i) {
+            <span class="ticker-text">HOT NEWS</span>
+            <span class="ticker-dot" aria-hidden="true"></span>
+          }
+        </div>
+        <div class="ticker-track-content" aria-hidden="true">
+          @for (i of items; track i) {
+            <span class="ticker-text">HOT NEWS</span>
+            <span class="ticker-dot" aria-hidden="true"></span>
+          }
+        </div>
+      </div>
+    </div>
+    <div class="ticker-track ticker-track--bottom">
+      <div class="ticker-track-inner">
+        <div class="ticker-track-content">
+          @for (i of itemsAlt; track i) {
+            <span class="ticker-text-alt">Long Tranh</span>
+            <span class="ticker-dot" aria-hidden="true"></span>
+            <span class="ticker-text-alt">Hổ Đấu</span>
+            <span class="ticker-dot" aria-hidden="true"></span>
+          }
+        </div>
+        <div class="ticker-track-content" aria-hidden="true">
+          @for (i of itemsAlt; track i) {
+            <span class="ticker-text-alt">Long Tranh</span>
+            <span class="ticker-dot" aria-hidden="true"></span>
+            <span class="ticker-text-alt">Hổ Đấu</span>
+            <span class="ticker-dot" aria-hidden="true"></span>
+          }
+        </div>
+      </div>
     </div>
   </div>
 </section>

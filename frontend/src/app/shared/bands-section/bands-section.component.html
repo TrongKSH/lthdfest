@@ -1,10 +1,18 @@
 <section class="bands" id="bands" aria-labelledby="bands-title">
   <h2 id="bands-title" class="title">HƠN 20 BAN NHẠC</h2>
-  <div class="grid">
-    @for (band of bands(); track band.id) {
-      <app-band-card [band]="band" />
-    }
-  </div>
+  @if (loading()) {
+    <div class="bands-loading" aria-live="polite" aria-busy="true">
+      <span class="bands-loading-dot"></span>
+      <span class="bands-loading-dot"></span>
+      <span class="bands-loading-dot"></span>
+    </div>
+  } @else {
+    <div class="grid">
+      @for (band of (bands() ?? []); track band.id) {
+        <app-band-card [band]="band" />
+      }
+    </div>
+  }
   <div class="actions">
     <a routerLink="/lineup" class="btn btn--primary">KHÁM PHÁ</a>
     <a href="#info" class="btn btn--outline">THÔNG TIN</a>

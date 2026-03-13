@@ -1,13 +1,24 @@
 <header class="header" role="banner">
-  <nav class="nav" aria-label="Main navigation">
-    <a routerLink="/" class="nav-link" routerLinkActive="nav-link--active" [routerLinkActiveOptions]="{ exact: true }">Trang</a>
-    <a routerLink="/" fragment="bands" class="nav-link">Sự kiện</a>
-    <a routerLink="/" fragment="info" class="nav-link">Thông tin</a>
+  <button
+    type="button"
+    class="menu-btn"
+    aria-label="Toggle menu"
+    aria-expanded="menuOpen()"
+    (click)="toggleMenu()"
+  >
+    <span class="menu-btn-bar"></span>
+    <span class="menu-btn-bar"></span>
+    <span class="menu-btn-bar"></span>
+  </button>
+  <nav class="nav" [class.nav--open]="menuOpen()" aria-label="Main navigation">
+    <a routerLink="/" class="nav-link" routerLinkActive="nav-link--active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Trang</a>
+    <a routerLink="/" fragment="bands" class="nav-link" (click)="closeMenu()">Sự kiện</a>
+    <a routerLink="/" fragment="info" class="nav-link" (click)="closeMenu()">Thông tin</a>
   </nav>
   <div class="logo-wrap">
     <img
       class="logo"
-      src="/assets/images/logo-lthd.svg"
+      src="/assets/images/lthd-logo.png"
       alt="LTHĐ - Long Tranh Hổ Đấu"
       width="269"
       height="120"

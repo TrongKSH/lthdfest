@@ -1,27 +1,60 @@
 .bands {
-  padding: 4rem 1.5rem;
+  padding: var(--lthd-space-16, 4rem) var(--lthd-gutter, 1.5rem);
   background: var(--lthd-bg);
 }
 
 .title {
   font-family: 'Inter', sans-serif;
   font-weight: 500;
-  font-size: clamp(3rem, 10vw, 180px);
-  line-height: 1;
+  font-size: clamp(2rem, 10vw, 180px);
+  line-height: 1.1;
   text-align: center;
   color: transparent;
   -webkit-text-stroke: 1px var(--lthd-text);
   text-stroke: 1px var(--lthd-text);
-  margin: 0 0 3rem;
+  margin: 0 0 var(--lthd-space-12, 3rem);
+}
+
+.bands-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lthd-space-3, 0.75rem);
+  min-height: 200px;
+  margin-bottom: var(--lthd-space-12, 3rem);
+}
+
+.bands-loading-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--lthd-text-muted);
+  animation: bands-loading-bounce 0.6s ease-in-out infinite alternate;
+}
+
+.bands-loading-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.bands-loading-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bands-loading-bounce {
+  to {
+    transform: translateY(-8px);
+    opacity: 0.6;
+  }
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 380px));
   justify-content: center;
-  gap: 1.5rem;
-  max-width: 1400px;
-  margin: 0 auto 3rem;
+  gap: var(--lthd-space-6, 1.5rem);
+  max-width: var(--lthd-container-max, 1400px);
+  margin: 0 auto var(--lthd-space-12, 3rem);
+  padding: 0 var(--lthd-space-2, 0.5rem);
 }
 
 .actions {
@@ -75,10 +108,32 @@
   }
 }
 
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 600px) {
+  .bands {
+    padding: var(--lthd-space-12, 3rem) var(--lthd-gutter, 1.5rem);
+  }
+
+  .title {
+    font-size: clamp(1.75rem, 8vw, 3rem);
+    margin-bottom: var(--lthd-space-8, 2rem);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--lthd-space-4, 1rem);
+  }
+
   .btn {
-    min-width: 280px;
-    height: 64px;
-    font-size: 24px;
+    min-width: 0;
+    width: 100%;
+    max-width: 320px;
+    height: 56px;
+    font-size: clamp(1rem, 4vw, 24px);
   }
 }

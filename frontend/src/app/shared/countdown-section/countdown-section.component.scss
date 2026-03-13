@@ -1,7 +1,7 @@
 .countdown {
   position: relative;
   width: 100%;
-  padding: 4rem 1.5rem;
+  padding: var(--lthd-space-16, 4rem) var(--lthd-gutter, 1.5rem);
   background: var(--lthd-bg);
   overflow: hidden;
 }
@@ -61,7 +61,23 @@
 }
 
 @media (max-width: 600px) {
+  .countdown {
+    padding: var(--lthd-space-12, 3rem) var(--lthd-gutter, 1.5rem);
+  }
+
   .countdown-content {
     flex-direction: column;
+    gap: var(--lthd-space-6, 1.5rem);
+  }
+
+  .sign {
+    min-width: 0;
+    width: 100%;
+    max-width: 320px;
+    padding: var(--lthd-space-6, 1.5rem);
+  }
+
+  .sign-value {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
   }
 }

@@ -1,5 +1,21 @@
 /* Festival design tokens (Figma WEB-LTHĐ – fileKey 87kkETUfjp8hXlq7gi3Mo9) */
 :root {
+  /* Breakpoints (use in max-width media queries) */
+  --lthd-bp-sm: 600px;
+  --lthd-bp-md: 768px;
+  --lthd-bp-lg: 1024px;
+  /* Spacing scale (8px base) */
+  --lthd-space-1: 0.25rem;  /* 4px */
+  --lthd-space-2: 0.5rem;   /* 8px */
+  --lthd-space-3: 0.75rem;   /* 12px */
+  --lthd-space-4: 1rem;      /* 16px */
+  --lthd-space-6: 1.5rem;   /* 24px */
+  --lthd-space-8: 2rem;     /* 32px */
+  --lthd-space-12: 3rem;    /* 48px */
+  --lthd-space-16: 4rem;    /* 64px */
+  --lthd-container-max: 1400px;
+  --lthd-gutter: 1.5rem;
+
   --lthd-bg: #060606;
   --lthd-text: #ffffff;
   --lthd-text-muted: #d9d9d9;
@@ -38,6 +54,8 @@ html {
 body {
   margin: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--lthd-bg);
