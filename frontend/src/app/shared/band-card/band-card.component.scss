@@ -53,3 +53,26 @@
   color: white;
 }
 
+/* iPad Pro and tablets */
+@media (max-width: 1024px) {
+  .card {
+    height: 140px;
+  }
+}
+
+/* Phones */
+@media (max-width: 600px) {
+  .card {
+    height: 120px;
+  }
+
+  .card-placeholder {
+    font-size: clamp(2rem, 12vw, 72px);
+  }
+
+  .card-name {
+    font-size: 12px;
+    padding: 0.4rem;
+  }
+}
+

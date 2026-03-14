@@ -205,6 +205,50 @@
   flex-shrink: 0;
 }
 
+/* iPad Pro */
+@media (max-width: 1024px) {
+  .ticker {
+    min-height: 680px;
+  }
+
+  .ticker-center {
+    width: min(90%, 420px);
+  }
+
+  .ticker-center-img {
+    max-height: min(72vh, 600px);
+  }
+
+  .ticker-text,
+  .ticker-text-alt {
+    font-size: clamp(0.875rem, 3.5vw, 20px);
+  }
+
+  .ticker-announce-text {
+    font-size: clamp(0.75rem, 3vw, 18px);
+  }
+}
+
+/* iPad Mini / small tablets */
+@media (max-width: 768px) {
+  .ticker {
+    min-height: 600px;
+  }
+
+  .ticker-center {
+    width: min(88%, 360px);
+  }
+
+  .ticker-center-img {
+    max-height: min(70vh, 520px);
+  }
+
+  .ticker-track {
+    padding: 0.5rem 0;
+  }
+}
+
+/* Phones */
 @media (max-width: 600px) {
   .ticker {
     min-height: 540px;

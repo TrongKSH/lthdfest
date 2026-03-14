@@ -52,3 +52,38 @@ h1 {
   color: var(--lthd-text);
   margin: 0;
 }
+
+/* iPad Pro and tablets */
+@media (max-width: 1024px) {
+  .detail {
+    padding: var(--lthd-space-8, 2rem) var(--lthd-space-4, 1rem);
+  }
+
+  .thumb {
+    max-height: 360px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+}
+
+/* Phones */
+@media (max-width: 600px) {
+  .detail {
+    padding: var(--lthd-space-4, 1rem);
+  }
+
+  .thumb {
+    max-height: 280px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .genre,
+  .bio {
+    font-size: 1rem;
+  }
+}

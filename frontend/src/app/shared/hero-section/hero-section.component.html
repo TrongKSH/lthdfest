@@ -1,17 +1,31 @@
 <section class="hero" aria-label="Hero">
   <div class="hero-bg">
     <video
+      #heroVideo
       class="hero-video"
       autoplay
       muted
       loop
       playsinline
       [attr.aria-label]="eventName() || 'Festival teaser'"
+      (loadedmetadata)="onVideoLoaded()"
+      (play)="onVideoPlay()"
     >
       <source src="/assets/images/lthd-teaser.mp4" type="video/mp4" />
     </video>
     <div class="hero-bg-image" aria-hidden="true"></div>
     <div class="hero-overlay" aria-hidden="true"></div>
+    @if (showPlayPrompt()) {
+      <button
+        type="button"
+        class="hero-play-prompt"
+        aria-label="Phát video"
+        (click)="onTapToPlay()"
+      >
+        <span class="hero-play-icon" aria-hidden="true"></span>
+        <span class="hero-play-text">Chạm để phát</span>
+      </button>
+    }
   </div>
   <a
     class="cta"

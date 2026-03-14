@@ -125,6 +125,46 @@
   margin: 0;
 }
 
+/* iPad Pro and tablets */
+@media (max-width: 1024px) {
+  .footer {
+    padding: var(--lthd-space-12, 3rem) var(--lthd-gutter, 1.5rem) var(--lthd-space-8, 2rem);
+  }
+
+  .footer-inner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--lthd-space-6, 1.5rem);
+    margin-bottom: var(--lthd-space-8, 2rem);
+  }
+
+  .brand {
+    font-size: clamp(1.5rem, 6vw, 4rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: var(--lthd-space-12, 3rem) var(--lthd-gutter, 1.5rem) var(--lthd-space-6, 1.5rem);
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .block--follow .socials {
+    justify-content: center;
+  }
+
+  .btn-faq {
+    min-width: 0;
+    width: 100%;
+    max-width: 320px;
+    height: 60px;
+    font-size: 1.125rem;
+  }
+}
+
 @media (max-width: 600px) {
   .footer {
     padding: var(--lthd-space-12, 3rem) var(--lthd-gutter, 1.5rem) var(--lthd-space-6, 1.5rem);

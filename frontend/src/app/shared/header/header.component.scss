@@ -5,6 +5,7 @@
   right: 0;
   z-index: 10;
   height: 120px;
+  padding-top: env(safe-area-inset-top, 0);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -89,6 +90,22 @@
   max-height: 100%;
   width: auto;
   object-fit: contain;
+}
+
+/* iPad Pro and smaller tablets */
+@media (max-width: 1024px) {
+  .header {
+    height: 100px;
+  }
+
+  .logo-wrap {
+    height: 100px;
+    width: 220px;
+  }
+
+  .nav-link {
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 768px) {

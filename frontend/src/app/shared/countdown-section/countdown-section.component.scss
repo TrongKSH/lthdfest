@@ -143,6 +143,65 @@
   pointer-events: none;
 }
 
+/* iPad Pro */
+@media (max-width: 1024px) {
+  .countdown {
+    min-height: 580px;
+    padding: 0 var(--lthd-gutter, 1.5rem) var(--lthd-space-12, 3rem);
+  }
+
+  .countdown-content {
+    gap: var(--lthd-space-8, 2rem);
+    padding-top: var(--lthd-space-12, 3rem);
+  }
+
+  .sign--warning {
+    min-width: 320px;
+    min-height: 340px;
+    transform: translateY(-1rem) translateX(2rem);
+  }
+
+  .sign--caution {
+    min-width: 280px;
+    min-height: 340px;
+    transform: translateY(6rem) translateX(-4rem);
+  }
+
+  .sign--warning .sign-value {
+    font-size: clamp(0.875rem, 2.5vw, 3rem);
+  }
+
+  .sign--caution .sign-value {
+    font-size: clamp(0.75rem, 2vw, 2rem);
+  }
+}
+
+/* iPad Mini / small tablets */
+@media (max-width: 768px) {
+  .countdown {
+    min-height: 560px;
+  }
+
+  .countdown-content {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--lthd-space-6, 1.5rem);
+  }
+
+  .sign--warning {
+    min-width: 280px;
+    min-height: 300px;
+    transform: translateY(0) translateX(0);
+  }
+
+  .sign--caution {
+    min-width: 260px;
+    min-height: 300px;
+    transform: translateY(0) translateX(0);
+  }
+}
+
+/* Phones */
 @media (max-width: 600px) {
   .countdown {
     min-height: 540px;
