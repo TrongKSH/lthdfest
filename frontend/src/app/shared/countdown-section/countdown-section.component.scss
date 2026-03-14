@@ -106,7 +106,7 @@
 
   .sign-value {
     display: block;
-    font-size: clamp(1.5rem, 4.0vw, 4.25rem);
+    font-size: clamp(0.75rem, 2.5vw, 4.25rem);
   }
 }
 
@@ -119,7 +119,7 @@
   .sign-value {
     display: block;
     transform: translateY(-10%) translateX(2%) rotate(-11deg);
-    font-size: clamp(1.25rem, 3vw, 2.75rem);
+    font-size: clamp(0.75rem, 2.0vw, 2.25rem);
   }
 }
 
