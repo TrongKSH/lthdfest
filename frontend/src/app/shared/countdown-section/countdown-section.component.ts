@@ -2,6 +2,8 @@ import { Component, ChangeDetectionStrategy, inject, signal, computed, effect } 
 import { FestivalService } from '../../services/festival.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
+const STATIC_EVENT_DATE = new Date(2026, 4, 8); // 08 May 2026 (month 0-indexed)
+
 @Component({
   selector: 'app-countdown-section',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,20 +15,22 @@ export class CountdownSectionComponent {
   readonly countdownDto = toSignal(this.festivalService.getCountdown(), { initialValue: null });
   readonly eventDate = computed(() => {
     const dto = this.countdownDto();
-    if (!dto?.eventDate) return null;
-    const date = new Date(dto.eventDate);
-    return isNaN(date.getTime()) ? null : date;
+    if (dto?.eventDate) {
+      const date = new Date(dto.eventDate);
+      if (!isNaN(date.getTime())) return date;
+    }
+    return STATIC_EVENT_DATE;
   });
   readonly eventName = computed(() => this.countdownDto()?.eventName ?? '');
   readonly daysLeft = signal<number | null>(null);
   readonly formattedDate = computed(() => {
     const d = this.eventDate();
-    if (!d) return '';
     const day = d.getDate();
     const month = d.getMonth() + 1;
     const year = d.getFullYear();
-    return `0${day}/${String(month).padStart(2, '0')}/${year}`;
+    return `${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}/${year}`;
   });
+  readonly cautionDateRange = '08-09/05/2026';
 
   constructor() {
     effect(() => {
