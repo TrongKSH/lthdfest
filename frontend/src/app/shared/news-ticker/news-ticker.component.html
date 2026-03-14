@@ -3,26 +3,29 @@
     <img class="ticker-bg-img" src="/assets/images/lthd-ticker-background.jpg" alt="" />
     <div class="ticker-bg-overlay"></div>
   </div>
-  <div class="ticker-center" aria-hidden="true">
-    <img class="ticker-center-img" src="/assets/images/free.png" alt="" />
-  </div>
-  <div class="ticker-stripes" aria-hidden="true">
-    <div class="ticker-track ticker-track--top">
+
+  <!-- Announce stripe at the very top -->
+  <div class="ticker-announce" aria-hidden="true">
+    <div class="ticker-track ticker-track--announce">
       <div class="ticker-track-inner">
         <div class="ticker-track-content">
           @for (i of items; track i) {
-            <span class="ticker-text">HOT NEWS</span>
-            <span class="ticker-dot" aria-hidden="true"></span>
+            <span class="ticker-announce-text">Thông báo tin tức nóng hổi</span>
+            <!-- <span class="ticker-dot" aria-hidden="true"></span> -->
           }
         </div>
         <div class="ticker-track-content" aria-hidden="true">
           @for (i of items; track i) {
-            <span class="ticker-text">HOT NEWS</span>
-            <span class="ticker-dot" aria-hidden="true"></span>
+            <span class="ticker-announce-text">Thông báo tin tức nóng hổi</span>
+            <!-- <span class="ticker-dot" aria-hidden="true"></span> -->
           }
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Middle stripe layer (behind center image) -->
+  <div class="ticker-stripes ticker-stripes--mid" aria-hidden="true">
     <div class="ticker-track ticker-track--mid">
       <div class="ticker-track-inner">
         <div class="ticker-track-content">
@@ -39,6 +42,15 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Center image (between mid and top/bottom stripes) -->
+  <div class="ticker-center" aria-hidden="true">
+    <img class="ticker-center-img" src="/assets/images/free.png" alt="" />
+  </div>
+
+  <!-- Bottom stripe above center image -->
+  <div class="ticker-stripes ticker-stripes--top-bottom" aria-hidden="true">
     <div class="ticker-track ticker-track--bottom">
       <div class="ticker-track-inner">
         <div class="ticker-track-content">

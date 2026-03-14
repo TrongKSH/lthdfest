@@ -1,10 +1,23 @@
-import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { startWith } from 'rxjs/operators';
 import { BandCardComponent } from '../band-card/band-card.component';
-import { BandService } from '../../services/band.service';
-import { toSignal } from '@angular/core/rxjs-interop';
 import type { Band } from '../../models/band.model';
+
+const SLOTS_COUNT = 15;
+
+const PLACEHOLDER_BAND: Band = {
+  id: 0,
+  name: '',
+  shortBio: '',
+  lineupPosition: 0,
+};
+
+export type BandSlot = { band: Band; isPlaceholder: boolean };
+
+const PLACEHOLDER_SLOTS: BandSlot[] = Array.from({ length: SLOTS_COUNT }, () => ({
+  band: PLACEHOLDER_BAND,
+  isPlaceholder: true,
+}));
 
 @Component({
   selector: 'app-bands-section',
@@ -14,10 +27,5 @@ import type { Band } from '../../models/band.model';
   styleUrl: './bands-section.component.scss',
 })
 export class BandsSectionComponent {
-  private readonly bandService = inject(BandService);
-  protected readonly bands = toSignal(
-    this.bandService.getBands().pipe(startWith<Band[] | null>(null)),
-    { initialValue: null as Band[] | null }
-  );
-  protected readonly loading = computed(() => this.bands() === null);
+  protected readonly slots = PLACEHOLDER_SLOTS;
 }

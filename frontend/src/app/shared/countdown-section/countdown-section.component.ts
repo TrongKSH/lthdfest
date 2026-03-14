@@ -25,7 +25,7 @@ export class CountdownSectionComponent {
     const day = d.getDate();
     const month = d.getMonth() + 1;
     const year = d.getFullYear();
-    return `${day}/${String(month).padStart(2, '0')}/${year}`;
+    return `0${day}/${String(month).padStart(2, '0')}/${year}`;
   });
 
   constructor() {

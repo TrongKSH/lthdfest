@@ -1,20 +1,20 @@
 <section class="bands" id="bands" aria-labelledby="bands-title">
   <h2 id="bands-title" class="title">HƠN 20 BAN NHẠC</h2>
-  @if (loading()) {
-    <div class="bands-loading" aria-live="polite" aria-busy="true">
-      <span class="bands-loading-dot"></span>
-      <span class="bands-loading-dot"></span>
-      <span class="bands-loading-dot"></span>
-    </div>
-  } @else {
-    <div class="grid">
-      @for (band of (bands() ?? []); track band.id) {
-        <app-band-card [band]="band" />
-      }
-    </div>
-  }
+  <div class="grid">
+    @for (slot of slots; track $index) {
+      <app-band-card [band]="slot.band" [isPlaceholder]="slot.isPlaceholder" />
+    }
+  </div>
   <div class="actions">
-    <a routerLink="/lineup" class="btn btn--primary">KHÁM PHÁ</a>
-    <a href="#info" class="btn btn--outline">THÔNG TIN</a>
+    <span class="btn-slot">
+      <a routerLink="/lineup" class="btn btn--img" aria-label="Khám phá">
+        <img src="/assets/images/discover-btn.png" alt="" class="btn-img" />
+      </a>
+    </span>
+    <span class="btn-slot">
+      <a href="#info" class="btn btn--img" aria-label="Thông tin">
+        <img src="/assets/images/info-btn.png" alt="" class="btn-img" />
+      </a>
+    </span>
   </div>
 </section>
