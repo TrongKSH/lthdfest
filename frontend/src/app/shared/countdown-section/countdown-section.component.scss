@@ -99,27 +99,27 @@
 }
 
 .sign--warning {
-  min-width: 380px;
-  min-height: 400px;
-  padding: 2.5rem 3rem;
+  min-width: 450px;
+  min-height: 470px;
+  padding: 2.75rem 3.25rem;
   transform: translateY(-1.5rem) translateX(4rem);
 
   .sign-value {
     display: block;
-    font-size: clamp(0.75rem, 2.5vw, 4.25rem);
+    font-size: clamp(0.9rem, 3vw, 4.5rem);
   }
 }
 
 .sign--caution {
-  min-width: 350px;
-  min-height: 400px;
-  padding: 2.0rem 3rem;
-  transform: translateY(8rem) translateX(-7rem);
+  min-width: 415px;
+  min-height: 470px;
+  padding: 2.5rem 3.25rem;
+  transform: translateY(9rem) translateX(-7rem);
 
   .sign-value {
     display: block;
     transform: translateY(-10%) translateX(2%) rotate(-11deg);
-    font-size: clamp(0.75rem, 2.0vw, 2.25rem);
+    font-size: clamp(0.9rem, 2.35vw, 2.75rem);
   }
 }
 
