@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { BandCardComponent } from '../band-card/band-card.component';
 import type { Band } from '../../models/band.model';
 
-const SLOTS_COUNT = 15;
+const SLOTS_COUNT = 11; // 4 + 3 + 4 rows
 
 const PLACEHOLDER_BAND: Band = {
   id: 0,
@@ -27,5 +27,10 @@ const PLACEHOLDER_SLOTS: BandSlot[] = Array.from({ length: SLOTS_COUNT }, () => 
   styleUrl: './bands-section.component.scss',
 })
 export class BandsSectionComponent {
-  protected readonly slots = PLACEHOLDER_SLOTS;
+  /** Row 1: 4 bands */
+  protected readonly slotsRow1 = PLACEHOLDER_SLOTS.slice(0, 4);
+  /** Row 2: 3 bands (centered) */
+  protected readonly slotsRow2 = PLACEHOLDER_SLOTS.slice(4, 7);
+  /** Row 3: 4 bands */
+  protected readonly slotsRow3 = PLACEHOLDER_SLOTS.slice(7, 11);
 }

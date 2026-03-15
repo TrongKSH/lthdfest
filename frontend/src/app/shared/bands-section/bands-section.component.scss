@@ -16,13 +16,33 @@
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(200px, 380px));
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
   gap: var(--lthd-space-6, 1.5rem);
   max-width: var(--lthd-container-max, 1400px);
   margin: 0 auto var(--lthd-space-12, 3rem);
   padding: 0 var(--lthd-gutter, 1.5rem);
+}
+
+/* Same slot size in every row; middle row stays centered */
+$band-slot-min: 200px;
+$band-slot-max: 320px;
+
+.grid-row {
+  display: grid;
+  gap: var(--lthd-space-6, 1.5rem);
+}
+
+/* Rows of 4: same column size as middle row */
+.grid-row--4 {
+  grid-template-columns: repeat(4, minmax($band-slot-min, $band-slot-max));
+  justify-content: center;
+}
+
+/* Middle row: 3 bands, same slot size, centered */
+.grid-row--3 {
+  grid-template-columns: repeat(3, minmax($band-slot-min, $band-slot-max));
+  justify-content: center;
 }
 
 .actions {
@@ -110,8 +130,15 @@
     padding: var(--lthd-space-12, 3rem) var(--lthd-gutter, 1.5rem);
   }
 
-  .grid {
+  .grid-row--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grid-row--3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .grid .grid-row {
     gap: var(--lthd-space-4, 1rem);
   }
 
@@ -137,7 +164,8 @@
 
 /* iPad Mini / small tablets */
 @media (max-width: 768px) {
-  .grid {
+  .grid-row--4,
+  .grid-row--3 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -152,8 +180,12 @@
     margin-bottom: var(--lthd-space-8, 2rem);
   }
 
-  .grid {
+  .grid-row--4,
+  .grid-row--3 {
     grid-template-columns: 1fr;
+  }
+
+  .grid .grid-row {
     gap: var(--lthd-space-4, 1rem);
   }
 

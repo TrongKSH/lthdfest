@@ -1,9 +1,21 @@
 <section class="bands" id="bands" aria-labelledby="bands-title">
   <h2 id="bands-title" class="title">HƠN 20 BAN NHẠC</h2>
   <div class="grid">
-    @for (slot of slots; track $index) {
-      <app-band-card [band]="slot.band" [isPlaceholder]="slot.isPlaceholder" />
-    }
+    <div class="grid-row grid-row--4">
+      @for (slot of slotsRow1; track $index) {
+        <app-band-card [band]="slot.band" [isPlaceholder]="slot.isPlaceholder" />
+      }
+    </div>
+    <div class="grid-row grid-row--3">
+      @for (slot of slotsRow2; track $index) {
+        <app-band-card [band]="slot.band" [isPlaceholder]="slot.isPlaceholder" />
+      }
+    </div>
+    <div class="grid-row grid-row--4">
+      @for (slot of slotsRow3; track $index) {
+        <app-band-card [band]="slot.band" [isPlaceholder]="slot.isPlaceholder" />
+      }
+    </div>
   </div>
   <div class="actions">
     <span class="btn-slot">
