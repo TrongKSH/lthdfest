@@ -1,0 +1,79 @@
+<main class="tickets-page" id="main">
+  <div class="tickets-bg" aria-hidden="true"></div>
+  <div class="tickets-inner">
+    <h1 class="tickets-title">TICKETS</h1>
+
+    <div class="tickets-grid">
+      <article class="tickets-presale">
+        <div class="tickets-presale__art" aria-hidden="true"></div>
+        <div class="tickets-presale__shade" aria-hidden="true"></div>
+        <div class="tickets-presale__panel" aria-hidden="true"></div>
+        <h2 class="tickets-presale__peek">{{ presale.title }}</h2>
+        <div class="tickets-presale__inner">
+          <h2 class="tickets-presale__title">{{ presale.title }}</h2>
+          <p class="tickets-presale__event">{{ presale.eventName }}</p>
+          <hr class="tickets-presale__rule" />
+          <p class="tickets-presale__line">{{ presale.when }}</p>
+          <p class="tickets-presale__line tickets-presale__line--place">{{ presale.where }}</p>
+          <p class="tickets-presale__price">
+            <span class="tickets-presale__price-label">{{ presale.priceLabel }}</span>
+            <span class="tickets-presale__price-amount">{{ presale.priceAmount }}</span>
+          </p>
+          <a
+            class="tickets-presale__btn"
+            [href]="presale.buyUrl"
+            (click)="onPresaleBuy($event)"
+            >{{ presale.buyLabel }}</a>
+        </div>
+      </article>
+
+      @for (pack of packs; track pack.id) {
+        <article
+          class="tickets-pack"
+          [class.tickets-pack--brotherhood]="pack.variant === 'brotherhood'"
+          [class.tickets-pack--longtranh]="pack.variant === 'longtranh'"
+          [class.tickets-pack--hodau]="pack.variant === 'hodau'"
+          [class.tickets-pack--atdoor]="pack.variant === 'atdoor'"
+        >
+          <div
+            class="tickets-pack__art"
+            [class.tickets-pack__art--ticket]="pack.art === 'ticket_main'"
+            [class.tickets-pack__art--longtranh]="pack.variant === 'longtranh'"
+            [class.tickets-pack__art--hodau]="pack.variant === 'hodau'"
+            [class.tickets-pack__art--atdoor]="pack.variant === 'atdoor'"
+            aria-hidden="true"
+          ></div>
+          <div class="tickets-pack__shade" aria-hidden="true"></div>
+          <div class="tickets-pack__panel" aria-hidden="true"></div>
+          <h2 class="tickets-pack__peek">
+            {{ pack.peekTitle }}
+            @if (pack.peekSub) {
+              <span class="tickets-pack__peek-sub">{{ pack.peekSub }}</span>
+            }
+          </h2>
+          <div class="tickets-pack__inner">
+            <h2 class="tickets-pack__detail-title">
+              {{ pack.hoverTitle }}
+              @if (pack.hoverSubtitle) {
+                <span class="tickets-pack__detail-sub">{{ pack.hoverSubtitle }}</span>
+              }
+            </h2>
+            <p class="tickets-pack__event">{{ pack.eventName }}</p>
+            <hr class="tickets-pack__rule" />
+            <p class="tickets-pack__line">{{ pack.when }}</p>
+            <p class="tickets-pack__line tickets-pack__line--place">{{ pack.where }}</p>
+            <p class="tickets-pack__price">
+              <span class="tickets-pack__price-label">{{ pack.priceLabel }}</span>
+              <span class="tickets-pack__price-amount">{{ pack.priceAmount }}</span>
+            </p>
+            <a
+              class="tickets-pack__btn"
+              [href]="pack.buyUrl"
+              (click)="onPackBuy($event, pack)"
+              >{{ pack.buyLabel }}</a>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</main>

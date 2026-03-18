@@ -8,10 +8,12 @@ import {
   AfterViewInit,
   ElementRef,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-hero-section',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink],
   templateUrl: './hero-section.component.html',
   styleUrl: './hero-section.component.scss',
 })
@@ -76,12 +78,6 @@ export class HeroSectionComponent implements AfterViewInit {
       video.muted = true;
       video.play().then(() => this.showPlayPrompt.set(false)).catch(() => {});
     }
-  }
-
-  scrollTo(event: Event, fragment: string): void {
-    event.preventDefault();
-    const el = document.getElementById(fragment);
-    el?.scrollIntoView({ behavior: 'smooth' });
   }
 
   /** Called when video has loaded metadata; ensure it stays muted. */

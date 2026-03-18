@@ -21,4 +21,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/faq/faq.component').then((m) => m.FaqComponent),
   },
+  {
+    path: 'tickets',
+    loadComponent: () =>
+      import('./features/tickets/tickets.component').then((m) => m.TicketsComponent),
+  },
 ];
