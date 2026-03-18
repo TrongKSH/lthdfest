@@ -14,28 +14,33 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        var configuredOrigins =
-            builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
+        var origins = new List<string>();
 
-        var origins = new List<string>(configuredOrigins.Where(o => !string.IsNullOrWhiteSpace(o)));
-        if (builder.Environment.IsDevelopment())
+        // appsettings + Cors__AllowedOrigins__0, __1, ... on Render
+        var fromConfig =
+            builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
+        foreach (var o in fromConfig.Where(x => !string.IsNullOrWhiteSpace(x)))
+            origins.Add(o.Trim());
+
+        // One env var on Render: CORS_ALLOWED_ORIGINS=https://a.com,https://b.com
+        var csv = builder.Configuration["CORS_ALLOWED_ORIGINS"];
+        if (!string.IsNullOrWhiteSpace(csv))
         {
-            origins.Add("http://localhost:4200");
+            foreach (var part in csv.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                origins.Add(part);
         }
+
+        if (builder.Environment.IsDevelopment())
+            origins.Add("http://localhost:4200");
+
+        origins = origins.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
 
         if (origins.Count > 0)
-        {
-            policy.WithOrigins(origins.Distinct().ToArray());
-        }
+            policy.WithOrigins(origins.ToArray());
         else
-        {
-            // If no origins are configured, avoid accidentally opening CORS in production.
             policy.WithOrigins("http://localhost:4200");
-        }
 
-        policy
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+        policy.AllowAnyHeader().AllowAnyMethod();
     });
 });
 

@@ -9,15 +9,15 @@ Render does not list .NET as a native runtime. Use a **Web Service** with **Dock
 3. **Root Directory**: `backend/FestivalApi`  
    (so Render finds the `Dockerfile` there.)
 4. **Dockerfile Path**: `Dockerfile` (default if file is in root directory).
-5. **Environment variables** (example):
-   - `Cors__AllowedOrigins__0` = `https://your-app.vercel.app`  
-     (use your real Vercel URL; add more indices `__1`, `2` if needed.)
-   - Or a single JSON array in some setups; Render often uses `Cors__AllowedOrigins` as repeated keys — simplest is one origin:  
-     In `appsettings`, array maps to `Cors__AllowedOrigins__0` in env.
+5. **CORS (required for browser → API)**  
+   Browsers block calls from Vercel unless the API allows that origin. Set **one** env var (comma-separated, no spaces after commas is fine):
 
-   For ASP.NET Core, multiple origins:
-   - `Cors__AllowedOrigins__0` = `https://a.vercel.app`
-   - `Cors__AllowedOrigins__1` = `https://b.vercel.app`
+   **`CORS_ALLOWED_ORIGINS`** =  
+   `https://lthdfest.vercel.app,https://longtranhhodau.xyz,https://www.longtranhhodau.xyz`
+
+   Include every URL users open in the browser (Vercel default domain + custom domain + `www` if you use it). After saving, **redeploy** the service (or wait for auto-deploy).
+
+   Alternative: `Cors__AllowedOrigins__0`, `Cors__AllowedOrigins__1`, … per origin.
 
 6. Deploy. Your API URL will look like `https://<service>.onrender.com`.
 
