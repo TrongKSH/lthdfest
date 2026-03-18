@@ -15,7 +15,12 @@
     <a routerLink="/" fragment="bands" class="nav-link" (click)="closeMenu()">Sự kiện</a>
     <a routerLink="/" fragment="info" class="nav-link" (click)="closeMenu()">Thông tin</a>
   </nav>
-  <div class="logo-wrap">
+  <a
+    href="/"
+    class="logo-wrap logo-link"
+    aria-label="Về trang chủ"
+    (click)="onLogoClick($event)"
+  >
     <img
       class="logo"
       src="/assets/images/lthd-logo.png"
@@ -23,5 +28,5 @@
       width="269"
       height="120"
     />
-  </div>
+  </a>
 </header>

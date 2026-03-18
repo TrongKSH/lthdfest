@@ -1,5 +1,6 @@
 .detail {
   padding: 2rem;
+  padding-top: calc(var(--lthd-header-height, 88px) + 2rem);
   max-width: 800px;
   margin: 0 auto;
   background: var(--lthd-bg);

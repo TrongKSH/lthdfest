@@ -18,7 +18,16 @@
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    opacity: 1.0;
+    pointer-events: none;
+    filter: brightness(1.35) contrast(1.05);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: rgba(255, 255, 255, 0.08);
     pointer-events: none;
   }
 }

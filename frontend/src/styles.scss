@@ -39,6 +39,20 @@
   );
   --lthd-border: rgba(255, 255, 255, 0.3);
   --lthd-overlay: rgba(0, 0, 0, 0.3);
+  /* Fixed header — sync with header.component.scss breakpoints */
+  --lthd-header-height: 88px;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --lthd-header-height: 72px;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --lthd-header-height: 56px;
+  }
 }
 
 *,

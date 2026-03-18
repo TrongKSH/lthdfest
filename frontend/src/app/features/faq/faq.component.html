@@ -1,0 +1,36 @@
+<main class="faq-page" id="main">
+  <div class="faq-bg" aria-hidden="true"></div>
+  <div class="faq-inner">
+    <h1 class="faq-title">FAQ</h1>
+    <div class="faq-list" role="region" aria-label="Câu hỏi thường gặp">
+      @for (item of items; track item.id) {
+        <div class="faq-item" [class.faq-item--open]="isOpen(item.id)">
+          <button
+            type="button"
+            class="faq-q"
+            [attr.aria-expanded]="isOpen(item.id)"
+            [attr.aria-controls]="'faq-panel-' + item.id"
+            [id]="'faq-trigger-' + item.id"
+            (click)="toggle(item.id)"
+          >
+            <span class="faq-q-text">{{ item.question }}</span>
+            <span class="faq-chevron" aria-hidden="true"></span>
+          </button>
+          <div class="faq-panel-shell" [class.faq-panel-shell--open]="isOpen(item.id)">
+            <div class="faq-panel-clip">
+              <div
+                class="faq-panel"
+                [id]="'faq-panel-' + item.id"
+                role="region"
+                [attr.aria-labelledby]="'faq-trigger-' + item.id"
+                [attr.aria-hidden]="!isOpen(item.id)"
+              >
+                <p class="faq-a">{{ item.answer }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</main>

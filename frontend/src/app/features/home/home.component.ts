@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { HeaderComponent } from '../../shared/header/header.component';
 import { HeroSectionComponent } from '../../shared/hero-section/hero-section.component';
 import { NewsTickerComponent } from '../../shared/news-ticker/news-ticker.component';
 import { BandsSectionComponent } from '../../shared/bands-section/bands-section.component';
@@ -12,7 +11,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
   selector: 'app-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    HeaderComponent,
     HeroSectionComponent,
     NewsTickerComponent,
     BandsSectionComponent,
