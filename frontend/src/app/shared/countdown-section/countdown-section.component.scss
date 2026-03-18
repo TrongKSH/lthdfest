@@ -98,6 +98,12 @@
   }
 }
 
+/* Text scales with sign box, not full viewport — fixes FHD 27" vs MacBook */
+.sign--warning,
+.sign--caution {
+  container-type: inline-size;
+}
+
 .sign--warning {
   min-width: 450px;
   min-height: 470px;
@@ -106,7 +112,11 @@
 
   .sign-value {
     display: block;
-    font-size: clamp(0.9rem, 3vw, 4.5rem);
+    max-width: 78%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: clamp(1rem, 14cqw, 3.25rem);
+    line-height: 1.15;
   }
 }
 
@@ -118,8 +128,12 @@
 
   .sign-value {
     display: block;
-    transform: translateY(-10%) translateX(2%) rotate(-11deg);
-    font-size: clamp(0.9rem, 2.35vw, 2.75rem);
+    transform: translateY(20%) translateX(2%) rotate(-11deg);
+    max-width: 82%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: clamp(0.95rem, 11cqw, 2.5rem);
+    line-height: 1.2;
   }
 }
 
@@ -168,11 +182,13 @@
   }
 
   .sign--warning .sign-value {
-    font-size: clamp(0.875rem, 2.5vw, 3rem);
+    font-size: clamp(0.9rem, 15cqw, 2.5rem);
+    max-width: 80%;
   }
 
   .sign--caution .sign-value {
-    font-size: clamp(0.75rem, 2vw, 2rem);
+    font-size: clamp(0.8rem, 12cqw, 2.1rem);
+    max-width: 85%;
   }
 }
 
