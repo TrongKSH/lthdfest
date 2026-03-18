@@ -4,7 +4,11 @@
     <h1 class="tickets-title">TICKETS</h1>
 
     <div class="tickets-grid">
-      <article class="tickets-presale">
+      <article
+        class="tickets-presale"
+        [class.tickets-presale--active]="activeCardId() === 'presale'"
+        (click)="toggleCard('presale')"
+      >
         <div class="tickets-presale__art" aria-hidden="true"></div>
         <div class="tickets-presale__shade" aria-hidden="true"></div>
         <div class="tickets-presale__panel" aria-hidden="true"></div>
@@ -22,7 +26,7 @@
           <a
             class="tickets-presale__btn"
             [href]="presale.buyUrl"
-            (click)="onPresaleBuy($event)"
+            (click)="$event.stopPropagation(); onPresaleBuy($event)"
             >{{ presale.buyLabel }}</a>
         </div>
       </article>
@@ -34,6 +38,8 @@
           [class.tickets-pack--longtranh]="pack.variant === 'longtranh'"
           [class.tickets-pack--hodau]="pack.variant === 'hodau'"
           [class.tickets-pack--atdoor]="pack.variant === 'atdoor'"
+          [class.tickets-pack--active]="activeCardId() === pack.id"
+          (click)="toggleCard(pack.id)"
         >
           <div
             class="tickets-pack__art"
@@ -69,7 +75,7 @@
             <a
               class="tickets-pack__btn"
               [href]="pack.buyUrl"
-              (click)="onPackBuy($event, pack)"
+              (click)="$event.stopPropagation(); onPackBuy($event, pack)"
               >{{ pack.buyLabel }}</a>
           </div>
         </article>

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 import { PRESALE, TICKET_PACKS, type TicketPack } from './tickets-content';
 
 @Component({
@@ -11,6 +11,12 @@ import { PRESALE, TICKET_PACKS, type TicketPack } from './tickets-content';
 export class TicketsComponent {
   readonly presale = PRESALE;
   readonly packs = TICKET_PACKS;
+  /** For touch devices: one expanded card at a time. */
+  readonly activeCardId = signal<string | null>(null);
+
+  toggleCard(id: string): void {
+    this.activeCardId.update((current) => (current === id ? null : id));
+  }
 
   onPresaleBuy(event: MouseEvent): void {
     const url = (this.presale.buyUrl as string).trim();

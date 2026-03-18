@@ -189,8 +189,8 @@
   margin: 0;
 }
 
-/* iPad Pro and tablets */
-@media (max-width: 1024px) {
+/* Tablets (below iPad Pro width) */
+@media (max-width: 900px) {
   .footer {
     padding: var(--lthd-space-12, 3rem) var(--lthd-gutter, 1.5rem) var(--lthd-space-8, 2rem);
   }
@@ -220,12 +220,33 @@
     text-align: center;
   }
 
+  .block--follow {
+    justify-self: center;
+    text-align: center;
+  }
+
   .footer-links-group {
     align-items: center;
+    text-align: center;
   }
 
   .footer-contact-faq {
     align-items: center;
+    justify-self: center;
+    text-align: center;
+  }
+
+  .block--links,
+  .block--contact,
+  .block--faq {
+    align-items: center;
+  }
+
+  .link,
+  .contact-line,
+  .contact-line a {
+    justify-content: center;
+    text-align: center;
   }
 
   .block--follow .socials {

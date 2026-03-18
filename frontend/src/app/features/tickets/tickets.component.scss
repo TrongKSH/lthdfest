@@ -148,7 +148,8 @@
   }
 
   &:hover,
-  &:focus-within {
+  &:focus-within,
+  &--active {
     align-items: stretch;
     justify-content: flex-start;
     min-height: clamp(200px, 32vw, 280px);
@@ -197,31 +198,7 @@
   }
 }
 
-/* Phones / touch: black panel + details */
-@media (hover: none) and (pointer: coarse) {
-  .tickets-presale__peek {
-    display: none;
-  }
-
-  .tickets-presale__panel {
-    opacity: 1;
-  }
-
-  .tickets-presale__shade {
-    opacity: 0;
-  }
-
-  .tickets-presale__inner {
-    position: relative;
-    inset: auto;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    overflow: visible;
-    flex: 0 0 auto;
-    width: 100%;
-  }
-}
+/* Touch behavior is handled via the `--active` class (tap). */
 
 .tickets-presale__title {
   margin: 0 0 0.25rem;
@@ -432,7 +409,8 @@
   }
 
   &:hover,
-  &:focus-within {
+  &:focus-within,
+  &--active {
     align-items: stretch;
     justify-content: flex-start;
     min-height: clamp(200px, 32vw, 280px);
@@ -472,30 +450,7 @@
   }
 }
 
-@media (hover: none) and (pointer: coarse) {
-  .tickets-pack__peek {
-    display: none;
-  }
-
-  .tickets-pack__panel {
-    opacity: 1;
-  }
-
-  .tickets-pack__shade {
-    opacity: 0;
-  }
-
-  .tickets-pack__inner {
-    position: relative;
-    inset: auto;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    overflow: visible;
-    flex: 0 0 auto;
-    width: 100%;
-  }
-}
+/* Touch behavior is handled via the `--active` class (tap). */
 
 .tickets-pack__detail-title {
   margin: 0 0 0.25rem;
