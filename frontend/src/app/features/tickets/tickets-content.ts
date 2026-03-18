@@ -72,8 +72,8 @@ export const TICKET_PACKS: readonly TicketPack[] = [
   {
     id: 'hodau',
     variant: 'hodau',
-    peekTitle: 'HỔ ĐẦU',
-    hoverTitle: 'HỔ ĐẦU',
+    peekTitle: 'HỔ ĐẤU',
+    hoverTitle: 'HỔ ĐẤU',
     eventName: FESTIVAL_EVENT_NAME,
     when: FESTIVAL_WHEN,
     where: FESTIVAL_WHERE,
