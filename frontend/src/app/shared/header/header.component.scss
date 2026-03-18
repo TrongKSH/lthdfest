@@ -111,20 +111,22 @@
   object-fit: contain;
 }
 
-/* iPad Pro and smaller tablets */
+/*
+ * Tablet + phone: hamburger + full-screen nav (up to 1024px).
+ * iPad Air (~820px) was still using desktop layout and nav overlapped the logo.
+ */
 @media (max-width: 1024px) {
   .logo-wrap {
-    width: 220px;
+    width: 180px;
   }
 
   .nav-link {
     font-size: 18px;
   }
-}
 
-@media (max-width: 768px) {
   .menu-btn {
     display: flex;
+    z-index: 120; /* above full-screen .nav (110) so second tap reaches toggle */
   }
 
   .nav {
@@ -138,25 +140,31 @@
     justify-content: center;
     align-items: center;
     gap: var(--lthd-space-6, 1.5rem);
-    background: rgba(6, 6, 6, 0.98);
+    background: #000;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease, visibility 0.2s ease;
+  }
 
-    &.nav--open {
-      opacity: 1;
-      visibility: visible;
-    }
+  .nav.nav--open {
+    opacity: 1;
+    visibility: visible;
+    background: #000;
+    pointer-events: none;
+  }
+
+  .nav.nav--open .nav-link {
+    pointer-events: auto;
   }
 
   .nav-link {
-    font-size: 18px;
     min-height: 48px;
     padding: var(--lthd-space-4, 1rem);
   }
 
-  .logo-wrap {
-    width: 180px;
+  .header--nav-open .logo-link {
+    visibility: hidden;
+    pointer-events: none;
   }
 }
 

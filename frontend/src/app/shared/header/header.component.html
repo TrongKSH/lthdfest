@@ -1,9 +1,9 @@
-<header class="header" role="banner">
+<header class="header" [class.header--nav-open]="menuOpen()" role="banner">
   <button
     type="button"
     class="menu-btn"
     aria-label="Toggle menu"
-    aria-expanded="menuOpen()"
+    [attr.aria-expanded]="menuOpen()"
     (click)="toggleMenu()"
   >
     <span class="menu-btn-bar"></span>
@@ -11,9 +11,25 @@
     <span class="menu-btn-bar"></span>
   </button>
   <nav class="nav" [class.nav--open]="menuOpen()" aria-label="Main navigation">
-    <a routerLink="/" class="nav-link" routerLinkActive="nav-link--active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Trang</a>
-    <a routerLink="/" fragment="bands" class="nav-link" (click)="closeMenu()">Sự kiện</a>
-    <a routerLink="/" fragment="info" class="nav-link" (click)="closeMenu()">Thông tin</a>
+    <a
+      routerLink="/"
+      class="nav-link"
+      routerLinkActive="nav-link--active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="$event.stopPropagation(); closeMenu()"
+      >Trang</a>
+    <a
+      routerLink="/"
+      fragment="bands"
+      class="nav-link"
+      (click)="$event.stopPropagation(); closeMenu()"
+      >Sự kiện</a>
+    <a
+      routerLink="/"
+      fragment="info"
+      class="nav-link"
+      (click)="$event.stopPropagation(); closeMenu()"
+      >Thông tin</a>
   </nav>
   <a
     href="/"
