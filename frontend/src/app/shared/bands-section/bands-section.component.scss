@@ -39,10 +39,30 @@ $band-slot-max: 320px;
   justify-content: center;
 }
 
-/* Middle row: 3 bands, same slot size, centered */
+/*
+ * Middle row: same slot width as one cell in .grid-row--4 (not (W-2g)/3, which reads wider).
+ * Side 1fr tracks center the trio. Cards go in columns 2–4 (see nth-child below).
+ */
 .grid-row--3 {
-  grid-template-columns: repeat(3, minmax($band-slot-min, $band-slot-max));
-  justify-content: center;
+  --_band-gap: var(--lthd-space-6, 1.5rem);
+  --_band-slot-w: min(
+    #{$band-slot-max},
+    max(#{$band-slot-min}, calc((100% - 3 * var(--_band-gap)) / 4))
+  );
+  grid-template-columns:
+    1fr
+    repeat(3, minmax(0, var(--_band-slot-w)))
+    1fr;
+}
+
+.grid-row--3 > app-band-card:nth-child(1) {
+  grid-column: 2;
+}
+.grid-row--3 > app-band-card:nth-child(2) {
+  grid-column: 3;
+}
+.grid-row--3 > app-band-card:nth-child(3) {
+  grid-column: 4;
 }
 
 .actions {
@@ -124,18 +144,28 @@ $band-slot-max: 320px;
   }
 }
 
-/* iPad Pro */
+/*
+ * Tablet / iPad / large phones (>600px): same 4-3-4 row pattern as desktop.
+ * Use fluid columns so 4×min(200px) doesn’t overflow narrow tablets; capped
+ * slots stay on wide screens via the base .grid-row rules above.
+ */
 @media (max-width: 1024px) {
   .bands {
     padding: var(--lthd-space-12, 3rem) var(--lthd-gutter, 1.5rem);
   }
 
   .grid-row--4 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
+  /* Narrower gap + fluid slot width (matches 1/4 of row; row--4 uses 1fr cols here) */
   .grid-row--3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    --_band-gap: var(--lthd-space-4, 1rem);
+    --_band-slot-w: calc((100% - 3 * var(--_band-gap)) / 4);
+    grid-template-columns:
+      1fr
+      repeat(3, minmax(0, var(--_band-slot-w)))
+      1fr;
   }
 
   .grid .grid-row {
@@ -162,14 +192,6 @@ $band-slot-max: 320px;
   }
 }
 
-/* iPad Mini / small tablets */
-@media (max-width: 768px) {
-  .grid-row--4,
-  .grid-row--3 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
 @media (max-width: 600px) {
   .bands {
     padding: var(--lthd-space-12, 3rem) var(--lthd-gutter, 1.5rem);
@@ -183,6 +205,10 @@ $band-slot-max: 320px;
   .grid-row--4,
   .grid-row--3 {
     grid-template-columns: 1fr;
+  }
+
+  .grid-row--3 > app-band-card:nth-child(n) {
+    grid-column: auto;
   }
 
   .grid .grid-row {

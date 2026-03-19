@@ -13,6 +13,11 @@
   max-width: var(--lthd-container-max, 1200px);
   margin: 0 auto var(--lthd-space-12, 3rem);
   align-items: start;
+
+  /* Allow columns to shrink on tablet without blowing out the grid */
+  > * {
+    min-width: 0;
+  }
 }
 
 /* First column: align content to the left */
@@ -189,14 +194,17 @@
   margin: 0;
 }
 
-/* Tablets (below iPad Pro width) */
+/*
+ * Mid-size viewports: keep the same 3-column grid as desktop (1fr auto 1fr).
+ * Previously max-width 900px switched to 2 columns — iPad Air (~820px) landed there
+ * and looked broken; phones still go single-column at 768px below.
+ */
 @media (max-width: 900px) {
   .footer {
     padding: var(--lthd-space-12, 3rem) var(--lthd-gutter, 1.5rem) var(--lthd-space-8, 2rem);
   }
 
   .footer-inner {
-    grid-template-columns: 1fr 1fr;
     gap: var(--lthd-space-8, 2rem);
     margin-bottom: var(--lthd-space-8, 2rem);
   }
