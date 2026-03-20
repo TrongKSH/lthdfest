@@ -66,7 +66,6 @@
   font-size: 20px;
   color: var(--lthd-text);
   text-decoration: none;
-  text-transform: uppercase;
   letter-spacing: 0.02em;
   padding: var(--lthd-space-2, 0.5rem) var(--lthd-space-3, 0.75rem);
   min-height: 44px;
@@ -109,6 +108,90 @@
   max-height: 100%;
   width: auto;
   object-fit: contain;
+}
+
+.nav-desktop {
+  display: flex;
+  gap: var(--lthd-space-8, 2rem);
+  align-items: center;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-submenu {
+  position: absolute;
+  left: 0;
+  top: calc(100% + var(--lthd-space-2, 0.5rem));
+  z-index: 200;
+  min-width: 260px;
+  padding: var(--lthd-space-2, 0.5rem);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.15s ease,
+    visibility 0.15s ease,
+    transform 0.15s ease;
+}
+
+.nav-item:hover .nav-submenu,
+.nav-item:focus-within .nav-submenu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.nav-submenu .nav-link {
+  text-transform: none;
+  justify-content: flex-start;
+}
+
+.nav-mobile {
+  display: none;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  flex-direction: column;
+  gap: var(--lthd-space-8, 2rem);
+  text-align: left;
+  padding: 0 var(--lthd-gutter, 1.5rem);
+}
+
+.nav-group-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.6rem, 4.2vw, 2.4rem);
+  color: var(--lthd-text);
+  letter-spacing: 0.02em;
+  margin: 0 0 var(--lthd-space-4, 1rem);
+}
+
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.nav-link--sub {
+  font-size: 20px;
+}
+
+.nav-link--top {
+  padding: var(--lthd-space-2, 0.5rem) var(--lthd-space-3, 0.75rem);
 }
 
 /*
@@ -160,6 +243,14 @@
   .nav-link {
     min-height: 48px;
     padding: var(--lthd-space-4, 1rem);
+  }
+
+  .nav-desktop {
+    display: none;
+  }
+
+  .nav-mobile {
+    display: flex;
   }
 
   .header--nav-open .logo-link {

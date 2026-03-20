@@ -32,6 +32,7 @@ export class HeaderComponent {
         if (!t) return;
         if (t.closest('.menu-btn')) return;
         if (t.closest('.nav-link')) return;
+        if (t.closest('.nav')) return;
         if (t.closest('.logo-link')) return;
         this.closeMenu();
       };

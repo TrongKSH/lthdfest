@@ -11,36 +11,199 @@
     <span class="menu-btn-bar"></span>
   </button>
   <nav class="nav" [class.nav--open]="menuOpen()" aria-label="Main navigation">
-    <a
-      routerLink="/"
-      class="nav-link"
-      routerLinkActive="nav-link--active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      (click)="$event.stopPropagation(); closeMenu()"
-      >Trang</a>
-    <a
-      routerLink="/"
-      fragment="bands"
-      class="nav-link"
-      (click)="$event.stopPropagation(); closeMenu()"
-      >Sự kiện</a>
-    <a
-      routerLink="/"
-      fragment="info"
-      class="nav-link"
-      (click)="$event.stopPropagation(); closeMenu()"
-      >Thông tin</a>
+    <div class="nav-desktop" role="navigation" aria-label="Primary">
+      <div class="nav-item">
+        <a
+          routerLink="/"
+          class="nav-link nav-link--top"
+          routerLinkActive="nav-link--active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          aria-haspopup="menu"
+          (click)="$event.stopPropagation(); closeMenu()"
+        >
+          Soul
+        </a>
+        <div class="nav-submenu" role="menu" aria-label="Soul submenu">
+          <a
+            routerLink="/lineup"
+            class="nav-link nav-link--sub"
+            role="menuitem"
+            (click)="$event.stopPropagation(); closeMenu()"
+          >
+            Full Line-up
+          </a>
+          <a
+            routerLink="/lineup"
+            fragment="countdown"
+            class="nav-link nav-link--sub"
+            role="menuitem"
+            (click)="$event.stopPropagation(); closeMenu()"
+          >
+            Running Order
+          </a>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <a
+          routerLink="/tickets"
+          class="nav-link nav-link--top"
+          routerLinkActive="nav-link--active"
+          aria-haspopup="menu"
+          (click)="$event.stopPropagation(); closeMenu()"
+        >
+          Commerce
+        </a>
+        <div class="nav-submenu" role="menu" aria-label="Commerce submenu">
+          <a
+            routerLink="/tickets"
+            class="nav-link nav-link--sub"
+            role="menuitem"
+            (click)="$event.stopPropagation(); closeMenu()"
+          >
+            Tickets Info
+          </a>
+          <a
+            href="#"
+            class="nav-link nav-link--sub"
+            role="menuitem"
+            (click)="$event.preventDefault(); $event.stopPropagation(); closeMenu()"
+          >
+            Cashless Top-up
+          </a>
+          <a
+            href="#"
+            class="nav-link nav-link--sub"
+            role="menuitem"
+            (click)="$event.preventDefault(); $event.stopPropagation(); closeMenu()"
+          >
+            Merchandise (Shop)
+          </a>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <a
+          routerLink="/"
+          fragment="info"
+          class="nav-link nav-link--top"
+          aria-haspopup="menu"
+          (click)="$event.stopPropagation(); closeMenu()"
+        >
+          Info
+        </a>
+        <div class="nav-submenu" role="menu" aria-label="Info submenu">
+          <a
+            routerLink="/"
+            fragment="info"
+            class="nav-link nav-link--sub"
+            role="menuitem"
+            (click)="$event.stopPropagation(); closeMenu()"
+          >
+            Festival Info
+          </a>
+          <a
+            routerLink="/faq"
+            class="nav-link nav-link--sub"
+            role="menuitem"
+            (click)="$event.stopPropagation(); closeMenu()"
+          >
+            Info Pratique
+          </a>
+          <a
+            href="#"
+            class="nav-link nav-link--sub"
+            role="menuitem"
+            (click)="$event.preventDefault(); $event.stopPropagation(); closeMenu()"
+          >
+            Media/Press
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-mobile">
+      <div class="nav-group">
+        <div class="nav-group-title">Soul</div>
+        <a
+          routerLink="/lineup"
+          class="nav-link nav-link--sub"
+          (click)="$event.stopPropagation(); closeMenu()"
+        >
+          Full Line-up
+        </a>
+        <a
+          routerLink="/lineup"
+          fragment="countdown"
+          class="nav-link nav-link--sub"
+          (click)="$event.stopPropagation(); closeMenu()"
+        >
+          Running Order
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-title">Commerce</div>
+        <a
+          routerLink="/tickets"
+          class="nav-link nav-link--sub"
+          (click)="$event.stopPropagation(); closeMenu()"
+        >
+          Tickets Info
+        </a>
+        <a
+          href="#"
+          class="nav-link nav-link--sub"
+          (click)="$event.preventDefault(); $event.stopPropagation(); closeMenu()"
+        >
+          Cashless Top-up
+        </a>
+        <a
+          href="#"
+          class="nav-link nav-link--sub"
+          (click)="$event.preventDefault(); $event.stopPropagation(); closeMenu()"
+        >
+          Merchandise (Shop)
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group-title">Info</div>
+        <a
+          routerLink="/"
+          fragment="info"
+          class="nav-link nav-link--sub"
+          (click)="$event.stopPropagation(); closeMenu()"
+        >
+          Festival Info
+        </a>
+        <a
+          routerLink="/faq"
+          class="nav-link nav-link--sub"
+          (click)="$event.stopPropagation(); closeMenu()"
+        >
+          Info Pratique
+        </a>
+        <a
+          href="#"
+          class="nav-link nav-link--sub"
+          (click)="$event.preventDefault(); $event.stopPropagation(); closeMenu()"
+        >
+          Media/Press
+        </a>
+      </div>
+    </div>
   </nav>
   <a
     href="/"
     class="logo-wrap logo-link"
-    aria-label="Về trang chủ"
+    aria-label="Soul, Commerce and Info — Về trang chủ"
     (click)="onLogoClick($event)"
   >
     <img
       class="logo"
       src="/assets/images/lthd-logo.png"
-      alt="LTHĐ - Long Tranh Hổ Đấu"
+      alt="Soul, Commerce and Info"
       width="269"
       height="120"
     />
