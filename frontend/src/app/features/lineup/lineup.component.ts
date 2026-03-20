@@ -22,6 +22,12 @@ const CLIENT_BANDS: Band[] = Array.from({ length: 21 }, (_, index) => {
 })
 export class LineupComponent {
   protected readonly activeFilter = signal<LineupFilter>('all');
+  protected readonly activeFilterIndex = computed(() => {
+    const f = this.activeFilter();
+    if (f === 'all') return 0;
+    if (f === 'longtranh') return 1;
+    return 2; // hodau
+  });
   protected readonly bands = computed(() => CLIENT_BANDS);
   protected readonly filteredBands = computed(() => {
     const allBands = this.bands();

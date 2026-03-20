@@ -47,42 +47,92 @@
 }
 
 .lineup-filters {
+  position: relative;
   display: inline-flex;
   align-items: center;
+  width: 340px;
+  max-width: 100%;
   border-radius: 8px;
   background: #0d0d0d;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 0;
   overflow: hidden;
 }
 
+.filter-slider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  /* Slight overlap to avoid 1px seams between segments */
+  width: calc(100% / 3 + 2px);
+  margin-left: -1px;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  transition: left 280ms ease;
+}
+
+.filter-slider-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300%;
+  height: 100%;
+  background-image: url('/assets/images/faq-button.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
 .filter-btn {
-  min-width: 92px;
+  flex: 1 1 0;
+  min-width: 0;
   height: 34px;
   border: 0;
-  border-right: 1px solid rgba(255, 255, 255, 0.16);
+  border-right: 0;
+  border-left: 0;
   background: transparent;
   color: rgba(255, 255, 255, 0.9);
   font-family: 'Inter', sans-serif;
   font-size: 0.96rem;
-  padding: 0 var(--lthd-space-4, 1rem);
+  padding: 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
 
   &:last-child {
     border-right: 0;
   }
 
   &:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: transparent;
   }
 
   &:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: -2px;
+    outline: none;
+    box-shadow: none;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
   }
 }
 
+/* Extra hard stop for focus ring (some browsers still apply a default outline). */
+.filter-btn:focus,
+.filter-btn:focus-visible {
+  /* Some browsers still draw a focus ring; make it match the dark background. */
+  outline: 2px solid #0d0d0d !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+}
+
 .filter-btn--active {
-  background: linear-gradient(180deg, #b6c6d4 0%, #8fa8bd 100%);
   color: #0b0b0b;
   font-weight: 600;
 }
