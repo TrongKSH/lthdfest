@@ -1,0 +1,11 @@
+{
+  "name": "lthdfest",
+  "private": true,
+  "scripts": {
+    "start": "npm --prefix frontend run start",
+    "build": "npm --prefix frontend run build",
+    "test": "npm --prefix frontend run test",
+    "watch": "npm --prefix frontend run watch",
+    "ng": "npm --prefix frontend exec -- ng"
+  }
+}
