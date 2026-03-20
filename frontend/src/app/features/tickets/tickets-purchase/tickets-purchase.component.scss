@@ -1,0 +1,163 @@
+.tp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  /* Dim the underlying tickets cards (not just black screen). */
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.tp-modal {
+  width: min(480px, 100%);
+  background: #ffffff;
+  color: #0a0a0a;
+  border-radius: 24px;
+  padding: 44px 22px 22px;
+  position: relative;
+  z-index: 1; /* keep modal above the dimming layer */
+}
+
+.tp-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: transparent;
+  font-size: 34px;
+  line-height: 1;
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+.tp-title {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.tp-sub {
+  margin: 8px 0 0;
+  text-align: center;
+  font-size: 18px;
+}
+
+.tp-section-title {
+  margin: 24px 0 14px;
+  font-size: 22px;
+  text-align: center;
+  font-weight: 800;
+}
+
+.tp-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.tp-stepper-btn {
+  width: 110px;
+  height: 72px;
+  border-radius: 14px;
+  border: 1px solid #15b15b;
+  background: #ffffff;
+  color: #0a0a0a;
+  font-size: 40px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tp-stepper-btn:disabled {
+  border-color: #cfcfcf;
+  color: #7b7b7b;
+  cursor: not-allowed;
+}
+
+.tp-qty-box {
+  width: 150px;
+  height: 72px;
+  border-radius: 14px;
+  border: 2px solid #cfcfcf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tp-qty-input {
+  width: 100%;
+  height: 100%;
+  padding: 0 14px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #0a0a0a;
+}
+
+.tp-perks {
+  background: #eaeaea;
+  border-radius: 24px;
+  margin-top: 22px;
+  padding: 20px 22px;
+}
+
+.tp-perks-title {
+  margin: 0 0 10px;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.tp-perks-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 20px;
+}
+
+.tp-area-link {
+  display: block;
+  width: 100%;
+  margin: 20px 0 0;
+  border: 0;
+  background: transparent;
+  color: #2f6df6;
+  font-size: 22px;
+  font-weight: 800;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  cursor: pointer;
+}
+
+.tp-continue {
+  width: 100%;
+  margin-top: 14px;
+  height: 70px; /* slightly smaller to match design */
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tp-continue:disabled {
+  cursor: not-allowed;
+}
+
+.tp-continue-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* prevent cutting the border when height changes */
+  display: block;
+}
+

@@ -1,0 +1,68 @@
+<div class="tp-overlay" role="dialog" aria-modal="true" aria-label="Ticket purchase">
+  <div class="tp-modal">
+    <button class="tp-close" type="button" aria-label="Đóng" (click)="onClose()">
+      ×
+    </button>
+
+    <h1 class="tp-title">{{ heading() }}</h1>
+    <p class="tp-sub">(Bạn chỉ có thể chọn vé trong cùng hạng vé)</p>
+
+    <h2 class="tp-section-title">Số lượng</h2>
+
+    <div class="tp-stepper" role="group" aria-label="Chọn số lượng vé">
+      <button
+        class="tp-stepper-btn tp-stepper-btn--minus"
+        type="button"
+        aria-label="Giảm số lượng"
+        [disabled]="quantity() === 0"
+        (click)="decrement()"
+      >
+        -
+      </button>
+
+      <div class="tp-qty-box" aria-hidden="false">
+        <input
+          class="tp-qty-input"
+          type="number"
+          min="0"
+          inputmode="numeric"
+          [value]="quantity()"
+          aria-label="Số lượng"
+          (input)="onQuantityInput($event)"
+        />
+      </div>
+
+      <button
+        class="tp-stepper-btn tp-stepper-btn--plus"
+        type="button"
+        aria-label="Tăng số lượng"
+        (click)="increment()"
+      >
+        +
+      </button>
+    </div>
+
+    <section class="tp-perks">
+      <h3 class="tp-perks-title">Quyền lợi nhận tại sự kiện:</h3>
+      <ul class="tp-perks-list">
+        @for (perk of perks; track perk) {
+          <li>{{ perk }}</li>
+        }
+      </ul>
+    </section>
+
+    <button class="tp-area-link" type="button" (click)="onChooseArea()">
+      Chọn khu vực khác
+    </button>
+
+    <button
+      class="tp-continue"
+      type="button"
+      [disabled]="quantity() <= 0"
+      (click)="onContinue()"
+    >
+      <img class="tp-continue-img" [src]="continueImgSrc()" alt="TIẾP TỤC" />
+    </button>
+  </div>
+</div>
+

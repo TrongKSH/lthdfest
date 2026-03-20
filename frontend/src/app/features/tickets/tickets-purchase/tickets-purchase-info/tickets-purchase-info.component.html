@@ -1,0 +1,156 @@
+<div class="ti-overlay" role="main" aria-label="Thông tin mua vé">
+  <div class="ti-page">
+    <button class="ti-close" type="button" aria-label="Đóng" (click)="onClose()">×</button>
+
+    <header class="ti-header">
+      <h1 class="ti-header-title">{{ headerTitle() }}</h1>
+      <p class="ti-header-line">Thời gian: {{ headerWhen }}</p>
+      <p class="ti-header-line">Địa điểm: {{ headerWhere }}</p>
+    </header>
+
+    <div class="ti-layout">
+      <section class="ti-card ti-terms">
+        <h2 class="ti-title">Điều khoản và Dịch vụ mua vé</h2>
+        <ul class="ti-list">
+          <li>Vé đã thanh toán không được hoàn tiền hoặc đổi trả.</li>
+          <li>Vé chỉ hợp lệ cho ngày và hạng vé đã đăng ký.</li>
+          <li>Người tham dự có trách nhiệm bảo quản vé sau khi mua.</li>
+          <li>Vé bị mất, hư hỏng hoặc sao chép trái phép sẽ không được hỗ trợ.</li>
+          <li>Ban Tổ Chức không chịu trách nhiệm cho các vé mua từ nguồn không chính thức.</li>
+          <li>Ban Tổ Chức có quyền từ chối nhập cảnh nếu phát hiện vi phạm quy định sự kiện.</li>
+          <li>Trong trường hợp sự kiện bị hủy, chính sách xử lý vé sẽ được thông báo riêng.</li>
+          
+        </ul>
+      </section>
+
+      <section class="ti-column">
+        <div class="ti-card ti-form">
+          <div class="ti-question">
+            <div class="ti-question-text">
+              Bạn đã đọc và đồng ý với “Điều khoản và điều kiện của chương trình”?
+            </div>
+
+            <label class="ti-radio">
+              <input
+                type="radio"
+                name="terms"
+                value="yes"
+                [checked]="termsAccepted() === 'yes'"
+                (change)="termsAccepted.set('yes')"
+              />
+              Tôi đã đồng ý
+            </label>
+            <label class="ti-radio">
+              <input
+                type="radio"
+                name="terms"
+                value="no"
+                [checked]="termsAccepted() === 'no'"
+                (change)="termsAccepted.set('no')"
+              />
+              Tôi không đồng ý
+            </label>
+          </div>
+
+          <div class="ti-question">
+            <div class="ti-question-text">
+              Cho phép “Long Tranh Hổ Đấu” sử dụng thông tin đặt vé để quảng cáo và vận hành?
+            </div>
+
+            <label class="ti-radio">
+              <input
+                type="radio"
+                name="consentProgram"
+                value="yes"
+                [checked]="consentProgram() === 'yes'"
+                (change)="consentProgram.set('yes')"
+              />
+              Tôi đồng ý
+            </label>
+            <label class="ti-radio">
+              <input
+                type="radio"
+                name="consentProgram"
+                value="no"
+                [checked]="consentProgram() === 'no'"
+                (change)="consentProgram.set('no')"
+              />
+              Tôi không đồng ý
+            </label>
+          </div>
+
+          <div class="ti-fields">
+            <label class="ti-label">
+              <span class="ti-label-text">
+                Họ và tên <span class="ti-required">*</span>
+              </span>
+              <input
+                class="ti-input"
+                type="text"
+                [value]="fullName()"
+                (input)="fullName.set(($any($event.target)).value)"
+              />
+            </label>
+
+            <label class="ti-label">
+              <span class="ti-label-text">
+                Số điện thoại <span class="ti-required">*</span>
+              </span>
+              <input
+                class="ti-input"
+                type="tel"
+                [value]="phone()"
+                (input)="phone.set(($any($event.target)).value)"
+              />
+            </label>
+            <label class="ti-label">
+              <span class="ti-label-text">
+                Email nhận vé <span class="ti-required">*</span>
+              </span>
+              <input
+                class="ti-input"
+                type="email"
+                [value]="email()"
+                (input)="email.set(($any($event.target)).value)"
+              />
+            </label>
+          </div>
+        </div>
+
+        <div class="ti-card ti-summary">
+          <h3 class="ti-summary-title">Thông tin đặt vé</h3>
+
+          <div class="ti-summary-row">
+            <div class="ti-summary-label">Early Bird</div>
+            <div class="ti-summary-value">549.000 vnđ</div>
+          </div>
+
+          <div class="ti-summary-row">
+            <div class="ti-summary-label">Số lượng</div>
+            <div class="ti-summary-value">{{ qtyLabel() }}</div>
+          </div>
+
+          <div class="ti-divider"></div>
+
+          <div class="ti-summary-total-row">
+            <div class="ti-summary-label">Tạm tính</div>
+            <div class="ti-summary-value">{{ formattedSubtotal() }}</div>
+          </div>
+
+          <button
+            class="ti-continue"
+            type="button"
+            (click)="onContinue()"
+          >
+            <img class="ti-continue-img" [src]="continueImgSrc()" alt="TIẾP TỤC" />
+          </button>
+
+          @if (continueError()) {
+            <p class="ti-error">{{ continueError() }}</p>
+          }
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+

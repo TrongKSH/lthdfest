@@ -8,6 +8,54 @@
   overflow-x: hidden;
 }
 
+/* When purchase modal is open, prevent behind cards from staying in :hover state. */
+.tickets-page--modal-open .tickets-grid {
+  pointer-events: none;
+}
+
+/* Force reset any hover/focus-expanded state under the modal. */
+.tickets-page--modal-open {
+  .tickets-presale,
+  .tickets-pack {
+    &:hover,
+    &:focus-within,
+    &--active {
+      /* prevent expanded alignment triggered by hover/focus */
+      align-items: center !important;
+      justify-content: center !important;
+      min-height: clamp(200px, 32vw, 280px) !important;
+    }
+  }
+
+  .tickets-presale__panel {
+    opacity: 0 !important;
+  }
+
+  .tickets-presale__inner {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  .tickets-presale__shade {
+    opacity: 1 !important;
+  }
+
+  .tickets-pack__panel {
+    opacity: 0 !important;
+  }
+
+  .tickets-pack__inner {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  .tickets-pack__shade {
+    opacity: 1 !important;
+  }
+}
+
 .tickets-bg {
   position: absolute;
   inset: 0;

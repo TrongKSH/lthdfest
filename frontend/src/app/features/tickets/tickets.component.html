@@ -1,4 +1,4 @@
-<main class="tickets-page" id="main">
+<main class="tickets-page" id="main" [class.tickets-page--modal-open]="hasPurchase()">
   <div class="tickets-bg" aria-hidden="true"></div>
   <div class="tickets-inner">
     <h1 class="tickets-title">TICKETS</h1>
@@ -23,11 +23,13 @@
             <span class="tickets-presale__price-label">{{ presale.priceLabel }}</span>
             <span class="tickets-presale__price-amount">{{ presale.priceAmount }}</span>
           </p>
-          <a
+          <button
+            type="button"
             class="tickets-presale__btn"
-            [href]="presale.buyUrl"
-            (click)="$event.stopPropagation(); onPresaleBuy($event)"
-            >{{ presale.buyLabel }}</a>
+            (click)="$event.stopPropagation(); onPresaleBuy()"
+          >
+            {{ presale.buyLabel }}
+          </button>
         </div>
       </article>
 
@@ -72,14 +74,32 @@
               <span class="tickets-pack__price-label">{{ pack.priceLabel }}</span>
               <span class="tickets-pack__price-amount">{{ pack.priceAmount }}</span>
             </p>
-            <a
+            <button
+              type="button"
               class="tickets-pack__btn"
-              [href]="pack.buyUrl"
-              (click)="$event.stopPropagation(); onPackBuy($event, pack)"
-              >{{ pack.buyLabel }}</a>
+              (click)="$event.stopPropagation(); onPackBuy(pack)"
+            >
+              {{ pack.buyLabel }}
+            </button>
           </div>
         </article>
       }
     </div>
+
+    @if (purchaseType()) {
+      @if (purchaseStep() === 'qty') {
+        <app-tickets-purchase
+          [type]="purchaseType()!"
+          [qty]="purchaseQty()"
+        ></app-tickets-purchase>
+      }
+
+      @if (purchaseStep() === 'info') {
+        <app-tickets-purchase-info
+          [type]="purchaseType()!"
+          [qty]="purchaseQty()"
+        ></app-tickets-purchase-info>
+      }
+    }
   </div>
 </main>

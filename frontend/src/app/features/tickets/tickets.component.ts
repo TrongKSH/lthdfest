@@ -1,10 +1,15 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 import { PRESALE, TICKET_PACKS, type TicketPack } from './tickets-content';
+import { TicketsPurchaseComponent } from './tickets-purchase/tickets-purchase.component';
+import { TicketsPurchaseInfoComponent } from './tickets-purchase/tickets-purchase-info/tickets-purchase-info.component';
 
 @Component({
   selector: 'app-tickets',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
+  imports: [TicketsPurchaseComponent, TicketsPurchaseInfoComponent],
   templateUrl: './tickets.component.html',
   styleUrl: './tickets.component.scss',
 })
@@ -14,21 +19,45 @@ export class TicketsComponent {
   /** For touch devices: one expanded card at a time. */
   readonly activeCardId = signal<string | null>(null);
 
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+
+  readonly purchaseType = toSignal(
+    this.route.queryParamMap.pipe(map((p) => p.get('purchase'))),
+    { initialValue: null },
+  );
+
+  readonly purchaseStep = toSignal(
+    this.route.queryParamMap.pipe(map((p) => p.get('step') ?? 'qty')),
+    { initialValue: 'qty' },
+  );
+
+  readonly purchaseQty = toSignal(
+    this.route.queryParamMap.pipe(
+      map((p) => {
+        const raw = p.get('qty');
+        const n = raw ? Number(raw) : 0;
+        return Number.isFinite(n) && n > 0 ? Math.floor(n) : 0;
+      }),
+    ),
+    { initialValue: 0 },
+  );
+
+  readonly hasPurchase = computed(() => this.purchaseType() !== null);
+
   toggleCard(id: string): void {
     this.activeCardId.update((current) => (current === id ? null : id));
   }
 
-  onPresaleBuy(event: MouseEvent): void {
-    const url = (this.presale.buyUrl as string).trim();
-    if (!url || url === '#') {
-      event.preventDefault();
-    }
+  onPresaleBuy(): void {
+    // Reset any expanded/hover-like card state before opening modal
+    this.activeCardId.set(null);
+    this.router.navigate(['/tickets'], { queryParams: { purchase: 'presale' } });
   }
 
-  onPackBuy(event: MouseEvent, pack: TicketPack): void {
-    const url = (pack.buyUrl as string).trim();
-    if (!url || url === '#') {
-      event.preventDefault();
-    }
+  onPackBuy(pack: TicketPack): void {
+    // Reset any expanded/hover-like card state before opening modal
+    this.activeCardId.set(null);
+    this.router.navigate(['/tickets'], { queryParams: { purchase: pack.id } });
   }
 }
