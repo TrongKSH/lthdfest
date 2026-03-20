@@ -1,0 +1,53 @@
+<main class="lineup-page" id="lineup-main">
+  <div class="lineup-bg" aria-hidden="true"></div>
+  <section class="lineup-inner" aria-labelledby="lineup-title">
+    <div class="lineup-head">
+      <h1 id="lineup-title" class="lineup-title">LINE-UP</h1>
+      <div class="lineup-filters" role="tablist" aria-label="Line-up filter">
+        <button
+          type="button"
+          role="tab"
+          class="filter-btn"
+          [class.filter-btn--active]="activeFilter() === 'all'"
+          [attr.aria-selected]="activeFilter() === 'all'"
+          (click)="setFilter('all')"
+        >
+          Tất cả
+        </button>
+        <button
+          type="button"
+          role="tab"
+          class="filter-btn"
+          [class.filter-btn--active]="activeFilter() === 'longtranh'"
+          [attr.aria-selected]="activeFilter() === 'longtranh'"
+          (click)="setFilter('longtranh')"
+        >
+          Long Tranh
+        </button>
+        <button
+          type="button"
+          role="tab"
+          class="filter-btn"
+          [class.filter-btn--active]="activeFilter() === 'hodau'"
+          [attr.aria-selected]="activeFilter() === 'hodau'"
+          (click)="setFilter('hodau')"
+        >
+          Hổ Đấu
+        </button>
+      </div>
+    </div>
+
+    @if (!filteredBands().length) {
+      <p class="lineup-status">Chưa có dữ liệu nghệ sĩ.</p>
+    } @else {
+      <div class="lineup-grid">
+        @for (band of filteredBands(); track band.id) {
+          <div class="lineup-card" [attr.aria-label]="'Nghệ sĩ ' + band.name">
+            {{ band.name }}
+          </div>
+        }
+      </div>
+    }
+  </section>
+</main>
+

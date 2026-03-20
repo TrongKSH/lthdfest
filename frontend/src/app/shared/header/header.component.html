@@ -11,15 +11,28 @@
     <span class="menu-btn-bar"></span>
   </button>
   <nav class="nav" [class.nav--open]="menuOpen()" aria-label="Main navigation">
-    <div class="nav-desktop" role="navigation" aria-label="Primary">
-      <div class="nav-item">
+    <div
+      class="nav-desktop"
+      role="navigation"
+      aria-label="Primary"
+      (mouseleave)="onDesktopNavBarLeave()"
+    >
+      <div
+        class="nav-item"
+        [class.nav-item--submenu-open]="isDesktopSubmenuOpen('soul')"
+        [class.nav-item--suppress-submenu]="suppressedDesktopSubmenu() === 'soul'"
+        (mouseenter)="onDesktopNavItemEnter('soul')"
+        (mouseleave)="onDesktopNavItemLeave('soul')"
+        (focusin)="onDesktopNavItemEnter('soul')"
+        (focusout)="onDesktopNavItemFocusOut($event, 'soul')"
+      >
         <a
           routerLink="/"
           class="nav-link nav-link--top"
           routerLinkActive="nav-link--active"
           [routerLinkActiveOptions]="{ exact: true }"
           aria-haspopup="menu"
-          (click)="$event.stopPropagation(); closeMenu()"
+          (click)="$event.stopPropagation(); onDesktopMenuNavigate('soul')"
         >
           Soul
         </a>
@@ -28,7 +41,7 @@
             routerLink="/lineup"
             class="nav-link nav-link--sub"
             role="menuitem"
-            (click)="$event.stopPropagation(); closeMenu()"
+            (click)="$event.stopPropagation(); onDesktopMenuNavigate('soul')"
           >
             Full Line-up
           </a>
@@ -37,20 +50,28 @@
             fragment="countdown"
             class="nav-link nav-link--sub"
             role="menuitem"
-            (click)="$event.stopPropagation(); closeMenu()"
+            (click)="$event.stopPropagation(); onDesktopMenuNavigate('soul')"
           >
             Running Order
           </a>
         </div>
       </div>
 
-      <div class="nav-item">
+      <div
+        class="nav-item"
+        [class.nav-item--submenu-open]="isDesktopSubmenuOpen('commerce')"
+        [class.nav-item--suppress-submenu]="suppressedDesktopSubmenu() === 'commerce'"
+        (mouseenter)="onDesktopNavItemEnter('commerce')"
+        (mouseleave)="onDesktopNavItemLeave('commerce')"
+        (focusin)="onDesktopNavItemEnter('commerce')"
+        (focusout)="onDesktopNavItemFocusOut($event, 'commerce')"
+      >
         <a
           routerLink="/tickets"
           class="nav-link nav-link--top"
           routerLinkActive="nav-link--active"
           aria-haspopup="menu"
-          (click)="$event.stopPropagation(); closeMenu()"
+          (click)="$event.stopPropagation(); onDesktopMenuNavigate('commerce')"
         >
           Commerce
         </a>
@@ -59,7 +80,7 @@
             routerLink="/tickets"
             class="nav-link nav-link--sub"
             role="menuitem"
-            (click)="$event.stopPropagation(); closeMenu()"
+            (click)="$event.stopPropagation(); onDesktopMenuNavigate('commerce')"
           >
             Tickets Info
           </a>
@@ -67,7 +88,7 @@
             href="#"
             class="nav-link nav-link--sub"
             role="menuitem"
-            (click)="$event.preventDefault(); $event.stopPropagation(); closeMenu()"
+            (click)="$event.preventDefault(); $event.stopPropagation(); onDesktopMenuNavigate('commerce')"
           >
             Cashless Top-up
           </a>
@@ -75,20 +96,28 @@
             href="#"
             class="nav-link nav-link--sub"
             role="menuitem"
-            (click)="$event.preventDefault(); $event.stopPropagation(); closeMenu()"
+            (click)="$event.preventDefault(); $event.stopPropagation(); onDesktopMenuNavigate('commerce')"
           >
             Merchandise (Shop)
           </a>
         </div>
       </div>
 
-      <div class="nav-item">
+      <div
+        class="nav-item"
+        [class.nav-item--submenu-open]="isDesktopSubmenuOpen('info')"
+        [class.nav-item--suppress-submenu]="suppressedDesktopSubmenu() === 'info'"
+        (mouseenter)="onDesktopNavItemEnter('info')"
+        (mouseleave)="onDesktopNavItemLeave('info')"
+        (focusin)="onDesktopNavItemEnter('info')"
+        (focusout)="onDesktopNavItemFocusOut($event, 'info')"
+      >
         <a
           routerLink="/"
           fragment="info"
           class="nav-link nav-link--top"
           aria-haspopup="menu"
-          (click)="$event.stopPropagation(); closeMenu()"
+          (click)="$event.stopPropagation(); onDesktopMenuNavigate('info')"
         >
           Info
         </a>
@@ -98,7 +127,7 @@
             fragment="info"
             class="nav-link nav-link--sub"
             role="menuitem"
-            (click)="$event.stopPropagation(); closeMenu()"
+            (click)="$event.stopPropagation(); onDesktopMenuNavigate('info')"
           >
             Festival Info
           </a>
@@ -106,7 +135,7 @@
             routerLink="/faq"
             class="nav-link nav-link--sub"
             role="menuitem"
-            (click)="$event.stopPropagation(); closeMenu()"
+            (click)="$event.stopPropagation(); onDesktopMenuNavigate('info')"
           >
             Info Pratique
           </a>
@@ -114,7 +143,7 @@
             href="#"
             class="nav-link nav-link--sub"
             role="menuitem"
-            (click)="$event.preventDefault(); $event.stopPropagation(); closeMenu()"
+            (click)="$event.preventDefault(); $event.stopPropagation(); onDesktopMenuNavigate('info')"
           >
             Media/Press
           </a>

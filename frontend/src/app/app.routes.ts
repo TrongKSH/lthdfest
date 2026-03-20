@@ -9,7 +9,7 @@ export const routes: Routes = [
   {
     path: 'lineup',
     loadComponent: () =>
-      import('./features/home/home.component').then((m) => m.HomeComponent),
+      import('./features/lineup/lineup.component').then((m) => m.LineupComponent),
   },
   {
     path: 'bands/:id',

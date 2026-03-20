@@ -72,10 +72,13 @@
   display: inline-flex;
   align-items: center;
 
-  &:hover,
+  &:hover {
+    opacity: 0.92;
+  }
+
   &.nav-link--active {
-    text-decoration: underline;
-    text-underline-offset: 4px;
+    opacity: 1;
+    font-weight: 600;
   }
 
   &:focus-visible {
@@ -121,9 +124,10 @@
 }
 
 .nav-submenu {
+  --nav-submenu-gap: var(--lthd-space-2, 0.5rem);
   position: absolute;
   left: 0;
-  top: calc(100% + var(--lthd-space-2, 0.5rem));
+  top: calc(100% + var(--nav-submenu-gap));
   z-index: 200;
   min-width: 260px;
   padding: var(--lthd-space-2, 0.5rem);
@@ -145,14 +149,36 @@
     opacity 0.15s ease,
     visibility 0.15s ease,
     transform 0.15s ease;
+
+  /*
+   * Hover bridge: the gap between the trigger and panel is empty layout space, so
+   * moving the pointer through it left .nav-item and closed the menu. This fills
+   * that gap with a hit target (same element subtree) so hover is preserved.
+   */
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(-1 * var(--nav-submenu-gap));
+    height: var(--nav-submenu-gap);
+  }
 }
 
-.nav-item:hover .nav-submenu,
-.nav-item:focus-within .nav-submenu {
+/* Single open flyout: driven by `.nav-item--submenu-open` in HeaderComponent (never CSS :hover). */
+.nav-item.nav-item--submenu-open .nav-submenu {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
   transform: translateY(0);
+}
+
+/* Extra guard after navigation click (suppressed group stays closed). */
+.nav-item.nav-item--suppress-submenu .nav-submenu {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-6px);
 }
 
 .nav-submenu .nav-link {

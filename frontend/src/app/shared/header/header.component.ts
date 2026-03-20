@@ -7,6 +7,8 @@ import {
 } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
+type DesktopNavSection = 'soul' | 'commerce' | 'info';
+
 @Component({
   selector: 'app-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,6 +19,13 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 export class HeaderComponent {
   private readonly router = inject(Router);
   protected readonly menuOpen = signal(false);
+  /** At most one desktop flyout open — tracks which top-level group is active. */
+  protected readonly desktopOpenSubmenu = signal<DesktopNavSection | null>(null);
+  /**
+   * After a navigation click, force-hide that group’s submenu until pointer leaves it
+   * (then opening works again).
+   */
+  protected readonly suppressedDesktopSubmenu = signal<DesktopNavSection | null>(null);
 
   constructor() {
     effect((onCleanup) => {
@@ -51,6 +60,48 @@ export class HeaderComponent {
 
   closeMenu(): void {
     this.menuOpen.set(false);
+  }
+
+  /** Call when a desktop primary/sub nav action runs (route change or in-page jump). */
+  onDesktopMenuNavigate(section: DesktopNavSection): void {
+    this.closeMenu();
+    this.desktopOpenSubmenu.set(null);
+    this.suppressedDesktopSubmenu.set(section);
+  }
+
+  protected isDesktopSubmenuOpen(section: DesktopNavSection): boolean {
+    return (
+      this.desktopOpenSubmenu() === section &&
+      this.suppressedDesktopSubmenu() !== section
+    );
+  }
+
+  onDesktopNavItemEnter(section: DesktopNavSection): void {
+    this.desktopOpenSubmenu.set(section);
+  }
+
+  onDesktopNavItemLeave(section: DesktopNavSection): void {
+    if (this.suppressedDesktopSubmenu() === section) {
+      this.suppressedDesktopSubmenu.set(null);
+    }
+    if (this.desktopOpenSubmenu() === section) {
+      this.desktopOpenSubmenu.set(null);
+    }
+  }
+
+  onDesktopNavItemFocusOut(event: FocusEvent, section: DesktopNavSection): void {
+    const host = event.currentTarget;
+    const next = event.relatedTarget as Node | null;
+    if (host instanceof HTMLElement && next && host.contains(next)) {
+      return;
+    }
+    this.onDesktopNavItemLeave(section);
+  }
+
+  /** Leaving the whole desktop nav strip — close any flyout and clear suppress state. */
+  onDesktopNavBarLeave(): void {
+    this.desktopOpenSubmenu.set(null);
+    this.suppressedDesktopSubmenu.set(null);
   }
 
   /** Home + always scroll to top (including when already on home). */
