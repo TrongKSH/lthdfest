@@ -12,6 +12,9 @@ export const PRESALE = {
   where: FESTIVAL_WHERE,
   priceLabel: 'Giá:',
   priceAmount: '549.000 vnđ',
+  unitPriceVnd: 549_000,
+  /** Checkout / confirmation row label */
+  summaryDisplayName: 'Pre-Sale',
   buyUrl: '#',
   buyLabel: 'MUA VÉ NGAY',
 } as const;
@@ -32,6 +35,9 @@ export interface TicketPack {
   where: string;
   priceLabel: string;
   priceAmount: string;
+  unitPriceVnd: number;
+  /** Checkout / confirmation row label */
+  summaryDisplayName: string;
   buyUrl: string;
   buyLabel: string;
   /** Idle background */
@@ -51,6 +57,8 @@ export const TICKET_PACKS: readonly TicketPack[] = [
     where: FESTIVAL_WHERE,
     priceLabel: 'Giá:',
     priceAmount: '999.000 vnđ',
+    unitPriceVnd: 999_000,
+    summaryDisplayName: 'Gói Huynh Đệ',
     buyUrl: '#',
     buyLabel: 'MUA VÉ NGAY',
     art: 'ticket_main',
@@ -65,6 +73,8 @@ export const TICKET_PACKS: readonly TicketPack[] = [
     where: FESTIVAL_WHERE,
     priceLabel: 'Giá:',
     priceAmount: '799.000 vnđ',
+    unitPriceVnd: 799_000,
+    summaryDisplayName: 'Long Tranh',
     buyUrl: '#',
     buyLabel: 'MUA VÉ NGAY',
     art: 'countdown',
@@ -79,6 +89,8 @@ export const TICKET_PACKS: readonly TicketPack[] = [
     where: FESTIVAL_WHERE,
     priceLabel: 'Giá:',
     priceAmount: '799.000 vnđ',
+    unitPriceVnd: 799_000,
+    summaryDisplayName: 'Hổ Đấu',
     buyUrl: '#',
     buyLabel: 'MUA VÉ NGAY',
     art: 'countdown',
@@ -93,6 +105,8 @@ export const TICKET_PACKS: readonly TicketPack[] = [
     where: FESTIVAL_WHERE,
     priceLabel: 'Giá:',
     priceAmount: '999.000 vnđ',
+    unitPriceVnd: 999_000,
+    summaryDisplayName: 'True Metalhead Pack',
     buyUrl: '#',
     buyLabel: 'MUA VÉ NGAY',
     art: 'ticket_main',
@@ -107,6 +121,8 @@ export const TICKET_PACKS: readonly TicketPack[] = [
     where: FESTIVAL_WHERE,
     priceLabel: 'Giá:',
     priceAmount: '1.299.000 vnđ',
+    unitPriceVnd: 1_299_000,
+    summaryDisplayName: 'VIP',
     buyUrl: '#',
     buyLabel: 'MUA VÉ NGAY',
     art: 'ticket_main',
@@ -121,8 +137,39 @@ export const TICKET_PACKS: readonly TicketPack[] = [
     where: FESTIVAL_WHERE,
     priceLabel: 'Giá:',
     priceAmount: '699.000 vnđ',
+    unitPriceVnd: 699_000,
+    summaryDisplayName: 'At Door',
     buyUrl: '#',
     buyLabel: 'MUA VÉ NGAY',
     art: 'countdown',
   },
 ];
+
+/** Unit price + summary label for checkout (presale or pack id). */
+export function getTicketPricing(purchaseKey: string): {
+  unitPriceVnd: number;
+  summaryDisplayName: string;
+} | null {
+  if (purchaseKey === 'presale') {
+    return {
+      unitPriceVnd: PRESALE.unitPriceVnd,
+      summaryDisplayName: PRESALE.summaryDisplayName,
+    };
+  }
+  const pack = TICKET_PACKS.find((p) => p.id === purchaseKey);
+  if (!pack) return null;
+  return {
+    unitPriceVnd: pack.unitPriceVnd,
+    summaryDisplayName: pack.summaryDisplayName,
+  };
+}
+
+/** Page header line: "Festival - TIER" */
+export function getPurchaseHeaderTitle(purchaseKey: string): string {
+  if (purchaseKey === 'presale') {
+    return `${FESTIVAL_EVENT_NAME} - ${PRESALE.title}`;
+  }
+  const pack = TICKET_PACKS.find((p) => p.id === purchaseKey);
+  if (!pack) return FESTIVAL_EVENT_NAME;
+  return `${FESTIVAL_EVENT_NAME} - ${pack.peekTitle}`;
+}

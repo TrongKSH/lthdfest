@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, signal, computed, inject, input, effect } from '@angular/core';
 import { Router } from '@angular/router';
-import { PRESALE, TICKET_PACKS, type TicketPack } from '../tickets-content';
+import { getTicketPricing, PRESALE, TICKET_PACKS, type TicketPack } from '../tickets-content';
 
 const PERKS = ['vé 2 ngày', 'vòng tay', 'LTHD passport'] as const;
 
@@ -72,20 +72,19 @@ export class TicketsPurchaseComponent {
   }
 
   onContinue(): void {
-    if (this.quantity() <= 0) return;
+    const qty = this.quantity();
+    if (qty <= 0) return;
 
-    // PRE-SALE first
-    if (this.type() === 'presale') {
-      const qty = this.quantity();
-      void this.router
-        .navigate(['/tickets'], {
-          queryParams: { purchase: 'presale', step: 'info', qty },
-        })
-        .catch(() => {
-          // Fallback: ensure navigation happens even if SPA navigation is blocked.
-          window.location.href = `/tickets?purchase=presale&step=info&qty=${encodeURIComponent(String(qty))}`;
-        });
-    }
+    const purchase = this.type();
+    if (!getTicketPricing(purchase)) return;
+
+    void this.router
+      .navigate(['/tickets'], {
+        queryParams: { purchase, step: 'info', qty },
+      })
+      .catch(() => {
+        window.location.href = `/tickets?purchase=${encodeURIComponent(purchase)}&step=info&qty=${encodeURIComponent(String(qty))}`;
+      });
   }
 }
 

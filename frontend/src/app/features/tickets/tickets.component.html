@@ -100,6 +100,14 @@
           [qty]="purchaseQty()"
         ></app-tickets-purchase-info>
       }
+
+      @if (purchaseStep() === 'confirm') {
+        <app-tickets-purchase-confirm />
+      }
+
+      @if (purchaseStep() === 'transfer') {
+        <app-tickets-purchase-transfer />
+      }
     }
   </div>
 </main>

@@ -1,0 +1,78 @@
+<div class="ti-overlay tt-transfer-overlay" role="main" aria-label="Chuyển khoản thanh toán">
+  <div class="ti-page">
+    <button class="ti-close" type="button" aria-label="Đóng" (click)="onClose()">×</button>
+
+    <p class="tt-back-wrap">
+      <button type="button" class="tt-back-link" (click)="onBackToConfirm()">Quay lại</button>
+    </p>
+
+    <header class="ti-header">
+      <h1 class="ti-header-title">{{ headerTitle() }}</h1>
+      <p class="ti-header-line">Thời gian: {{ headerWhen }}</p>
+      <p class="ti-header-line">Địa điểm: {{ headerWhere }}</p>
+    </header>
+
+    <div class="tt-layout">
+      <section class="tt-qr-card" aria-labelledby="tt-qr-heading">
+        <h2 id="tt-qr-heading" class="tt-qr-beneficiary">TRANQUIL SPACE JSC</h2>
+        <p class="tt-qr-account">
+          <span class="tt-sr-only">Số tài khoản: </span>
+          2707076868
+        </p>
+
+        <div class="tt-qr-frame">
+          <img
+            class="tt-qr-img"
+            src="/assets/images/qrcode.png"
+            alt="Mã QR VietQR Napas 247 Techcombank để chuyển khoản thanh toán vé"
+            width="400"
+            height="400"
+          />
+        </div>
+
+        <p class="tt-qr-scan-hint">Quét để thanh toán</p>
+      </section>
+
+      <section class="ti-card tt-upload-card" aria-labelledby="tt-upload-title">
+        <h2 id="tt-upload-title" class="tt-section-title">Tải ảnh biên lai</h2>
+        <p id="tt-upload-hint" class="tt-upload-hint">
+          Sau khi hoàn tất chuyển khoản, vui lòng chụp hoặc tải ảnh màn hình giao dịch thành công.
+        </p>
+
+        <div class="tt-upload-controls">
+          <input
+            id="transfer-proof-input"
+            class="tt-file-input"
+            type="file"
+            accept="image/*"
+            capture="environment"
+            aria-describedby="tt-upload-hint"
+            (change)="onFileSelected($event)"
+          />
+
+          <label class="tt-file-label" for="transfer-proof-input">Chọn ảnh biên lai</label>
+        </div>
+
+        @if (previewUrl()) {
+          <div class="tt-preview-wrap">
+            <p class="tt-preview-caption">Xem trước</p>
+            <img
+              class="tt-preview-img"
+              [src]="previewUrl()!"
+              alt="Xem trước ảnh biên lai chuyển khoản"
+            />
+          </div>
+        }
+
+        <button
+          type="button"
+          class="tt-submit"
+          [disabled]="!canSubmit()"
+          (click)="onSubmitProof()"
+        >
+          Gửi biên lai
+        </button>
+      </section>
+    </div>
+  </div>
+</div>

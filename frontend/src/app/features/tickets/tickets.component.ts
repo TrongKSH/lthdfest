@@ -5,11 +5,18 @@ import { map } from 'rxjs';
 import { PRESALE, TICKET_PACKS, type TicketPack } from './tickets-content';
 import { TicketsPurchaseComponent } from './tickets-purchase/tickets-purchase.component';
 import { TicketsPurchaseInfoComponent } from './tickets-purchase/tickets-purchase-info/tickets-purchase-info.component';
+import { TicketsPurchaseConfirmComponent } from './tickets-purchase/tickets-purchase-confirm/tickets-purchase-confirm.component';
+import { TicketsPurchaseTransferComponent } from './tickets-purchase/tickets-purchase-transfer/tickets-purchase-transfer.component';
 
 @Component({
   selector: 'app-tickets',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TicketsPurchaseComponent, TicketsPurchaseInfoComponent],
+  imports: [
+    TicketsPurchaseComponent,
+    TicketsPurchaseInfoComponent,
+    TicketsPurchaseConfirmComponent,
+    TicketsPurchaseTransferComponent,
+  ],
   templateUrl: './tickets.component.html',
   styleUrl: './tickets.component.scss',
 })

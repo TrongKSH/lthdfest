@@ -1,0 +1,76 @@
+<div class="ti-overlay" role="main" aria-label="Xác nhận đơn hàng">
+  <div class="ti-page">
+    <button class="ti-close" type="button" aria-label="Đóng" (click)="onClose()">×</button>
+
+    <header class="ti-header">
+      <h1 class="ti-header-title">{{ headerTitle() }}</h1>
+      <p class="ti-header-line">Thời gian: {{ headerWhen }}</p>
+      <p class="ti-header-line">Địa điểm: {{ headerWhere }}</p>
+    </header>
+
+    <div class="ti-layout">
+      <section class="ti-card ti-confirm-receive">
+        <h2 class="ti-confirm-card-title">Thông tin nhận vé</h2>
+        <p class="ti-confirm-receive-text">
+          Vé điện tử của Long Tranh Hổ Đấu sẽ được gửi đến email quý khách đã cung cấp:
+          <strong class="ti-confirm-email">{{ emailForTickets() }}</strong>
+        </p>
+      </section>
+
+      <div class="ti-column">
+        <section class="ti-card ti-confirm-booking">
+          <div class="ti-confirm-booking-head">
+            <h2 class="ti-confirm-card-title ti-confirm-card-title--inline">Thông tin đặt vé</h2>
+            <button type="button" class="ti-confirm-link" (click)="onReselectTickets()">
+              Chọn lại vé
+            </button>
+          </div>
+
+          <div class="ti-confirm-grid">
+            <span class="ti-confirm-grid-label">Loại vé</span>
+            <span class="ti-confirm-grid-label">Số lượng</span>
+            <span class="ti-confirm-grid-value">{{ ticketLabel() }}</span>
+            <span class="ti-confirm-grid-value">{{ qtyPadded() }}</span>
+          </div>
+
+          <div class="ti-confirm-price-row">
+            <span class="ti-confirm-grid-label">Đơn giá</span>
+            <span class="ti-confirm-grid-value">{{ formatVnd(unitPriceVnd()) }}</span>
+          </div>
+        </section>
+
+        <section class="ti-card ti-confirm-order">
+          <div class="ti-confirm-row">
+            <span class="ti-confirm-label">Tạm tính</span>
+            <span class="ti-confirm-amount">{{ formatVnd(subtotalVnd()) }}</span>
+          </div>
+          <p class="ti-confirm-note">Vé đã bao gồm 10% thuế VAT</p>
+
+          <div class="ti-confirm-divider"></div>
+
+          <div class="ti-confirm-row ti-confirm-row--total">
+            <span class="ti-confirm-label">Tổng tiền</span>
+            <span class="ti-confirm-amount">{{ formatVnd(subtotalVnd()) }}</span>
+          </div>
+
+          <p class="ti-confirm-terms-note">
+            Bạn đã đồng ý với điều kiện giao dịch chung khi tiến hành mua vé
+          </p>
+
+          <button
+            type="button"
+            class="ti-confirm-pay"
+            aria-label="Thanh toán"
+            (click)="onPay()"
+          >
+            <img
+              class="ti-confirm-pay-img"
+              src="/assets/images/payment-button.png"
+              alt=""
+            />
+          </button>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

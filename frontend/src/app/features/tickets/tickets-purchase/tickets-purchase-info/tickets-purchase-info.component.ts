@@ -1,10 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { FESTIVAL_EVENT_NAME, FESTIVAL_WHERE, FESTIVAL_WHEN, PRESALE } from '../../tickets-content';
+import {
+  FESTIVAL_WHERE,
+  FESTIVAL_WHEN,
+  getPurchaseHeaderTitle,
+  getTicketPricing,
+} from '../../tickets-content';
+import { TicketsPurchaseDraftService } from '../../tickets-purchase-draft.service';
 
 type RadioValue = 'yes' | 'no';
-
-const PRE_SALE_UNIT_PRICE_VND = 549_000;
 
 @Component({
   selector: 'app-tickets-purchase-info',
@@ -13,6 +17,9 @@ const PRE_SALE_UNIT_PRICE_VND = 549_000;
   styleUrl: './tickets-purchase-info.component.scss',
 })
 export class TicketsPurchaseInfoComponent {
+  private readonly router = inject(Router);
+  private readonly draftService = inject(TicketsPurchaseDraftService);
+
   readonly type = input<string>('presale');
   readonly qty = input<number>(0);
 
@@ -35,13 +42,20 @@ export class TicketsPurchaseInfoComponent {
 
   readonly qtyLabel = computed(() => String(this.quantity()).padStart(2, '0'));
 
-  readonly subtotalVnd = computed(() => this.quantity() * PRE_SALE_UNIT_PRICE_VND);
+  readonly pricing = computed(() => getTicketPricing(this.type()));
 
-  readonly headerTitle = computed(() => `${FESTIVAL_EVENT_NAME} - ${PRESALE.title}`);
+  readonly unitPriceVnd = computed(() => this.pricing()?.unitPriceVnd ?? 0);
+
+  readonly summaryLineLabel = computed(() => this.pricing()?.summaryDisplayName ?? '—');
+
+  readonly subtotalVnd = computed(() => this.quantity() * this.unitPriceVnd());
+
+  readonly headerTitle = computed(() => getPurchaseHeaderTitle(this.type()));
   readonly headerWhen = FESTIVAL_WHEN;
   readonly headerWhere = FESTIVAL_WHERE;
 
   readonly continueEnabled = computed(() => {
+    if (!this.pricing()) return false;
     if (this.quantity() <= 0) return false;
     if (this.termsAccepted() !== 'yes') return false;
     if (this.consentProgram() !== 'yes') return false;
@@ -59,6 +73,8 @@ export class TicketsPurchaseInfoComponent {
 
   readonly formattedSubtotal = computed(() => this.formatVnd(this.subtotalVnd()));
 
+  readonly formattedUnitPrice = computed(() => this.formatVnd(this.unitPriceVnd()));
+
   readonly continueError = signal<string | null>(null);
 
   onContinue(): void {
@@ -67,18 +83,28 @@ export class TicketsPurchaseInfoComponent {
       return;
     }
 
-    // TODO: replace with payment/checkout page.
-    this.router.navigate(['/tickets']);
+    const purchaseType = this.type();
+    const qty = this.quantity();
+    this.draftService.setDraft({
+      purchaseType,
+      qty,
+      fullName: this.fullName().trim(),
+      phone: this.phone().trim(),
+      email: this.email().trim(),
+    });
+
+    void this.router.navigate(['/tickets'], {
+      queryParams: { purchase: purchaseType, step: 'confirm', qty },
+    });
   }
 
   onClose(): void {
-    this.router.navigate(['/tickets']);
+    this.draftService.clearDraft();
+    void this.router.navigate(['/tickets'], { queryParams: {} });
   }
 
   private formatVnd(n: number): string {
     return `${n.toLocaleString('vi-VN')} vnđ`;
   }
-
-  private readonly router = inject(Router);
 }
 

@@ -1,0 +1,246 @@
+@use '../tickets-purchase-info/tickets-purchase-info.component.scss' as *;
+
+.tt-transfer-overlay.ti-overlay {
+  background: #000000;
+}
+
+.tt-back-wrap {
+  margin: 0 0 var(--lthd-space-4, 1rem);
+}
+
+.tt-back-link {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #5b8def;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  &:focus-visible {
+    outline: 2px solid #5b8def;
+    outline-offset: 4px;
+  }
+}
+
+.tt-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  width: 100%;
+  align-items: start;
+}
+
+/* QR column: no card chrome — only .tt-qr-frame is white on black */
+.tt-qr-card {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 360px;
+  justify-self: center;
+  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+}
+
+.tt-upload-card.ti-card {
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: none;
+}
+
+.tt-section-title {
+  margin: 0 0 14px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.tt-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tt-qr-beneficiary {
+  width: 100%;
+  margin: 0 0 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.tt-qr-account {
+  width: 100%;
+  margin: 0 0 18px;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.tt-qr-scan-hint {
+  width: 100%;
+  margin: 16px 0 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.tt-qr-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px;
+  background: #ffffff;
+  border-radius: 18px;
+  width: 100%;
+  max-width: 300px;
+  box-sizing: border-box;
+}
+
+.tt-qr-img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.tt-upload-hint {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.tt-upload-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.tt-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tt-file-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  &:focus-within {
+    outline: 2px solid #ffffff;
+    outline-offset: 4px;
+  }
+}
+
+.tt-preview-wrap {
+  margin-top: 18px;
+}
+
+.tt-preview-caption {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.tt-preview-img {
+  display: block;
+  width: 100%;
+  max-height: 240px;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.tt-submit {
+  width: 100%;
+  margin-top: 20px;
+  min-height: 52px;
+  padding: 14px 24px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--lthd-cta-gradient-alt);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  color: #000000;
+  cursor: pointer;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+
+  &:hover:not(:disabled) {
+    transform: scale(1.02);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 4px;
+  }
+}
+
+@media (max-width: 900px) {
+  .tt-layout {
+    grid-template-columns: 1fr;
+  }
+}
