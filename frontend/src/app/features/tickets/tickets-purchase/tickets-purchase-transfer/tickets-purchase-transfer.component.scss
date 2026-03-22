@@ -139,6 +139,14 @@
   color: rgba(255, 255, 255, 0.75);
 }
 
+.tt-upload-optional-note {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+}
+
 .tt-upload-controls {
   display: flex;
   flex-direction: column;
@@ -204,6 +212,25 @@
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(0, 0, 0, 0.35);
+}
+
+.tt-submit-feedback {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.tt-submit-error {
+  color: #ff8a8a;
+}
+
+.tt-submit-success {
+  color: #7dffb2;
+}
+
+.tt-submit-inner {
+  display: inline-block;
 }
 
 .tt-submit {

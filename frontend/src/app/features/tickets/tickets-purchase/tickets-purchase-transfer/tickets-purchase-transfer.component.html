@@ -37,6 +37,9 @@
         <h2 id="tt-upload-title" class="tt-section-title">Tải ảnh biên lai</h2>
         <p id="tt-upload-hint" class="tt-upload-hint">
           Sau khi hoàn tất chuyển khoản, vui lòng chụp hoặc tải ảnh màn hình giao dịch thành công.
+          @if (paymentProofImageOptional) {
+            <span class="tt-upload-optional-note"> (Tùy chọn: có thể gửi thông tin mà chưa cần ảnh nếu máy chủ chỉ ghi Sheet.)</span>
+          }
         </p>
 
         <div class="tt-upload-controls">
@@ -47,6 +50,7 @@
             accept="image/*"
             capture="environment"
             aria-describedby="tt-upload-hint"
+            [disabled]="submitting() || submitSuccess()"
             (change)="onFileSelected($event)"
           />
 
@@ -64,13 +68,28 @@
           </div>
         }
 
+        @if (submitError()) {
+          <p class="tt-submit-feedback tt-submit-error" role="alert">{{ submitError() }}</p>
+        }
+
+        @if (submitSuccess()) {
+          <p class="tt-submit-feedback tt-submit-success" role="status">
+            Đã gửi biên lai thành công. Cảm ơn bạn!
+          </p>
+        }
+
         <button
           type="button"
           class="tt-submit"
           [disabled]="!canSubmit()"
+          [attr.aria-busy]="submitting()"
           (click)="onSubmitProof()"
         >
-          Gửi biên lai
+          @if (submitting()) {
+            <span class="tt-submit-inner">Đang gửi…</span>
+          } @else {
+            <span class="tt-submit-inner">Gửi biên lai</span>
+          }
         </button>
       </section>
     </div>

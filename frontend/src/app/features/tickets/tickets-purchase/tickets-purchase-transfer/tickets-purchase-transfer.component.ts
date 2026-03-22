@@ -18,6 +18,10 @@ import {
   getTicketPricing,
 } from '../../tickets-content';
 import { TicketsPurchaseDraftService } from '../../tickets-purchase-draft.service';
+import { TicketPaymentProofService } from '../../../../services/ticket-payment-proof.service';
+import { environment } from '../../../../../environments/environment';
+import { HttpErrorResponse } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-tickets-purchase-transfer',
@@ -29,6 +33,7 @@ export class TicketsPurchaseTransferComponent {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly draftService = inject(TicketsPurchaseDraftService);
+  private readonly paymentProofService = inject(TicketPaymentProofService);
   private readonly destroyRef = inject(DestroyRef);
 
   private static qtyFromParams(p: ParamMap): number {
@@ -59,6 +64,9 @@ export class TicketsPurchaseTransferComponent {
   readonly headerWhen = FESTIVAL_WHEN;
   readonly headerWhere = FESTIVAL_WHERE;
 
+  /** When true, user may submit without an image (API sheets-only). */
+  readonly paymentProofImageOptional = environment.paymentProofImageOptional;
+
   readonly pricing = computed(() => {
     const t = this.purchaseType();
     return t ? getTicketPricing(t) : null;
@@ -70,7 +78,16 @@ export class TicketsPurchaseTransferComponent {
   /** Object URL for preview — revoked on replace and on destroy. */
   readonly previewUrl = signal<string | null>(null);
 
-  readonly canSubmit = computed(() => this.selectedFile() !== null);
+  readonly submitting = signal(false);
+  readonly submitError = signal<string | null>(null);
+  readonly submitSuccess = signal(false);
+
+  readonly canSubmit = computed(() => {
+    if (this.submitting() || this.submitSuccess()) return false;
+    const file = this.selectedFile();
+    const imageOk = file !== null || environment.paymentProofImageOptional;
+    return imageOk;
+  });
 
   constructor() {
     this.destroyRef.onDestroy(() => {
@@ -136,10 +153,64 @@ export class TicketsPurchaseTransferComponent {
     this.previewUrl.set(url);
   }
 
-  /** TODO: POST multipart to backend when API exists */
-  onSubmitProof(): void {
+  async onSubmitProof(): Promise<void> {
     if (!this.canSubmit()) return;
-    /* placeholder — integrate HttpClient upload + order id */
+
+    const file = this.selectedFile();
+    const draft = this.draft();
+    const purchaseType = this.purchaseType();
+    const q = this.qty();
+
+    if (!draft || !purchaseType || q <= 0) return;
+    if (!file && !environment.paymentProofImageOptional) return;
+    if (draft.purchaseType !== purchaseType || draft.qty !== q) return;
+
+    this.submitting.set(true);
+    this.submitError.set(null);
+
+    try {
+      await firstValueFrom(
+        this.paymentProofService.submitProof(file ?? null, {
+          fullName: draft.fullName,
+          phone: draft.phone,
+          email: draft.email,
+          purchaseType,
+          qty: q,
+        }),
+      );
+      this.submitSuccess.set(true);
+    } catch (err: unknown) {
+      const message = this.errorMessageFromHttp(err);
+      this.submitError.set(message);
+    } finally {
+      this.submitting.set(false);
+    }
+  }
+
+  private errorMessageFromHttp(err: unknown): string {
+    if (err instanceof HttpErrorResponse) {
+      const body = err.error;
+      if (typeof body === 'string' && body.trim()) return body;
+      if (body && typeof body === 'object') {
+        const title = (body as { title?: string }).title;
+        const detail = (body as { detail?: string }).detail;
+        const msg = (body as { message?: string }).message;
+        if (typeof detail === 'string' && detail.trim()) return detail;
+        if (typeof title === 'string' && title.trim()) return title;
+        if (typeof msg === 'string' && msg.trim()) return msg;
+      }
+      if (err.status === 0) {
+        return 'Không kết nối được máy chủ. Kiểm tra mạng hoặc thử lại sau.';
+      }
+      if (err.status === 413) {
+        return 'Ảnh quá lớn. Vui lòng chọn file nhỏ hơn.';
+      }
+      if (err.status === 503) {
+        return 'Chưa cấu hình Google Sheet (hoặc máy chủ). Kiểm tra API và Google:Payment.';
+      }
+      return `Gửi không thành công (${err.status}).`;
+    }
+    return 'Đã xảy ra lỗi. Vui lòng thử lại.';
   }
 
   private revokePreview(): void {

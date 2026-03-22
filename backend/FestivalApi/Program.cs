@@ -1,9 +1,19 @@
 using Microsoft.EntityFrameworkCore;
 using FestivalApi.Data;
+using FestivalApi.Options;
+using FestivalApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.Configure<GooglePaymentOptions>(
+    builder.Configuration.GetSection(GooglePaymentOptions.SectionName));
+builder.Services.AddSingleton<GoogleDriveSheetsPaymentService>();
+
+builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(o =>
+{
+    o.MultipartBodyLengthLimit = 10_485_760;
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

@@ -164,6 +164,14 @@ export function getTicketPricing(purchaseKey: string): {
   };
 }
 
+/** Stable code for Google Sheet / Drive filename (column E + segment 2). */
+export function getTicketCodeForPurchaseType(purchaseKey: string): string | null {
+  if (purchaseKey === 'presale') return 'LTHD_PRE';
+  const pack = TICKET_PACKS.find((p) => p.id === purchaseKey);
+  if (!pack) return null;
+  return `LTHD_${pack.id.toUpperCase()}`;
+}
+
 /** Page header line: "Festival - TIER" */
 export function getPurchaseHeaderTitle(purchaseKey: string): string {
   if (purchaseKey === 'presale') {
