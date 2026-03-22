@@ -63,12 +63,12 @@ export class TicketsPurchaseComponent {
   }
 
   onClose(): void {
-    this.router.navigate(['/tickets']);
+    void this.router.navigate(['/tickets'], { queryParams: {} });
   }
 
+  /** Back to ticket grid (same tier rule: pick another pack / presale). */
   onChooseArea(): void {
-    // TODO: implement area-selection step.
-    // For now, keep the UX consistent with the design screenshot.
+    void this.router.navigate(['/tickets'], { queryParams: {} });
   }
 
   onContinue(): void {

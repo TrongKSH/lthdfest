@@ -13,8 +13,15 @@
   pointer-events: none;
 }
 
+/*
+ * Fixed header is z-index 100; .tickets-inner is z-index 1 (stacking context).
+ * Purchase modals use position:fixed + high z-index but stay inside that context,
+ * so they painted *under* the header. Lift the whole page above the header while open.
+ */
 /* Force reset any hover/focus-expanded state under the modal. */
 .tickets-page--modal-open {
+  z-index: 200;
+
   .tickets-presale,
   .tickets-pack {
     &:hover,
