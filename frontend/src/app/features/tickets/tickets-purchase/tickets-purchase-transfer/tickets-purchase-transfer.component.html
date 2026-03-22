@@ -72,12 +72,6 @@
           <p class="tt-submit-feedback tt-submit-error" role="alert">{{ submitError() }}</p>
         }
 
-        @if (submitSuccess()) {
-          <p class="tt-submit-feedback tt-submit-success" role="status">
-            Đã gửi biên lai thành công. Cảm ơn bạn!
-          </p>
-        }
-
         <button
           type="button"
           class="tt-submit"
@@ -94,4 +88,27 @@
       </section>
     </div>
   </div>
+
+  @if (submitSuccess()) {
+    <div class="tt-success-modal-root" aria-live="polite">
+      <div class="tt-success-modal-backdrop" aria-hidden="true"></div>
+      <div
+        class="tt-success-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tt-success-title"
+        aria-describedby="tt-success-desc"
+      >
+        <div class="tt-success-modal-card">
+          <h2 id="tt-success-title" class="tt-success-modal-title">Thanh toán thành công</h2>
+          <p id="tt-success-desc" class="tt-success-modal-text">
+            Đã gửi biên lai thành công. Cảm ơn bạn!
+          </p>
+          <button type="button" class="tt-success-modal-btn" (click)="finishAndGoHome()">
+            HOÀN THÀNH
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </div>

@@ -124,6 +124,15 @@ export class TicketsPurchaseTransferComponent {
     void this.router.navigate(['/tickets'], { queryParams: {} });
   }
 
+  /** After successful upload: close modal state and go to site homepage. */
+  finishAndGoHome(): void {
+    this.revokePreview();
+    this.selectedFile.set(null);
+    this.submitSuccess.set(false);
+    this.draftService.clearDraft();
+    void this.router.navigate(['/']);
+  }
+
   onBackToConfirm(): void {
     this.revokePreview();
     this.selectedFile.set(null);
