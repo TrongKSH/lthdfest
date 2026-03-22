@@ -159,6 +159,7 @@ public sealed class TicketPaymentProofsController : ControllerBase
                 DriveFileId = result.DriveFileId,
                 DriveWebViewLink = result.DriveWebViewLink,
                 GcsObjectUri = result.GcsObjectUri,
+                PaymentProofUrl = result.PaymentProofUrl,
             });
         }
         catch (Exception ex)
@@ -211,4 +212,7 @@ public sealed class TicketPaymentProofResponseDto
 
     /// <summary>Set when proofs are stored in Google Cloud Storage (e.g. personal projects without Shared Drive).</summary>
     public string? GcsObjectUri { get; set; }
+
+    /// <summary>Same URL appended to the Sheet <c>PaymentProof</c> column (GCS HTTPS or Drive web view).</summary>
+    public string? PaymentProofUrl { get; set; }
 }

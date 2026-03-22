@@ -43,12 +43,12 @@
         </p>
 
         <div class="tt-upload-controls">
+          <!-- No capture= — on phones, capture forces camera-only; omitting lets users pick from gallery or camera. -->
           <input
             id="transfer-proof-input"
             class="tt-file-input"
             type="file"
             accept="image/*"
-            capture="environment"
             aria-describedby="tt-upload-hint"
             [disabled]="submitting() || submitSuccess()"
             (change)="onFileSelected($event)"

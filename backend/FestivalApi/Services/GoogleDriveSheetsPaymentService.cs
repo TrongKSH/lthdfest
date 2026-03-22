@@ -48,7 +48,9 @@ public sealed class GoogleDriveSheetsPaymentService
         if (!_options.IsSheetsConfigured)
             throw new InvalidOperationException("Google Sheets payment config is not set.");
 
-        TicketPaymentProofResult proofMeta = new(null, null, null);
+        TicketPaymentProofResult proofMeta = new(null, null, null, null);
+        var paymentProofLinkLabel =
+            $"{SanitizePhoneForFileName(phone)}_{SanitizeTicketCodeForFileName(ticketCode)}_{qty}";
 
         if (_options.HasFileStorage)
         {
@@ -100,6 +102,8 @@ public sealed class GoogleDriveSheetsPaymentService
                 email,
                 ticketCode,
                 qty,
+                proofMeta.PaymentProofUrl,
+                paymentProofLinkLabel,
                 cancellationToken)
             .ConfigureAwait(false);
 
@@ -127,9 +131,10 @@ public sealed class GoogleDriveSheetsPaymentService
             .ConfigureAwait(false);
 
         var gs = $"gs://{_options.GcsBucketName}/{objectName}";
+        var httpsUrl = BuildGcsObjectHttpsUrl(_options.GcsBucketName!, objectName);
         _logger.LogInformation("Uploaded payment proof to GCS {Uri}", gs);
 
-        return new TicketPaymentProofResult(null, null, gs);
+        return new TicketPaymentProofResult(null, null, gs, httpsUrl);
     }
 
     private async Task<TicketPaymentProofResult> UploadToDriveAsync(
@@ -171,7 +176,8 @@ public sealed class GoogleDriveSheetsPaymentService
         }
 
         var driveFile = createRequest.ResponseBody;
-        return new TicketPaymentProofResult(driveFile.Id, driveFile.WebViewLink, null);
+        var link = driveFile.WebViewLink;
+        return new TicketPaymentProofResult(driveFile.Id, link, null, link);
     }
 
     private async Task AppendSheetRowAsync(
@@ -180,6 +186,8 @@ public sealed class GoogleDriveSheetsPaymentService
         string email,
         string ticketCode,
         int qty,
+        string? paymentProofUrl,
+        string paymentProofLinkLabel,
         CancellationToken cancellationToken)
     {
         var credential = CreateCredential(SheetsService.Scope.Spreadsheets);
@@ -191,8 +199,10 @@ public sealed class GoogleDriveSheetsPaymentService
         });
 
         var timestamp = DateTimeOffset.UtcNow.ToString("O", CultureInfo.InvariantCulture);
-        // Append API: use sheet title only (or e.g. Sheet1!A1:F). "Sheet1!A:F" is rejected with "Unable to parse range".
-        var range = FormatSheetTitleForAppend(_options.SheetsTabName);
+        // Append needs a bounded A1 range: unbounded "Sheet1!A:G" returns "Unable to parse range" on the API.
+        var sheetTitle = FormatSheetTitleForAppend(_options.SheetsTabName);
+        const int appendMaxRow = 100_000;
+        var range = $"{sheetTitle}!A1:G{appendMaxRow}";
         var valueRange = new ValueRange
         {
             Values = new IList<object>[]
@@ -205,6 +215,9 @@ public sealed class GoogleDriveSheetsPaymentService
                     email,
                     ticketCode,
                     qty,
+                    string.IsNullOrWhiteSpace(paymentProofUrl)
+                        ? string.Empty
+                        : paymentProofLinkLabel,
                 },
             },
         };
@@ -214,12 +227,48 @@ public sealed class GoogleDriveSheetsPaymentService
         appendRequest.InsertDataOption = SpreadsheetsResource.ValuesResource.AppendRequest.InsertDataOptionEnum.INSERTROWS;
 
         var appendResponse = await appendRequest.ExecuteAsync(cancellationToken).ConfigureAwait(false);
-        await ClearBoldOnAppendedRangeAsync(
-                sheets,
-                _options.SheetsSpreadsheetId!,
-                appendResponse,
-                cancellationToken)
-            .ConfigureAwait(false);
+        var updatedRange = appendResponse.Updates?.UpdatedRange;
+        if (string.IsNullOrEmpty(updatedRange)
+            || !TrySplitSheetTitleAndCellRange(updatedRange, out var parsedSheetTitle, out var parsedCellRange))
+        {
+            return;
+        }
+
+        try
+        {
+            var spreadsheet = await sheets.Spreadsheets.Get(_options.SheetsSpreadsheetId!)
+                .ExecuteAsync(cancellationToken)
+                .ConfigureAwait(false);
+
+            await ClearBoldOnAppendedRangeAsync(
+                    sheets,
+                    _options.SheetsSpreadsheetId!,
+                    spreadsheet,
+                    parsedSheetTitle,
+                    parsedCellRange,
+                    cancellationToken)
+                .ConfigureAwait(false);
+
+            if (!string.IsNullOrWhiteSpace(paymentProofUrl))
+            {
+                await ApplyPaymentProofLinkToColumnGAsync(
+                        sheets,
+                        _options.SheetsSpreadsheetId!,
+                        spreadsheet,
+                        parsedSheetTitle,
+                        parsedCellRange,
+                        paymentProofUrl,
+                        paymentProofLinkLabel,
+                        cancellationToken)
+                    .ConfigureAwait(false);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(
+                ex,
+                "Post-append sheet formatting (bold / PaymentProof link) failed; the row was still appended.");
+        }
     }
 
     /// <summary>
@@ -228,32 +277,11 @@ public sealed class GoogleDriveSheetsPaymentService
     private async Task ClearBoldOnAppendedRangeAsync(
         SheetsService sheets,
         string spreadsheetId,
-        AppendValuesResponse appendResponse,
+        Spreadsheet spreadsheet,
+        string sheetTitle,
+        string cellRange,
         CancellationToken cancellationToken)
     {
-        var updatedRange = appendResponse.Updates?.UpdatedRange;
-        if (string.IsNullOrEmpty(updatedRange))
-            return;
-
-        if (!TrySplitSheetTitleAndCellRange(updatedRange, out var sheetTitle, out var cellRange))
-        {
-            _logger.LogWarning("Could not parse appended range for format: {Range}", updatedRange);
-            return;
-        }
-
-        Spreadsheet spreadsheet;
-        try
-        {
-            spreadsheet = await sheets.Spreadsheets.Get(spreadsheetId)
-                .ExecuteAsync(cancellationToken)
-                .ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning(ex, "Could not load spreadsheet for format clear");
-            return;
-        }
-
         var grid = TryBuildGridRangeFromA1(spreadsheet, sheetTitle, cellRange);
         if (grid == null)
         {
@@ -292,6 +320,85 @@ public sealed class GoogleDriveSheetsPaymentService
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "Could not clear bold on appended row; values were still written.");
+        }
+    }
+
+    /// <summary>
+    /// Turns column G into a real Sheets hyperlink (display text already appended) — avoids <c>=HYPERLINK</c> locale errors (, vs ;).
+    /// </summary>
+    private async Task ApplyPaymentProofLinkToColumnGAsync(
+        SheetsService sheets,
+        string spreadsheetId,
+        Spreadsheet spreadsheet,
+        string sheetTitle,
+        string cellRange,
+        string paymentProofUrl,
+        string paymentProofLinkLabel,
+        CancellationToken cancellationToken)
+    {
+        const int columnGZeroBased = 6;
+        var gridG = TryBuildGridRangeForColumnIndex(spreadsheet, sheetTitle, cellRange, columnGZeroBased);
+        if (gridG == null)
+        {
+            _logger.LogWarning(
+                "Could not build column G grid range from {Sheet}!{Cells} for hyperlink",
+                sheetTitle,
+                cellRange);
+            return;
+        }
+
+        var rowCount = (int)(gridG.EndRowIndex ?? 0) - (int)(gridG.StartRowIndex ?? 0);
+        if (rowCount < 1)
+            return;
+
+        var rows = new List<RowData>(rowCount);
+        for (var i = 0; i < rowCount; i++)
+        {
+            rows.Add(
+                new RowData
+                {
+                    Values = new List<CellData>
+                    {
+                        new()
+                        {
+                            UserEnteredValue = new ExtendedValue { StringValue = paymentProofLinkLabel },
+                            UserEnteredFormat = new CellFormat
+                            {
+                                TextFormat = new TextFormat
+                                {
+                                    Link = new Link { Uri = paymentProofUrl },
+                                },
+                            },
+                        },
+                    },
+                });
+        }
+
+        var batch = new BatchUpdateSpreadsheetRequest
+        {
+            Requests = new List<Request>
+            {
+                new()
+                {
+                    UpdateCells = new UpdateCellsRequest
+                    {
+                        Range = gridG,
+                        Rows = rows,
+                        Fields = "userEnteredValue,userEnteredFormat.textFormat.link",
+                    },
+                },
+            },
+        };
+
+        try
+        {
+            await sheets.Spreadsheets.BatchUpdate(batch, spreadsheetId)
+                .ExecuteAsync(cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Could not apply PaymentProof hyperlink; plain text label was still written.");
         }
     }
 
@@ -367,6 +474,41 @@ public sealed class GoogleDriveSheetsPaymentService
             EndRowIndex = r2,
             StartColumnIndex = c1,
             EndColumnIndex = c2 + 1,
+        };
+    }
+
+    /// <summary>Same rows as the append A1 range, restricted to one column (e.g. G = index 6).</summary>
+    private static GridRange? TryBuildGridRangeForColumnIndex(
+        Spreadsheet spreadsheet,
+        string sheetTitle,
+        string cellRangePart,
+        int columnIndexZeroBased)
+    {
+        var sheet = spreadsheet.Sheets?.FirstOrDefault(sh => sh.Properties?.Title == sheetTitle);
+        if (sheet?.Properties?.SheetId == null)
+            return null;
+
+        var sheetId = sheet.Properties.SheetId.Value;
+
+        var m = Regex.Match(
+            cellRangePart.Trim(),
+            @"^([A-Za-z]+)(\d+):([A-Za-z]+)(\d+)$",
+            RegexOptions.CultureInvariant);
+        if (!m.Success)
+            return null;
+
+        var r1 = int.Parse(m.Groups[2].Value, CultureInfo.InvariantCulture);
+        var r2 = int.Parse(m.Groups[4].Value, CultureInfo.InvariantCulture);
+        var rowStart = Math.Min(r1, r2);
+        var rowEnd = Math.Max(r1, r2);
+
+        return new GridRange
+        {
+            SheetId = sheetId,
+            StartRowIndex = rowStart - 1,
+            EndRowIndex = rowEnd,
+            StartColumnIndex = columnIndexZeroBased,
+            EndColumnIndex = columnIndexZeroBased + 1,
         };
     }
 
@@ -467,6 +609,17 @@ public sealed class GoogleDriveSheetsPaymentService
         };
     }
 
+    /// <summary>
+    /// Public HTTPS URL for the object (opens in browser if the object/bucket allows public access; otherwise 403 for anonymous users).
+    /// </summary>
+    private static string BuildGcsObjectHttpsUrl(string bucket, string objectName)
+    {
+        var encodedObject = string.Join(
+            "/",
+            objectName.Split('/', StringSplitOptions.RemoveEmptyEntries).Select(Uri.EscapeDataString));
+        return $"https://storage.googleapis.com/{Uri.EscapeDataString(bucket)}/{encodedObject}";
+    }
+
     private static string EscapeSheetNameForRange(string tabName)
     {
         if (string.IsNullOrEmpty(tabName))
@@ -477,7 +630,7 @@ public sealed class GoogleDriveSheetsPaymentService
     }
 
     /// <summary>
-    /// A1 sheet title for <c>values.append</c>. Do not use <c>Sheet1!A:F</c> — API returns 400 Unable to parse range.
+    /// A1 sheet title for <c>values.append</c>. Unbounded ranges like <c>Sheet1!A:G</c> return 400 Unable to parse range — use <c>A1:G{N}</c>.
     /// </summary>
     private static string FormatSheetTitleForAppend(string? tabName)
     {
@@ -491,4 +644,6 @@ public sealed class GoogleDriveSheetsPaymentService
 public sealed record TicketPaymentProofResult(
     string? DriveFileId,
     string? DriveWebViewLink,
-    string? GcsObjectUri);
+    string? GcsObjectUri,
+    /// <summary>URL written to the Sheet <c>PaymentProof</c> column (Drive web view or GCS HTTPS).</summary>
+    string? PaymentProofUrl);
