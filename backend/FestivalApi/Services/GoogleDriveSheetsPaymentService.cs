@@ -385,7 +385,8 @@ public sealed class GoogleDriveSheetsPaymentService
 
     private GoogleCredential CreateCredential(params string[] scopes)
     {
-        var jsonBytes = Encoding.UTF8.GetBytes(_options.ServiceAccountJson!);
+        var normalizedJson = GoogleServiceAccountJsonNormalizer.Normalize(_options.ServiceAccountJson);
+        var jsonBytes = Encoding.UTF8.GetBytes(normalizedJson);
         using var credentialStream = new MemoryStream(jsonBytes, writable: false);
 #pragma warning disable CS0618
         return GoogleCredential.FromStream(credentialStream).CreateScoped(scopes);

@@ -61,3 +61,5 @@ Use **`dotnet user-secrets`** (with an **s** in `user-secrets`).
 | **503** | Service account JSON + spreadsheet id set? Sheet shared with SA? |
 | **502** on append | Sheet id, tab name, and APIs (Sheets API enabled in GCP). |
 | **403** / Drive quota | You enabled Drive upload without Shared Drive — use GCS or sheets-only until bucket exists. |
+| **`PKCS8 data must be contained within BEGIN PRIVATE KEY`** (Render/env) | The `Google__Payment__ServiceAccountJson` value is mangled. Use the **full** JSON from GCP. On Render, paste as a **Secret**; prefer **one line**: `jq -c . your-key.json` then paste the output. Do not strip `private_key` or break newlines inside the JSON string. |
+
