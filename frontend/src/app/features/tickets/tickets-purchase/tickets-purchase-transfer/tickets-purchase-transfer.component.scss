@@ -296,7 +296,10 @@
 .tt-success-modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.72);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url('/assets/images/lthd-ticker-background.jpg') center / cover no-repeat;
+  opacity: 0.3;
   pointer-events: auto;
 }
 
@@ -338,18 +341,24 @@
 
 .tt-success-modal-btn {
   width: 100%;
-  min-height: 52px;
-  padding: 14px 24px;
+  height: 64px;
+  padding: 0;
   border: 0;
   border-radius: 999px;
-  background: var(--lthd-cta-gradient-alt);
+  background: none;
+  background-color: transparent;
+  background-image: url('/assets/images/background-button.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
   font-family: 'Inter', sans-serif;
   font-size: 16px;
   font-weight: 900;
   letter-spacing: 0.06em;
   color: #000000;
   cursor: pointer;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: none;
+  text-transform: uppercase;
   transition: transform 0.15s ease, opacity 0.15s ease;
 
   &:hover {
