@@ -163,6 +163,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .tp-continue:disabled {
@@ -190,15 +192,18 @@
   }
 
   .tp-close {
-    position: sticky;
-    top: 0;
-    margin-left: auto;
-    right: auto;
-    display: block;
-    width: 36px;
-    height: 36px;
-    background: rgba(255, 255, 255, 0.9);
+    position: fixed;
+    top: calc(env(safe-area-inset-top, 0px) + 10px);
+    right: calc(env(safe-area-inset-right, 0px) + 10px);
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(0, 0, 0, 0.18);
     border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    z-index: 10001;
   }
 
   .tp-title {
@@ -254,7 +259,19 @@
 
   .tp-continue {
     margin-top: 10px;
-    height: 62px;
+    margin-bottom: calc(env(safe-area-inset-bottom, 0px) + 4px);
+    min-height: 64px;
+    height: 64px;
+    position: sticky;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 4px);
+    z-index: 3;
+    background: #fff;
+    border: 1px solid #d8d8d8;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  .tp-continue-img {
+    pointer-events: none;
   }
 }
 
