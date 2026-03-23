@@ -108,3 +108,31 @@ Use **`dotnet user-secrets`** (with an **s** in `user-secrets`).
 | **403** / GCS `AccessDenied` | Bucket name correct? Service account has **Storage Object Admin** on **this** bucket? Cloud Storage API enabled? |
 | **`PKCS8 data must be contained within BEGIN PRIVATE KEY`** (Render/env) | The `Google__Payment__ServiceAccountJson` value is mangled. Use the **full** JSON from GCP. On Render, paste as a **Secret**; prefer **one line**: `jq -c . your-key.json` then paste the output. Do not strip `private_key` or break newlines inside the JSON string. |
 
+---
+
+## GCP Cloud Run deployment (staging)
+
+Use `cloudbuild.yaml` in this folder for build + deploy.
+
+### Required Secret Manager secrets
+
+- `google-payment-sa-json` -> maps to `Google__Payment__ServiceAccountJson`
+- `google-payment-sheets-spreadsheet-id` -> maps to `Google__Payment__SheetsSpreadsheetId`
+- `google-payment-sheets-tab-name` -> maps to `Google__Payment__SheetsTabName`
+- `google-payment-disable-file-storage` -> maps to `Google__Payment__DisableFileStorage`
+- `cors-allowed-origins` -> maps to `CORS_ALLOWED_ORIGINS`
+
+### Health endpoint
+
+- `GET /healthz` returns `200` with `{ "status": "ok" }`
+
+### Runtime baseline
+
+- `min-instances=1`
+- `concurrency=30`
+- `cpu=1`
+- `memory=512Mi`
+- `timeout=30s`
+
+These values are defaults in `cloudbuild.yaml` and can be overridden with Cloud Build substitutions.
+

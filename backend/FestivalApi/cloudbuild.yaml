@@ -1,0 +1,69 @@
+substitutions:
+  _REGION: asia-southeast1
+  _REPOSITORY: lthdfest-repo
+  _SERVICE_NAME: festival-api-staging
+  _IMAGE_NAME: festival-api
+  _ENV: staging
+  _MIN_INSTANCES: "1"
+  _MAX_INSTANCES: "10"
+  _CONCURRENCY: "30"
+  _CPU: "1"
+  _MEMORY: 512Mi
+  _TIMEOUT: "30"
+  _CORS_SECRET: cors-allowed-origins
+  _SERVICE_ACCOUNT_JSON_SECRET: google-payment-sa-json
+  _SHEETS_SPREADSHEET_ID_SECRET: google-payment-sheets-spreadsheet-id
+  _SHEETS_TAB_NAME_SECRET: google-payment-sheets-tab-name
+  _DISABLE_FILE_STORAGE_SECRET: google-payment-disable-file-storage
+
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:${SHORT_SHA}
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:${_ENV}
+      - .
+
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:${SHORT_SHA}
+
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:${_ENV}
+
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - ${_SERVICE_NAME}
+      - --image
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:${SHORT_SHA}
+      - --region
+      - ${_REGION}
+      - --platform
+      - managed
+      - --allow-unauthenticated
+      - --min-instances
+      - ${_MIN_INSTANCES}
+      - --max-instances
+      - ${_MAX_INSTANCES}
+      - --concurrency
+      - ${_CONCURRENCY}
+      - --cpu
+      - ${_CPU}
+      - --memory
+      - ${_MEMORY}
+      - --timeout
+      - ${_TIMEOUT}
+      - --set-secrets
+      - CORS_ALLOWED_ORIGINS=${_CORS_SECRET}:latest,Google__Payment__ServiceAccountJson=${_SERVICE_ACCOUNT_JSON_SECRET}:latest,Google__Payment__SheetsSpreadsheetId=${_SHEETS_SPREADSHEET_ID_SECRET}:latest,Google__Payment__SheetsTabName=${_SHEETS_TAB_NAME_SECRET}:latest,Google__Payment__DisableFileStorage=${_DISABLE_FILE_STORAGE_SECRET}:latest
+
+images:
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:${SHORT_SHA}
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:${_ENV}

@@ -1,0 +1,19 @@
+substitutions:
+  _FIREBASE_PROJECT_ID: replace-with-your-firebase-project-id
+  _HOSTING_TARGET: staging
+
+steps:
+  - name: node:22
+    entrypoint: bash
+    args:
+      - -c
+      - npm ci && npm run build
+
+  - name: node:22
+    entrypoint: bash
+    args:
+      - -c
+      - npm i -g firebase-tools && firebase deploy --project ${_FIREBASE_PROJECT_ID} --only hosting:${_HOSTING_TARGET}
+
+options:
+  logging: CLOUD_LOGGING_ONLY

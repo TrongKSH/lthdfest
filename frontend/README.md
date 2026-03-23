@@ -57,3 +57,29 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## GCP/Firebase deployment
+
+This frontend is deployed as static assets to Firebase Hosting.
+
+### Build
+
+```bash
+npm ci
+npm run build:prod
+```
+
+### Runtime API configuration
+
+The app loads `public/runtime-config.js` before Angular bootstrap. Set these globals per environment:
+
+- `globalThis.__LT_HD_API_URL__` (example `https://api-staging.longtranhhodau.xyz`)
+- `globalThis.__LT_HD_PAYMENT_PROOF_IMAGE_OPTIONAL__` (`true` for sheets-only mode)
+
+`runtime-config.js` is configured as `Cache-Control: no-store` in `firebase.json` so API endpoint changes apply immediately after deploy.
+
+### Firebase Hosting notes
+
+- Hosting config file: `firebase.json`
+- Project alias file: `.firebaserc` (replace placeholder project id)
+- Suggested staging domain: `staging.longtranhhodau.xyz`

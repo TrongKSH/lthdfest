@@ -96,6 +96,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
+app.MapGet("/healthz", () => Results.Ok(new { status = "ok" }));
 app.MapControllers();
 
 app.Run();
