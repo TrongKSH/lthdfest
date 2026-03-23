@@ -72,7 +72,7 @@ public static class BandSeedData
             Name = "Elbow Drop",
             Bio = "",
             HeroUrl = "/assets/bands/elbowdrop/hero.jpg",
-            LogoUrl = "/assets/bands/elbowdrop/logo.png",
+            LogoUrl = "/assets/bands/elbowdrop/logo1.png",
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 7
         },
