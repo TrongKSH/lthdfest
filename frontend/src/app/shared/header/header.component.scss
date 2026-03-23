@@ -38,8 +38,7 @@
 
   &:hover,
   &:focus-visible {
-    outline: 2px solid var(--lthd-text);
-    outline-offset: 4px;
+    outline: none;
   }
 }
 
@@ -236,8 +235,8 @@
   .menu-btn {
     display: flex;
     z-index: 1200; /* above full-screen .nav so second tap reaches toggle */
-    background: rgba(0, 0, 0, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    background: transparent;
+    border: none;
     border-radius: 2px;
   }
 
