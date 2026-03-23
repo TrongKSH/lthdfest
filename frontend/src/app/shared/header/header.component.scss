@@ -3,7 +3,7 @@
   left: 0;
   top: 0;
   right: 0;
-  z-index: 100;
+  z-index: 1000;
   height: var(--lthd-header-height, 88px);
   padding-top: env(safe-area-inset-top, 0);
   display: flex;
@@ -235,48 +235,58 @@
 
   .menu-btn {
     display: flex;
-    z-index: 120; /* above full-screen .nav (110) so second tap reaches toggle */
+    z-index: 1200; /* above full-screen .nav so second tap reaches toggle */
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 2px;
   }
 
   .nav {
+    display: none;
+  }
+
+  .mobile-drawer {
     position: fixed;
-    inset: 0;
-    left: 0;
-    top: 0;
-    z-index: 110;
-    transform: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: var(--lthd-space-6, 1.5rem);
-    background: #000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
-  }
+    top: calc(var(--lthd-header-height, 88px) + 0.5rem);
+    left: var(--lthd-gutter, 1rem);
+    width: min(420px, calc(100vw - (2 * var(--lthd-gutter, 1rem))));
+    max-height: calc(100dvh - var(--lthd-header-height, 88px) - 1rem);
+    z-index: 1100;
+    padding: 0.8rem 0;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(0, 0, 0, 0.92);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+    overflow-y: auto;
+    -ms-overflow-style: none; /* IE/Edge legacy */
+    scrollbar-width: none; /* Firefox */
 
-  .nav.nav--open {
-    opacity: 1;
-    visibility: visible;
-    background: #000;
-    pointer-events: none;
-  }
-
-  .nav.nav--open .nav-link {
-    pointer-events: auto;
+    &::-webkit-scrollbar {
+      display: none; /* Chrome/Safari/Edge */
+      width: 0;
+      height: 0;
+    }
   }
 
   .nav-link {
     min-height: 48px;
     padding: var(--lthd-space-4, 1rem);
-  }
-
-  .nav-desktop {
-    display: none;
+    color: #fff;
   }
 
   .nav-mobile {
     display: flex;
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+    padding: 0 var(--lthd-gutter, 1.25rem) 0.35rem;
+    gap: var(--lthd-space-6, 1.5rem);
+    text-align: left;
+    color: #fff;
+  }
+
+  .nav-group-title {
+    color: #fff;
   }
 
   .header--nav-open .logo-link {
@@ -288,5 +298,11 @@
 @media (max-width: 600px) {
   .logo-wrap {
     width: 140px;
+  }
+
+  .mobile-drawer {
+    top: calc(var(--lthd-header-height, 56px) + 0.5rem);
+    width: calc(100vw - (2 * var(--lthd-gutter, 1rem)));
+    max-height: calc(100dvh - var(--lthd-header-height, 56px) - 1rem);
   }
 }

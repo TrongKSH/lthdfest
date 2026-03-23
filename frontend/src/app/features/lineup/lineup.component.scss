@@ -172,10 +172,16 @@
   min-width: 0;
   max-width: 100%;
   width: 100%;
-  height: clamp(104px, 26vw, 132px);
+  height: clamp(112px, 28vw, 140px);
   object-fit: contain;
   object-position: center;
   filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
+  transform: scale(1);
+  transform-origin: center;
+}
+
+.lineup-card__logo--boost {
+  transform: scale(2.0);
 }
 
 .lineup-card__name {

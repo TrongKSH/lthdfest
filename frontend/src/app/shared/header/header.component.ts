@@ -32,7 +32,9 @@ export class HeaderComponent {
       if (!this.menuOpen()) {
         return;
       }
+      const isMobileViewport = window.matchMedia('(max-width: 1024px)').matches;
       const onScroll = (): void => {
+        if (isMobileViewport) return;
         this.closeMenu();
       };
       /** Close when tapping anywhere except hamburger, nav links, or logo */
@@ -42,6 +44,7 @@ export class HeaderComponent {
         if (t.closest('.menu-btn')) return;
         if (t.closest('.nav-link')) return;
         if (t.closest('.nav')) return;
+        if (t.closest('.mobile-drawer')) return;
         if (t.closest('.logo-link')) return;
         this.closeMenu();
       };

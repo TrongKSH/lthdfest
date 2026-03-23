@@ -55,7 +55,12 @@
         @for (band of filteredBands(); track band.id) {
           <a class="lineup-card" [routerLink]="['/bands', band.id]" [attr.aria-label]="'Nghệ sĩ ' + band.name">
             @if (band.logoUrl) {
-              <img class="lineup-card__logo" [src]="band.logoUrl" [alt]="band.name + ' logo'" />
+              <img
+                class="lineup-card__logo"
+                [class.lineup-card__logo--boost]="shouldBoostLogo(band.name)"
+                [src]="band.logoUrl"
+                [alt]="band.name + ' logo'"
+              />
             } @else {
               <span class="lineup-card__name">{{ band.name }}</span>
             }

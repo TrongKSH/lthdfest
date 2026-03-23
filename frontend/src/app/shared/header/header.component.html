@@ -143,6 +143,25 @@
       </div>
     </div>
 
+  </nav>
+  <a
+    href="/"
+    class="logo-wrap logo-link"
+    aria-label="Soul, Commerce and Info — Về trang chủ"
+    (click)="onLogoClick($event)"
+  >
+    <img
+      class="logo"
+      src="/assets/images/lthd-logo.png"
+      alt="Soul, Commerce and Info"
+      width="269"
+      height="120"
+    />
+  </a>
+</header>
+
+@if (menuOpen()) {
+  <div class="mobile-drawer" aria-label="Main navigation">
     <div class="nav-mobile">
       <div class="nav-group">
         <div class="nav-group-title">Soul</div>
@@ -207,19 +226,5 @@
         </a>
       </div>
     </div>
-  </nav>
-  <a
-    href="/"
-    class="logo-wrap logo-link"
-    aria-label="Soul, Commerce and Info — Về trang chủ"
-    (click)="onLogoClick($event)"
-  >
-    <img
-      class="logo"
-      src="/assets/images/lthd-logo.png"
-      alt="Soul, Commerce and Info"
-      width="269"
-      height="120"
-    />
-  </a>
-</header>
+  </div>
+}

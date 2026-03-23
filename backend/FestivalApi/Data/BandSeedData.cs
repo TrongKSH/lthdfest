@@ -62,7 +62,7 @@ public static class BandSeedData
             Name = "Die So Far",
             Bio = "",
             HeroUrl = "/assets/bands/diesofar/hero.JPG",
-            LogoUrl = null,
+            LogoUrl = "/assets/bands/diesofar/logo.png",
             LineupDay = LineupDay.HoDau,
             LineupPosition = 6
         },
@@ -72,7 +72,7 @@ public static class BandSeedData
             Name = "Elbow Drop",
             Bio = "",
             HeroUrl = "/assets/bands/elbowdrop/hero.jpg",
-            LogoUrl = "/assets/bands/elbowdrop/logo.PNG",
+            LogoUrl = "/assets/bands/elbowdrop/logo.png",
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 7
         },
@@ -102,7 +102,7 @@ public static class BandSeedData
             Name = "Kinh",
             Bio = "",
             HeroUrl = "/assets/bands/kinh/hero.jpg",
-            LogoUrl = null,
+            LogoUrl = "/assets/bands/kinh/logo.png",
             LineupDay = LineupDay.HoDau,
             LineupPosition = 10
         },
@@ -112,7 +112,7 @@ public static class BandSeedData
             Name = "Nhao",
             Bio = "",
             HeroUrl = "/assets/bands/nhao/hero.jpeg",
-            LogoUrl = "/assets/bands/nhao/logo.jpeg",
+            LogoUrl = "/assets/bands/nhao/logo.png",
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 11
         },
@@ -132,7 +132,7 @@ public static class BandSeedData
             Name = "Song Am",
             Bio = "",
             HeroUrl = "/assets/bands/songam/hero.png",
-            LogoUrl = null,
+            LogoUrl = "/assets/bands/songam/logo.png",
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 13
         },
@@ -182,7 +182,7 @@ public static class BandSeedData
             Name = "9xactly",
             Bio = "",
             HeroUrl = "/assets/bands/9xactly/hero.png",
-            LogoUrl = null,
+            LogoUrl = "/assets/bands/9xactly/logo.png",
             LineupDay = LineupDay.HoDau,
             LineupPosition = 18
         },
@@ -192,7 +192,7 @@ public static class BandSeedData
             Name = "Diarsia",
             Bio = "",
             HeroUrl = "/assets/bands/diarsia/hero.png",
-            LogoUrl = null,
+            LogoUrl = "/assets/bands/diarsia/logo.png",
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 19
         },
@@ -252,7 +252,7 @@ public static class BandSeedData
             Name = "CLB Guitar Go",
             Bio = "",
             HeroUrl = "/assets/bands/clbguitargo/hero.png",
-            LogoUrl = null,
+            LogoUrl = "/assets/bands/clbguitargo/logo.png",
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 25
         }

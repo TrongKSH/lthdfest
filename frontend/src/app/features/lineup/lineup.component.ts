@@ -14,6 +14,13 @@ type LineupFilter = 'all' | 'longtranh' | 'hodau';
 })
 export class LineupComponent {
   private readonly bandService = inject(BandService);
+  private readonly compactLogoBands = new Set([
+    'blackindustry',
+    'cutlon',
+    'empathize',
+    'elbowdrop',
+    'underpressure'
+  ]);
   protected readonly activeFilter = signal<LineupFilter>('all');
   protected readonly activeFilterIndex = computed(() => {
     const f = this.activeFilter();
@@ -35,6 +42,11 @@ export class LineupComponent {
 
   private belongsToFilter(band: Band, filter: Exclude<LineupFilter, 'all'>): boolean {
     return filter === 'longtranh' ? band.lineupDay === 'LongTranh' : band.lineupDay === 'HoDau';
+  }
+
+  protected shouldBoostLogo(bandName: string): boolean {
+    const key = bandName.toLowerCase().replace(/[^a-z0-9]/g, '');
+    return this.compactLogoBands.has(key);
   }
 }
 
