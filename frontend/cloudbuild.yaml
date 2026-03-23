@@ -1,6 +1,5 @@
 substitutions:
   _FIREBASE_PROJECT_ID: replace-with-your-firebase-project-id
-  _HOSTING_TARGET: staging
 
 steps:
   - name: node:22
@@ -13,7 +12,7 @@ steps:
     entrypoint: bash
     args:
       - -c
-      - cd frontend && npm i -g firebase-tools && firebase deploy --project ${_FIREBASE_PROJECT_ID} --only hosting:${_HOSTING_TARGET}
+      - cd frontend && npm i -g firebase-tools && firebase deploy --project ${_FIREBASE_PROJECT_ID} --only hosting
 
 options:
   logging: CLOUD_LOGGING_ONLY
