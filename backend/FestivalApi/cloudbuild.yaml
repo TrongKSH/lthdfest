@@ -20,11 +20,13 @@ steps:
   - name: gcr.io/cloud-builders/docker
     args:
       - build
+      - -f
+      - backend/FestivalApi/Dockerfile
       - -t
       - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:${SHORT_SHA}
       - -t
       - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:${_ENV}
-      - .
+      - backend/FestivalApi
 
   - name: gcr.io/cloud-builders/docker
     args:
