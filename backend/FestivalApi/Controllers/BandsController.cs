@@ -9,6 +9,13 @@ namespace FestivalApi.Controllers;
 public class BandsController : ControllerBase
 {
     private readonly FestivalDbContext _db;
+    public sealed record LineupBandDto(
+        int Id,
+        string Name,
+        string? LogoUrl,
+        Models.LineupDay LineupDay,
+        int LineupPosition
+    );
 
     public BandsController(FestivalDbContext db)
     {
@@ -23,7 +30,7 @@ public class BandsController : ControllerBase
         [FromQuery] bool featured = false,
         CancellationToken cancellationToken = default)
     {
-        var query = _db.Bands.OrderBy(b => b.LineupPosition).AsQueryable();
+        var query = _db.Bands.AsNoTracking().OrderBy(b => b.LineupPosition).AsQueryable();
         if (featured)
         {
             // For MVP: treat first N as featured, or add a Featured flag to Band later
@@ -34,12 +41,36 @@ public class BandsController : ControllerBase
     }
 
     /// <summary>
+    /// Lightweight lineup payload for logo grid rendering.
+    /// </summary>
+    [HttpGet("lineup")]
+    public async Task<ActionResult<IEnumerable<LineupBandDto>>> GetLineupBands(
+        CancellationToken cancellationToken = default)
+    {
+        var bands = await _db.Bands
+            .AsNoTracking()
+            .OrderBy(b => b.LineupPosition)
+            .Select(b => new LineupBandDto(
+                b.Id,
+                b.Name,
+                b.LogoUrl,
+                b.LineupDay,
+                b.LineupPosition
+            ))
+            .ToListAsync(cancellationToken);
+
+        return Ok(bands);
+    }
+
+    /// <summary>
     /// Get a single band by id for detail page or modal.
     /// </summary>
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Models.Band>> GetBand(int id, CancellationToken cancellationToken = default)
     {
-        var band = await _db.Bands.FindAsync([id], cancellationToken);
+        var band = await _db.Bands
+            .AsNoTracking()
+            .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
         if (band == null)
             return NotFound();
         return Ok(band);

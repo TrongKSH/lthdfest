@@ -9,3 +9,11 @@ export interface Band {
   lineupDay: LineupDay;
   lineupPosition: number;
 }
+
+export interface LineupBand {
+  id: number;
+  name: string;
+  logoUrl?: string;
+  lineupDay: LineupDay;
+  lineupPosition: number;
+}

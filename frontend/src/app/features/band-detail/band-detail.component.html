@@ -10,6 +10,9 @@
             class="thumb"
             [class.thumb--pan-vertical]="heroPanVertical()"
             (load)="onHeroImgLoad($event)"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
           />
         }
         <div class="hero-overlay"></div>
