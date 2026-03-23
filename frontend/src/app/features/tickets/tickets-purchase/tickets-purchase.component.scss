@@ -10,16 +10,19 @@
   padding: max(24px, env(safe-area-inset-top, 0px)) max(24px, env(safe-area-inset-right, 0px))
     max(24px, env(safe-area-inset-bottom, 0px)) max(24px, env(safe-area-inset-left, 0px));
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .tp-modal {
   width: min(480px, 100%);
+  max-height: calc(100dvh - max(48px, env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px)));
   background: #ffffff;
   color: #0a0a0a;
   border-radius: 24px;
   padding: 44px 22px 22px;
   position: relative;
   z-index: 1; /* keep modal above the dimming layer */
+  overflow-y: auto;
 }
 
 .tp-close {
@@ -34,6 +37,7 @@
   line-height: 1;
   color: #1a1a1a;
   cursor: pointer;
+  z-index: 2;
 }
 
 .tp-title {
@@ -170,5 +174,87 @@
   height: 100%;
   object-fit: contain; /* prevent cutting the border when height changes */
   display: block;
+}
+
+@media (max-width: 600px), (max-height: 760px) {
+  .tp-overlay {
+    align-items: flex-start;
+    padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px))
+      max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+  }
+
+  .tp-modal {
+    max-height: calc(100dvh - max(24px, env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px)));
+    border-radius: 18px;
+    padding: 40px 14px 14px;
+  }
+
+  .tp-close {
+    position: sticky;
+    top: 0;
+    margin-left: auto;
+    right: auto;
+    display: block;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 999px;
+  }
+
+  .tp-title {
+    font-size: 28px;
+  }
+
+  .tp-sub {
+    font-size: 14px;
+  }
+
+  .tp-section-title {
+    margin-top: 18px;
+    font-size: 18px;
+  }
+
+  .tp-stepper {
+    gap: 8px;
+  }
+
+  .tp-stepper-btn {
+    width: 76px;
+    height: 66px;
+    font-size: 38px;
+  }
+
+  .tp-qty-box {
+    width: 96px;
+    height: 66px;
+  }
+
+  .tp-qty-input {
+    font-size: 30px;
+  }
+
+  .tp-perks {
+    margin-top: 16px;
+    border-radius: 18px;
+    padding: 14px 16px;
+  }
+
+  .tp-perks-title {
+    font-size: 18px;
+  }
+
+  .tp-perks-list {
+    font-size: 18px;
+  }
+
+  .tp-area-link {
+    margin-top: 14px;
+    font-size: 18px;
+  }
+
+  .tp-continue {
+    margin-top: 10px;
+    height: 62px;
+  }
 }
 
