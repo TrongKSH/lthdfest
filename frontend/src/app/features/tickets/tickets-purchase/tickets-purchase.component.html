@@ -45,7 +45,7 @@
     <section class="tp-perks">
       <h3 class="tp-perks-title">Quyền lợi nhận tại sự kiện:</h3>
       <ul class="tp-perks-list">
-        @for (perk of perks; track perk) {
+        @for (perk of perks(); track perk) {
           <li>{{ perk }}</li>
         }
       </ul>

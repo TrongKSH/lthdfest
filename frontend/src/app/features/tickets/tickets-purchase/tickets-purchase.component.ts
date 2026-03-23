@@ -2,7 +2,18 @@ import { Component, ChangeDetectionStrategy, signal, computed, inject, input, ef
 import { Router } from '@angular/router';
 import { getTicketPricing, PRESALE, TICKET_PACKS, type TicketPack } from '../tickets-content';
 
-const PERKS = ['vé 2 ngày', 'vòng tay', 'LTHD passport'] as const;
+const DEFAULT_PERKS = ['Vé 2 ngày', 'Vòng tay', 'LTHĐ passport'] as const;
+const LONG_TRANH_PERKS = ['Vé 1 ngày 08/05/2026', 'Vòng tay', 'LTHĐ passport'] as const;
+const HO_DAU_PERKS = ['Vé 1 ngày 09/05/2026', 'Vòng tay', 'LTHĐ passport'] as const;
+const BROTHERHOOD_PERKS = ['2 vé 2 ngày', '2 vòng tay', '2 LTHĐ passport'] as const;
+const METALHEAD_PERKS = ['Vé 2 ngày', 'Áo thun Official Merch 350.000đ', '2 phần nước'] as const;
+const VIP_PERKS = [
+  'Vé 2 ngày',
+  'Áo thun Merch (phiên bản đặc biệt)',
+  'Uống bia free-flow (không giới hạn) trong 2 khung giờ vàng',
+  'Lối đi fast-track không xếp hàng',
+  'Khu vực phòng VIP',
+] as const;
 
 @Component({
   selector: 'app-tickets-purchase',
@@ -19,7 +30,15 @@ export class TicketsPurchaseComponent {
 
   readonly quantity = signal(0);
 
-  readonly perks = PERKS;
+  readonly perks = computed<readonly string[]>(() => {
+    const t = this.type();
+    if (t === 'longtranh') return LONG_TRANH_PERKS;
+    if (t === 'hodau') return HO_DAU_PERKS;
+    if (t === 'brotherhood') return BROTHERHOOD_PERKS;
+    if (t === 'metalhead') return METALHEAD_PERKS;
+    if (t === 'vip') return VIP_PERKS;
+    return DEFAULT_PERKS;
+  });
 
   readonly continueImgSrc = computed(() =>
     this.quantity() > 0

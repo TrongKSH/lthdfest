@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  FESTIVAL_WHERE,
-  FESTIVAL_WHEN,
+  getPurchaseHeaderMeta,
   getPurchaseHeaderTitle,
   getTicketPricing,
 } from '../../tickets-content';
@@ -51,8 +50,9 @@ export class TicketsPurchaseInfoComponent {
   readonly subtotalVnd = computed(() => this.quantity() * this.unitPriceVnd());
 
   readonly headerTitle = computed(() => getPurchaseHeaderTitle(this.type()));
-  readonly headerWhen = FESTIVAL_WHEN;
-  readonly headerWhere = FESTIVAL_WHERE;
+  readonly headerMeta = computed(() => getPurchaseHeaderMeta(this.type()));
+  readonly headerWhen = computed(() => this.headerMeta().when);
+  readonly headerWhere = computed(() => this.headerMeta().where);
 
   readonly continueEnabled = computed(() => {
     if (!this.pricing()) return false;

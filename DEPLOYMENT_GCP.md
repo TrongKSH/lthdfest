@@ -27,13 +27,13 @@ In GCP Console for your staging project:
 
 1. Enable billing.
 2. Enable APIs:
-   - Cloud Run API
-   - Cloud Build API
-   - Artifact Registry API
-   - Secret Manager API
+  - Cloud Run API
+  - Cloud Build API
+  - Artifact Registry API
+  - Secret Manager API
 3. Create Artifact Registry Docker repo:
-   - Name: `lthdfest-repo`
-   - Region: `asia-southeast1`
+  - Name: `lthdfest-repo`
+  - Region: `asia-southeast1`
 
 ## 3) Secret Manager setup
 
@@ -118,9 +118,9 @@ Important caching behavior:
 After deploy and DNS propagation:
 
 1. Frontend loads:
-   - `https://staging.longtranhhodau.xyz`
+  - `https://staging.longtranhhodau.xyz`
 2. API reachable:
-   - `https://api-staging.longtranhhodau.xyz/healthz`
+  - `https://api-staging.longtranhhodau.xyz/healthz`
 3. Browser CORS works from staging frontend to staging API.
 4. Submit one test payment proof flow.
 5. Confirm new row appears in Google Sheet.
@@ -148,8 +148,8 @@ Repeat same setup in production:
 2. Create production secrets in Secret Manager.
 3. Set production runtime config values.
 4. Map new domain:
-   - `www.<new-domain>` -> Firebase Hosting
-   - `api.<new-domain>` -> Cloud Run
+  - `www.<new-domain>` -> Firebase Hosting
+  - `api.<new-domain>` -> Cloud Run
 5. Keep staging domain as rollback during initial launch window.
 
 ## 10) Troubleshooting quick reference
@@ -164,3 +164,4 @@ Repeat same setup in production:
   - Update `frontend/public/runtime-config.js` and redeploy Hosting.
 - **Slow first request**
   - Confirm Cloud Run min instances is `1`.
+

@@ -12,8 +12,7 @@ import { ActivatedRoute, Router, type ParamMap } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import {
-  FESTIVAL_WHERE,
-  FESTIVAL_WHEN,
+  getPurchaseHeaderMeta,
   getPurchaseHeaderTitle,
   getTicketPricing,
 } from '../../tickets-content';
@@ -61,8 +60,12 @@ export class TicketsPurchaseTransferComponent {
     return t ? getPurchaseHeaderTitle(t) : '';
   });
 
-  readonly headerWhen = FESTIVAL_WHEN;
-  readonly headerWhere = FESTIVAL_WHERE;
+  readonly headerMeta = computed(() => {
+    const t = this.purchaseType();
+    return t ? getPurchaseHeaderMeta(t) : getPurchaseHeaderMeta('presale');
+  });
+  readonly headerWhen = computed(() => this.headerMeta().when);
+  readonly headerWhere = computed(() => this.headerMeta().where);
 
   /** When true, user may submit without an image (API sheets-only). */
   readonly paymentProofImageOptional = environment.paymentProofImageOptional;

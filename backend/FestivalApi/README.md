@@ -26,7 +26,7 @@ dotnet user-secrets set "Google:Payment:DisableFileStorage" "true"
 
 (or remove `DrivePaymentRootFolderId` entirely).
 
-Then each successful POST **appends one row** (A–G). Column **G** (`PaymentProof`) shows **`{phone}_{ticketCode}_{qty}`** (e.g. `0903822904_LTHD_PRE_4`) as a **real Sheets link** (via API `TextFormat.Link`, not a `=HYPERLINK` formula), so it works for **all locales** (no `,` vs `;` formula errors). It stays empty for sheets-only mode. The **`file`** field is **optional** when file storage is off; if the client sends an image, it is read and discarded (not stored) until you enable storage.
+Then each successful POST **appends one row** (A–G). Column **G** (`PaymentProof`) shows **`{phone}_{ticketCode}_{qty}`** (e.g. `0903822904_LTHD-GA2D_4`) as a **real Sheets link** (via API `TextFormat.Link`, not a `=HYPERLINK` formula), so it works for **all locales** (no `,` vs `;` formula errors). It stays empty for sheets-only mode. The **`file`** field is **optional** when file storage is off; if the client sends an image, it is read and discarded (not stored) until you enable storage.
 
 When you add a bucket or Shared Drive folder later, set `DisableFileStorage` to `false`, set `GcsBucketName` and/or `DrivePaymentRootFolderId`, and the API will **require** `file` and persist the image.
 

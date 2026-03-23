@@ -17,8 +17,8 @@
           <h2 class="tickets-presale__title">{{ presale.title }}</h2>
           <p class="tickets-presale__event">{{ presale.eventName }}</p>
           <hr class="tickets-presale__rule" />
-          <p class="tickets-presale__line">{{ presale.when }}</p>
-          <p class="tickets-presale__line tickets-presale__line--place">{{ presale.where }}</p>
+          <p class="tickets-presale__line">Thời gian: {{ presale.when }}</p>
+          <p class="tickets-presale__line tickets-presale__line--place">Địa điểm: {{ presale.where }}</p>
           <p class="tickets-presale__price">
             <span class="tickets-presale__price-label">{{ presale.priceLabel }}</span>
             <span class="tickets-presale__price-amount">{{ presale.priceAmount }}</span>
@@ -68,19 +68,21 @@
             </h2>
             <p class="tickets-pack__event">{{ pack.eventName }}</p>
             <hr class="tickets-pack__rule" />
-            <p class="tickets-pack__line">{{ pack.when }}</p>
-            <p class="tickets-pack__line tickets-pack__line--place">{{ pack.where }}</p>
+            <p class="tickets-pack__line">Thời gian: {{ pack.when }}</p>
+            <p class="tickets-pack__line tickets-pack__line--place">Địa điểm: {{ pack.where }}</p>
             <p class="tickets-pack__price">
               <span class="tickets-pack__price-label">{{ pack.priceLabel }}</span>
               <span class="tickets-pack__price-amount">{{ pack.priceAmount }}</span>
             </p>
-            <button
-              type="button"
-              class="tickets-pack__btn"
-              (click)="$event.stopPropagation(); onPackBuy(pack)"
-            >
-              {{ pack.buyLabel }}
-            </button>
+            @if (pack.variant !== 'atdoor') {
+              <button
+                type="button"
+                class="tickets-pack__btn"
+                (click)="$event.stopPropagation(); onPackBuy(pack)"
+              >
+                {{ pack.buyLabel }}
+              </button>
+            }
           </div>
         </article>
       }

@@ -8,12 +8,12 @@ public static class TicketPurchaseTypeMapper
     private static readonly Dictionary<string, string> PackIds =
         new(StringComparer.OrdinalIgnoreCase)
         {
-            ["brotherhood"] = "LTHD_BROTHERHOOD",
-            ["longtranh"] = "LTHD_LONGTRANH",
-            ["hodau"] = "LTHD_HODAU",
-            ["metalhead"] = "LTHD_METALHEAD",
-            ["vip"] = "LTHD_VIP",
-            ["atdoor"] = "LTHD_ATDOOR",
+            ["brotherhood"] = "LTHD-CMB",
+            ["longtranh"] = "LTHD-GA1",
+            ["hodau"] = "LTHD-GA2",
+            ["metalhead"] = "LTHD-TMH",
+            ["vip"] = "LTHD-VIP",
+            ["atdoor"] = "LTHD-ATDOOR",
         };
 
     public static string? TryGetTicketCode(string purchaseType)
@@ -22,7 +22,7 @@ public static class TicketPurchaseTypeMapper
             return null;
         var key = purchaseType.Trim();
         if (key.Equals("presale", StringComparison.OrdinalIgnoreCase))
-            return "LTHD_PRE";
+            return "LTHD-GA2D";
         return PackIds.TryGetValue(key, out var code) ? code : null;
     }
 }
