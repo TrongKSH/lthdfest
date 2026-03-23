@@ -144,7 +144,8 @@
 }
 
 .lineup-card {
-  min-height: 142px;
+  min-width: 0;
+  min-height: 164px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.82);
@@ -152,7 +153,8 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 1rem;
+  padding: 0.85rem 1rem;
+  overflow: hidden;
   text-decoration: none;
   color: #fff;
   font-family: 'Inter', sans-serif;
@@ -162,17 +164,35 @@
   line-height: 1.15;
   letter-spacing: 0.01em;
   transition: transform 0.14s ease, background 0.14s ease, border-color 0.14s ease;
+}
 
-  &:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.85);
-    background: rgba(8, 8, 8, 0.95);
-  }
+/* Fixed display box so small logos scale up; min-width:0 avoids grid overflow */
+.lineup-card__logo {
+  align-self: stretch;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  height: clamp(104px, 26vw, 132px);
+  object-fit: contain;
+  object-position: center;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
+}
 
-  &:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
-  }
+.lineup-card__name {
+  display: block;
+  word-break: break-word;
+  align-self: center;
+}
+
+.lineup-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.85);
+  background: rgba(8, 8, 8, 0.95);
+}
+
+.lineup-card:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 
 .lineup-status {

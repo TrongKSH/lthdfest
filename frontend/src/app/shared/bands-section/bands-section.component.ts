@@ -8,7 +8,8 @@ const SLOTS_COUNT = 11; // 4 + 3 + 4 rows
 const PLACEHOLDER_BAND: Band = {
   id: 0,
   name: '',
-  shortBio: '',
+  bio: '',
+  lineupDay: 'LongTranh',
   lineupPosition: 0,
 };
 

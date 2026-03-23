@@ -1,15 +1,42 @@
 <div class="detail">
-  <a routerLink="/" class="back">← Trang chủ</a>
+  <a routerLink="/lineup" class="back">QUAY LAI</a>
   @if (band(); as b) {
-    <article>
-      @if (b.imageUrl) {
-        <img [src]="b.imageUrl" [alt]="b.name" class="thumb" />
-      }
-      <h1>{{ b.name }}</h1>
-      @if (b.genre) {
-        <p class="genre">{{ b.genre }}</p>
-      }
-      <p class="bio">{{ b.shortBio }}</p>
+    <article class="band-detail">
+      <section class="hero">
+        @if (b.heroUrl) {
+          <img
+            [src]="b.heroUrl"
+            [alt]="b.name"
+            class="thumb"
+            [class.thumb--pan-vertical]="heroPanVertical()"
+            (load)="onHeroImgLoad($event)"
+          />
+        }
+        <div class="hero-overlay"></div>
+        <div class="hero-meta">
+          <h1>{{ b.name }}</h1>
+          <div class="hero-day">
+            @if (performanceDateDisplay()) {
+              <span class="hero-date">{{ performanceDateDisplay() }}</span>
+            }
+            @if (stageTitle()) {
+              <strong
+                class="hero-stage"
+                [class.hero-stage--longtranh]="b.lineupDay === 'LongTranh'"
+                >{{ stageTitle() }}</strong
+              >
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="bio">
+        @if (bioParagraphs().length) {
+          @for (paragraph of bioParagraphs(); track paragraph) {
+            <p>{{ paragraph }}</p>
+          }
+        }
+      </section>
     </article>
   } @else {
     <p>Đang tải...</p>

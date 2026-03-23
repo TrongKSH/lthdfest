@@ -1,9 +1,11 @@
+export type LineupDay = 'LongTranh' | 'HoDau';
+
 export interface Band {
   id: number;
   name: string;
-  shortBio: string;
-  imageUrl?: string;
-  genre?: string;
+  bio: string;
+  heroUrl?: string;
+  logoUrl?: string;
+  lineupDay: LineupDay;
   lineupPosition: number;
-  socialLinks?: string;
 }
