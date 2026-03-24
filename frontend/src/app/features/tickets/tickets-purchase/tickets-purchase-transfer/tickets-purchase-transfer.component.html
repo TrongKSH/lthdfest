@@ -54,7 +54,7 @@
             (change)="onFileSelected($event)"
           />
 
-          <label class="tt-file-label" for="transfer-proof-input">Chọn ảnh biên lai</label>
+          <label class="tt-file-label" for="transfer-proof-input">Chọn ảnh</label>
         </div>
 
         @if (previewUrl()) {
@@ -82,7 +82,7 @@
           @if (submitting()) {
             <span class="tt-submit-inner">Đang gửi…</span>
           } @else {
-            <span class="tt-submit-inner">Gửi biên lai</span>
+            <span class="tt-submit-inner">Gửi ảnh chụp giao dịch thành công</span>
           }
         </button>
       </section>
@@ -102,7 +102,8 @@
         <div class="tt-success-modal-card">
           <h2 id="tt-success-title" class="tt-success-modal-title">Thanh toán thành công</h2>
           <p id="tt-success-desc" class="tt-success-modal-text">
-            Đã gửi biên lai thành công. Cảm ơn bạn!
+            Đã gửi ảnh chụp giao dịch thành công.<br />
+            Cảm ơn bạn!
           </p>
           <button type="button" class="tt-success-modal-btn" (click)="finishAndGoHome()">
             HOÀN THÀNH

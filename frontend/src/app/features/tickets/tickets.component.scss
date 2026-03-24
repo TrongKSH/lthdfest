@@ -93,13 +93,13 @@
 .tickets-title {
   margin: 0 0 clamp(var(--lthd-space-8, 2rem), 4vw, var(--lthd-space-12, 3rem));
   font-family: 'Inter', sans-serif;
-  font-weight: 800;
-  font-size: clamp(2rem, 5vw, 3.25rem);
-  letter-spacing: 0.06em;
-  color: #fff;
+  font-weight: 700;
+  font-size: clamp(2rem, 5.8vw, 4.2rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: transparent;
   text-transform: uppercase;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.35);
-  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.68);
 }
 
 .tickets-grid {

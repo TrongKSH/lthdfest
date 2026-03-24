@@ -158,8 +158,12 @@
   background-size: 100% 100% !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
+  border: 0;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
   border-radius: 999px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16);
   font-family: 'Inter', sans-serif;
   font-weight: 900;
   font-size: 1.25rem;
