@@ -166,6 +166,16 @@
   transition: transform 0.14s ease, background 0.14s ease, border-color 0.14s ease;
 }
 
+.lineup-card--secret {
+  cursor: default;
+}
+
+.lineup-card--secret:hover {
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.82);
+}
+
 /* Fixed display box so small logos scale up; min-width:0 avoids grid overflow */
 .lineup-card__logo {
   align-self: stretch;
@@ -178,6 +188,14 @@
   filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
   transform: scale(1);
   transform-origin: center;
+}
+
+.lineup-card__secret-image {
+  max-width: min(52%, 120px);
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
 }
 
 .lineup-card__logo--boost {

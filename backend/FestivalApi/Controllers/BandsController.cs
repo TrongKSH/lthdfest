@@ -13,6 +13,7 @@ public class BandsController : ControllerBase
         int Id,
         string Name,
         string? LogoUrl,
+        bool IsSecret,
         Models.LineupDay LineupDay,
         int LineupPosition
     );
@@ -23,19 +24,26 @@ public class BandsController : ControllerBase
     }
 
     /// <summary>
-    /// List all bands ordered by lineup position. Optional ?featured=true filter (for MVP returns all).
+    /// List all bands ordered by lineup position. Optional ?featured=true filter.
     /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Models.Band>>> GetBands(
         [FromQuery] bool featured = false,
         CancellationToken cancellationToken = default)
     {
-        var query = _db.Bands.AsNoTracking().OrderBy(b => b.LineupPosition).AsQueryable();
+        var query = _db.Bands.AsNoTracking().AsQueryable();
         if (featured)
         {
-            // For MVP: treat first N as featured, or add a Featured flag to Band later
-            query = query.Take(6);
+            query = query
+                .Where(b => b.IsFeaturedOnHome)
+                .OrderBy(b => b.LineupPosition)
+                .Take(11);
         }
+        else
+        {
+            query = query.OrderBy(b => b.LineupPosition);
+        }
+
         var bands = await query.ToListAsync(cancellationToken);
         return Ok(bands);
     }
@@ -54,6 +62,7 @@ public class BandsController : ControllerBase
                 b.Id,
                 b.Name,
                 b.LogoUrl,
+                b.IsSecret,
                 b.LineupDay,
                 b.LineupPosition
             ))
@@ -70,7 +79,7 @@ public class BandsController : ControllerBase
     {
         var band = await _db.Bands
             .AsNoTracking()
-            .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(b => b.Id == id && !b.IsSecret, cancellationToken);
         if (band == null)
             return NotFound();
         return Ok(band);

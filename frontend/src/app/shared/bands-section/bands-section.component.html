@@ -2,18 +2,30 @@
   <h2 id="bands-title" class="title">HƠN 20 BAN NHẠC</h2>
   <div class="grid">
     <div class="grid-row grid-row--4">
-      @for (slot of slotsRow1; track $index) {
-        <app-band-card [band]="slot.band" [isPlaceholder]="slot.isPlaceholder" />
+      @for (slot of slotsRow1(); track $index) {
+        <app-band-card
+          [band]="slot.band"
+          [isPlaceholder]="slot.isPlaceholder"
+          [boostLogo]="shouldBoostLogo(slot.band.name)"
+        />
       }
     </div>
     <div class="grid-row grid-row--3">
-      @for (slot of slotsRow2; track $index) {
-        <app-band-card [band]="slot.band" [isPlaceholder]="slot.isPlaceholder" />
+      @for (slot of slotsRow2(); track $index) {
+        <app-band-card
+          [band]="slot.band"
+          [isPlaceholder]="slot.isPlaceholder"
+          [boostLogo]="shouldBoostLogo(slot.band.name)"
+        />
       }
     </div>
     <div class="grid-row grid-row--4">
-      @for (slot of slotsRow3; track $index) {
-        <app-band-card [band]="slot.band" [isPlaceholder]="slot.isPlaceholder" />
+      @for (slot of slotsRow3(); track $index) {
+        <app-band-card
+          [band]="slot.band"
+          [isPlaceholder]="slot.isPlaceholder"
+          [boostLogo]="shouldBoostLogo(slot.band.name)"
+        />
       }
     </div>
   </div>

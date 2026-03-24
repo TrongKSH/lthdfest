@@ -2,19 +2,29 @@
   <div class="card" aria-hidden="true">
     <span class="card-placeholder">?</span>
   </div>
+} @else if (band().isSecret) {
+  <div class="card" role="img" aria-label="Secret band">
+    <img class="card-img" src="/assets/images/question.png" alt="Secret band" />
+  </div>
 } @else {
   <a
     [routerLink]="['/bands', band().id]"
     class="card"
     [attr.aria-label]="'Xem thông tin ' + band().name"
   >
-    @if (band().heroUrl || band().logoUrl) {
-      <img class="card-img" [src]="band().heroUrl || band().logoUrl" [alt]="band().name" />
+    @if (band().logoUrl || band().heroUrl) {
+      <img
+        class="card-img"
+        [class.card-img--boost]="boostLogo()"
+        [src]="band().logoUrl || band().heroUrl"
+        [alt]="band().name"
+        loading="lazy"
+        decoding="async"
+        width="320"
+        height="320"
+      />
     } @else {
       <span class="card-placeholder">?</span>
-    }
-    @if (band().name) {
-      <span class="card-name">{{ band().name }}</span>
     }
   </a>
 }

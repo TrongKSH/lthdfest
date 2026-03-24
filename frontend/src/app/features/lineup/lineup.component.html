@@ -53,23 +53,42 @@
     } @else {
       <div class="lineup-grid">
         @for (band of filteredBands(); track band.id; let i = $index) {
-          <a class="lineup-card" [routerLink]="['/bands', band.id]" [attr.aria-label]="'Nghệ sĩ ' + band.name">
-            @if (band.logoUrl) {
+          @if (band.isSecret) {
+            <div
+              class="lineup-card lineup-card--secret"
+              role="img"
+              aria-label="Secret band"
+            >
               <img
-                class="lineup-card__logo"
-                [class.lineup-card__logo--boost]="shouldBoostLogo(band.name)"
-                [src]="band.logoUrl"
-                [alt]="band.name + ' logo'"
+                class="lineup-card__secret-image"
+                src="/assets/images/question.png"
+                alt="Secret band"
                 [attr.loading]="i < 6 ? 'eager' : 'lazy'"
                 [attr.fetchpriority]="i < 3 ? 'high' : 'auto'"
                 decoding="async"
-                width="420"
+                width="220"
                 height="220"
               />
-            } @else {
-              <span class="lineup-card__name">{{ band.name }}</span>
-            }
-          </a>
+            </div>
+          } @else {
+            <a class="lineup-card" [routerLink]="['/bands', band.id]" [attr.aria-label]="'Nghệ sĩ ' + band.name">
+              @if (band.logoUrl) {
+                <img
+                  class="lineup-card__logo"
+                  [class.lineup-card__logo--boost]="shouldBoostLogo(band.name)"
+                  [src]="band.logoUrl"
+                  [alt]="band.name + ' logo'"
+                  [attr.loading]="i < 6 ? 'eager' : 'lazy'"
+                  [attr.fetchpriority]="i < 3 ? 'high' : 'auto'"
+                  decoding="async"
+                  width="420"
+                  height="220"
+                />
+              } @else {
+                <span class="lineup-card__name">{{ band.name }}</span>
+              }
+            </a>
+          }
         }
       </div>
     }

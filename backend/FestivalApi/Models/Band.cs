@@ -13,6 +13,8 @@ public class Band
     public string Bio { get; set; } = string.Empty;
     public string? HeroUrl { get; set; }
     public string? LogoUrl { get; set; }
+    public bool IsFeaturedOnHome { get; set; }
+    public bool IsSecret { get; set; }
     public LineupDay LineupDay { get; set; }
     public int LineupPosition { get; set; }
 }

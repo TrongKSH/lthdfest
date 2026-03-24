@@ -1,5 +1,5 @@
 <div class="detail">
-  <a routerLink="/lineup" class="back">Quay lại</a>
+  <a routerLink="/" fragment="bands" class="back">Quay lại</a>
   @if (band(); as b) {
     <article class="band-detail">
       <section class="hero">
@@ -51,7 +51,9 @@
         </div>
       </section>
     </article>
-  } @else {
+  } @else if (isLoading()) {
     <p>Đang tải...</p>
+  } @else if (isNotFound()) {
+    <p>Band này hiện đang được ẩn hoặc không tồn tại.</p>
   }
 </div>

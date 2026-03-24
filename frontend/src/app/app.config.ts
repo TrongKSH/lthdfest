@@ -22,6 +22,7 @@ export const appConfig: ApplicationConfig = {
       withPreloading(PreloadAllModules),
       withInMemoryScrolling({
         scrollPositionRestoration: 'top',
+        anchorScrolling: 'enabled',
       })
     ),
     provideHttpClient(),

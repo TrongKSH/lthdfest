@@ -6,6 +6,8 @@ export interface Band {
   bio: string;
   heroUrl?: string;
   logoUrl?: string;
+  isFeaturedOnHome?: boolean;
+  isSecret?: boolean;
   lineupDay: LineupDay;
   lineupPosition: number;
 }
@@ -14,6 +16,7 @@ export interface LineupBand {
   id: number;
   name: string;
   logoUrl?: string;
+  isSecret?: boolean;
   lineupDay: LineupDay;
   lineupPosition: number;
 }

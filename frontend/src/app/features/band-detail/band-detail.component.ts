@@ -30,15 +30,18 @@ export class BandDetailComponent {
   /** True when object-fit: cover crops the image vertically — enable slow pan. */
   protected readonly heroPanVertical = signal(false);
 
-  readonly band = toSignal<import('../../models/band.model').Band | null>(
+  readonly band = toSignal<import('../../models/band.model').Band | null | undefined>(
     this.route.paramMap.pipe(
       switchMap((params) => {
         const id = params.get('id');
         return this.bandService.getBand(id ? +id : 0);
       })
     ),
-    { initialValue: null }
+    { initialValue: undefined }
   );
+
+  protected readonly isLoading = computed(() => this.band() === undefined);
+  protected readonly isNotFound = computed(() => this.band() === null);
 
   constructor() {
     effect(() => {

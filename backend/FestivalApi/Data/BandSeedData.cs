@@ -22,6 +22,7 @@ Thành viên:
 • Trương Kim Trọng - drummer",
             HeroUrl = "/assets/bands/ksh/hero.jpeg",
             LogoUrl = "/assets/bands/ksh/logo.png",
+            IsFeaturedOnHome = true,
             LineupDay = LineupDay.HoDau,
             LineupPosition = 1
         },
@@ -32,6 +33,7 @@ Thành viên:
             Bio = "Knife Sticking Head is a Vietnamese oldschool hardcore band originating from Saigon, Vietnam, established in April 2014. The current lineup comprises lead vocalist Quan Vinh Kien, drummer Truong Kim Trong (Rohan), lead guitarist Le Hoang Minh Quan (Rin), rhythm guitarist Nguyen Chanh Hiep (Bill) and bassist Nguyen Huy Khiem. The band has released 1 EP and 4 singles, with their most recent music video, \"From The Inside\", released on Apr 19, 2024.",
             HeroUrl = "/assets/bands/morningwait/hero.jpg",
             LogoUrl = "/assets/bands/morningwait/logo.png",
+            IsFeaturedOnHome = true,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 2
         },
@@ -42,6 +44,7 @@ Thành viên:
             Bio = "",
             HeroUrl = "/assets/bands/amongstthefallen/hero.jpg",
             LogoUrl = "/assets/bands/amongstthefallen/logo.png",
+            IsFeaturedOnHome = false,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 3
         },
@@ -78,6 +81,7 @@ Heartless MV:https://youtu.be/F9ld3NGyjXA?si=SHId5Lry786wmaR7
 Braindead MV:https://youtu.be/P_SCJHSgaNw?si=9lmeSKof5bsswmVH",
             HeroUrl = "/assets/bands/blackindustry/hero.JPG",
             LogoUrl = "/assets/bands/blackindustry/logo.png",
+            IsFeaturedOnHome = false,
             LineupDay = LineupDay.HoDau,
             LineupPosition = 4
         },
@@ -102,6 +106,7 @@ Lineup:
   Sergey: Drums",
             HeroUrl = "/assets/bands/cutlon/hero.jpg",
             LogoUrl = "/assets/bands/cutlon/logo.png",
+            IsFeaturedOnHome = true,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 5
         },
@@ -124,6 +129,7 @@ Từ khi thành lập, Die So Far đã tham gia biểu diễn tại nhiều sự
 ",
             HeroUrl = "/assets/bands/diesofar/hero.JPG",
             LogoUrl = "/assets/bands/diesofar/logo.png",
+            IsFeaturedOnHome = false,
             LineupDay = LineupDay.HoDau,
             LineupPosition = 6
         },
@@ -144,6 +150,7 @@ Các thành viên:
 ",
             HeroUrl = "/assets/bands/elbowdrop/hero.jpg",
             LogoUrl = "/assets/bands/elbowdrop/logo1.png",
+            IsFeaturedOnHome = true,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 7
         },
@@ -154,6 +161,7 @@ Các thành viên:
             Bio = "",
             HeroUrl = "/assets/bands/empathize/hero.jpg",
             LogoUrl = "/assets/bands/empathize/logo.png",
+            IsFeaturedOnHome = false,
             LineupDay = LineupDay.HoDau,
             LineupPosition = 8
         },
@@ -175,6 +183,7 @@ Hãy chuẩn bị tinh thần cho một cơn ""Tăng Huyết Áp"" thực sự!
 ",
             HeroUrl = "/assets/bands/hypertension/hero.png",
             LogoUrl = "/assets/bands/hypertension/logo.png",
+            IsFeaturedOnHome = true,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 9
         },
@@ -204,6 +213,8 @@ Releases: Aug 8th, 2025
 ",
             HeroUrl = "/assets/bands/kinh/hero.jpg",
             LogoUrl = "/assets/bands/kinh/logo.png",
+            IsFeaturedOnHome = true,
+            IsSecret = true,
             LineupDay = LineupDay.HoDau,
             LineupPosition = 10
         },
@@ -223,6 +234,7 @@ Luôn học hỏi và nâng cao bản thân từng ngày, NHẠO sẽ cố gắn
 ",
             HeroUrl = "/assets/bands/nhao/hero.jpeg",
             LogoUrl = "/assets/bands/nhao/logo.png",
+            IsFeaturedOnHome = false,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 11
         },
@@ -243,7 +255,8 @@ Thành viên:
             HeroUrl = "/assets/bands/resurgedtemptation/hero.jpg",
             LogoUrl = "/assets/bands/resurgedtemptation/logo.png",
             LineupDay = LineupDay.HoDau,
-            LineupPosition = 12
+            LineupPosition = 12,
+            IsFeaturedOnHome = true,
         },
         new Band
         {
@@ -318,6 +331,8 @@ Vào ngày 31.12.2025 vừa rồi, band đã cho ra mắt EP “Omnipotent”. Q
             Bio = "",
             HeroUrl = "/assets/bands/7uppercuts/hero.png",
             LogoUrl = null,
+            IsSecret = true,
+            IsFeaturedOnHome = true,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 17
         },
@@ -371,6 +386,8 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             Bio = "",
             HeroUrl = "/assets/bands/imnotsure/hero.png",
             LogoUrl = null,
+            IsSecret = true,
+            IsFeaturedOnHome = true,
             LineupDay = LineupDay.HoDau,
             LineupPosition = 20
         },
@@ -381,6 +398,8 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             Bio = "",
             HeroUrl = "/assets/bands/infernalchaos/hero.png",
             LogoUrl = null,
+            IsSecret = true,
+            IsFeaturedOnHome = true,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 21
         },
@@ -391,6 +410,7 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             Bio = "",
             HeroUrl = "/assets/bands/longbez/hero.png",
             LogoUrl = null,
+            IsSecret = true,
             LineupDay = LineupDay.HoDau,
             LineupPosition = 22
         },
@@ -401,6 +421,7 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             Bio = "",
             HeroUrl = "/assets/bands/surprise/hero.png",
             LogoUrl = null,
+            IsSecret = true,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 23
         },
@@ -411,6 +432,8 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             Bio = "",
             HeroUrl = "/assets/bands/volcate/hero.png",
             LogoUrl = null,
+            IsSecret = true,
+            IsFeaturedOnHome = true,
             LineupDay = LineupDay.HoDau,
             LineupPosition = 24
         },

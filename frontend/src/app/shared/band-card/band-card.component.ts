@@ -12,4 +12,5 @@ import type { Band } from '../../models/band.model';
 export class BandCardComponent {
   band = input.required<Band>();
   isPlaceholder = input<boolean>(false);
+  boostLogo = input<boolean>(false);
 }
