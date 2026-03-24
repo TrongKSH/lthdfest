@@ -146,6 +146,7 @@
 .lineup-card {
   min-width: 0;
   min-height: 164px;
+  align-self: stretch;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.82);
@@ -190,11 +191,15 @@
   transform-origin: center;
 }
 
+/* Same slot box as `.lineup-card__logo` so secret cards match sibling row height */
 .lineup-card__secret-image {
-  max-width: min(52%, 120px);
+  align-self: stretch;
+  min-width: 0;
+  max-width: 100%;
   width: 100%;
-  height: auto;
+  height: clamp(112px, 28vw, 140px);
   object-fit: contain;
+  object-position: center;
   filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
 }
 

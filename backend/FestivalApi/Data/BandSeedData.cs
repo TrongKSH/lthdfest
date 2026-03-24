@@ -1,16 +1,38 @@
+using System.Collections.Generic;
 using FestivalApi.Models;
 
 namespace FestivalApi.Data;
 
 public static class BandSeedData
 {
-    public static IReadOnlyList<Band> All { get; } =
-    [
+    public static IReadOnlyList<Band> All { get; } = new List<Band>
+    {
+        #region Band 1 — Knife Sticking Head
         new Band
         {
             Id = 1,
             Name = "Knife Sticking Head",
             Bio = @"Knife Sticking Head là một ban nhạc hardcore old-school của Việt Nam, có nguồn gốc từ Sài Gòn, được thành lập vào tháng 4 năm 2014.
+
+Ban nhạc đã phát hành đĩa đơn đầu tay “Do The Riot Things” vào ngày 7 tháng 1 năm 2015.
+
+Sau thành công của sản phẩm đầu tay, họ tập trung sáng tác các ca khúc mới và tiếp tục ra mắt MV đầu tiên “This Is Home” vào ngày 16 tháng 8 năm 2017.
+
+Ngày 25 tháng 4 năm 2018, ban nhạc phát hành EP đầu tiên mang tên “This Is Home”, gồm 7 ca khúc.
+
+Vào tháng 10 năm 2018, ban nhạc thông báo tan rã do Huân (bass) và Trọng (trống) ra nước ngoài làm việc và học tập. Tuy nhiên, sau 5 tháng cùng với sự ủng hộ lớn từ cộng đồng, ban nhạc đã tái hợp với các thành viên mới là Phi (trống) và Nhựt (bass).
+
+Ngày 12 tháng 12 năm 2020, ban nhạc phát hành MV mới mang tên “Respect” với đội hình mới.
+
+Tháng 1 năm 2020, Trương Kim Trọng (tay trống cũ) quay trở lại ban nhạc, thay thế Phi.
+
+Tháng 7 năm 2020, Le Hoàng Minh Quân gia nhập ban nhạc với vai trò guitarist và clean vocalist mới, thay thế Lâm Tân Khoa.
+
+Sau khi ổn định đội hình, ban nhạc tiếp tục phát hành nhiều MV mới như “Holding Youth”, “Imagination”, và mới nhất là “From The Inside”.
+
+Tháng 6 năm 2024, Nguyễn Huy Khiêm gia nhập ban nhạc, thay thế Trang Bùi Minh Nhựt ở vị trí bass.
+
+Với đội hình hiện tại, ban nhạc tiếp tục thu âm các ca khúc mới và tập trung sáng tác nhạc gốc. Đĩa đơn mới nhất mang tên “6789” dự kiến sẽ sớm được phát hành.
 
 Âm nhạc của Knife Sticking Head chủ yếu được xếp vào thể loại hardcore old-school. Trong suốt hơn mười năm hoạt động, phong cách của họ đã dần phát triển, kết hợp thêm các yếu tố từ những nhánh metal khác và đưa vào nhiều giai điệu hơn. Định hướng âm nhạc của ban nhạc thay đổi theo từng bài hát, tùy thuộc vào thông điệp mà họ muốn truyền tải qua âm nhạc.
 
@@ -26,6 +48,8 @@ Thành viên:
             LineupDay = LineupDay.HoDau,
             LineupPosition = 1
         },
+         #endregion
+        #region Band 2 — Morning Wait
          new Band
         {
             Id = 2,
@@ -37,6 +61,8 @@ Thành viên:
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 2
         },
+        #endregion
+        #region Band 3 — Amongst The Fallen
         new Band
         {
             Id = 3,
@@ -48,6 +74,8 @@ Thành viên:
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 3
         },
+        #endregion
+        #region Band 4 — Black Industry
         new Band
         {
             Id = 4,
@@ -85,6 +113,8 @@ Braindead MV:https://youtu.be/P_SCJHSgaNw?si=9lmeSKof5bsswmVH",
             LineupDay = LineupDay.HoDau,
             LineupPosition = 4
         },
+        #endregion
+        #region Band 5 — Cút Lộn
         new Band
         {
             Id = 5,
@@ -110,6 +140,8 @@ Lineup:
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 5
         },
+        #endregion
+        #region Band 6 — Die So Far
         new Band
         {
             Id = 6,
@@ -133,6 +165,8 @@ Từ khi thành lập, Die So Far đã tham gia biểu diễn tại nhiều sự
             LineupDay = LineupDay.HoDau,
             LineupPosition = 6
         },
+        #endregion
+        #region Band 7 — Elbow Drop
         new Band
         {
             Id = 7,
@@ -154,6 +188,8 @@ Các thành viên:
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 7
         },
+        #endregion
+        #region Band 8 — Empathize
         new Band
         {
             Id = 8,
@@ -165,6 +201,8 @@ Các thành viên:
             LineupDay = LineupDay.HoDau,
             LineupPosition = 8
         },
+        #endregion
+        #region Band 9 — Hypertension
         new Band
         {
             Id = 9,
@@ -187,6 +225,8 @@ Hãy chuẩn bị tinh thần cho một cơn ""Tăng Huyết Áp"" thực sự!
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 9
         },
+        #endregion
+        #region Band 10 — Kinh
         new Band
         {
             Id = 10,
@@ -218,6 +258,8 @@ Releases: Aug 8th, 2025
             LineupDay = LineupDay.HoDau,
             LineupPosition = 10
         },
+        #endregion
+        #region Band 11 — Nhao
         new Band
         {
             Id = 11,
@@ -238,13 +280,28 @@ Luôn học hỏi và nâng cao bản thân từng ngày, NHẠO sẽ cố gắn
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 11
         },
+        #endregion
+        #region Band 12 — Resurged Temptation
         new Band
         {
             Id = 12,
             Name = "Resurged Temptation",
             Bio = @"Resurged Temptation là một ban nhạc metalcore Việt Nam đến từ Sài Gòn, Việt Nam, được thành lập vào cuối năm 2022.
 
+Các thành viên ban đầu tập hợp trong phòng tập nhạc vào cuối năm 2022 để cùng nhau sáng tác. 
+
+Vào tháng 5 năm 2023, chính thức thông báo rằng Đinh Bảo Nam sẽ gia nhập ban nhạc với vai trò lead vocalist mới, qua đó hoàn thiện đội hình. 
+
+Họ đã phát hành đĩa đơn đầu tay, ""Idiopathic"" vào ngày 31 tháng 10 năm 2023. 
+
+Vào ngày 7 tháng 5 năm 2024, họ phát hành một đĩa đơn mới mang tên ""Break Their Rules."" 
+
+Ngày 9 tháng 3 năm 2025 vừa qua band nhạc đã phát hành MV mới nhất ""The Power of Weakness"" và nhận được phản hồi khá tích cực
+
+Hiện tại, ban nhạc đang tiếp tục thu âm các đĩa đơn mới song song với việc tập trung vào việc sáng tác các sản phẩm mới.
+
 Chất liệu của Resurged Temptation là cảm hứng từ thể loại metalcore. Tuy nhiên, phong cách âm nhạc tổng thể của ban nhạc được các thành viên miêu tả là sự kết hợp giữa metalcore, melodic death và groove metal. Đặc trưng phong cách của họ bao gồm việc sử dụng các đoạn breakdowns, growling vocals, clean vocals và các đoạn riff hơi hướng groove.
+
 
 Thành viên:
 •   Nguyễn Thành Các - guitar rhythm 
@@ -258,6 +315,8 @@ Thành viên:
             LineupPosition = 12,
             IsFeaturedOnHome = true,
         },
+        #endregion
+        #region Band 13 — Sóng Âm
         new Band
         {
             Id = 13,
@@ -268,6 +327,8 @@ Thành viên:
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 13
         },
+        #endregion
+        #region Band 14 — Thánh Dực
         new Band
         {
             Id = 14,
@@ -299,6 +360,8 @@ Thành Viên:
             LineupDay = LineupDay.HoDau,
             LineupPosition = 14
         },
+        #endregion
+        #region Band 15 — Under Pressure
         new Band
         {
             Id = 15,
@@ -314,6 +377,8 @@ Vào ngày 31.12.2025 vừa rồi, band đã cho ra mắt EP “Omnipotent”. Q
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 15
         },
+        #endregion
+        #region Band 16 — 1818
         new Band
         {
             Id = 16,
@@ -324,6 +389,8 @@ Vào ngày 31.12.2025 vừa rồi, band đã cho ra mắt EP “Omnipotent”. Q
             LineupDay = LineupDay.HoDau,
             LineupPosition = 16
         },
+        #endregion
+        #region Band 17 — 7 Uppercuts
         new Band
         {
             Id = 17,
@@ -336,6 +403,8 @@ Vào ngày 31.12.2025 vừa rồi, band đã cho ra mắt EP “Omnipotent”. Q
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 17
         },
+        #endregion
+        #region Band 18 — 9xacly
         new Band
         {
             Id = 18,
@@ -346,6 +415,8 @@ Vào ngày 31.12.2025 vừa rồi, band đã cho ra mắt EP “Omnipotent”. Q
             LineupDay = LineupDay.HoDau,
             LineupPosition = 18
         },
+        #endregion
+        #region Band 19 — Diarsia
         new Band
         {
             Id = 19,
@@ -379,6 +450,8 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 19
         },
+        #endregion
+        #region Band 20 — I'm Not Sure
         new Band
         {
             Id = 20,
@@ -391,6 +464,8 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             LineupDay = LineupDay.HoDau,
             LineupPosition = 20
         },
+        #endregion
+        #region Band 21 — Infernal Chaos
         new Band
         {
             Id = 21,
@@ -403,6 +478,8 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 21
         },
+        #endregion
+        #region Band 22 — Longbez
         new Band
         {
             Id = 22,
@@ -414,6 +491,8 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             LineupDay = LineupDay.HoDau,
             LineupPosition = 22
         },
+        #endregion
+        #region Band 23 — Surprise
         new Band
         {
             Id = 23,
@@ -425,6 +504,8 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 23
         },
+        #endregion
+        #region Band 24 — Volcate
         new Band
         {
             Id = 24,
@@ -437,6 +518,8 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             LineupDay = LineupDay.HoDau,
             LineupPosition = 24
         },
+        #endregion
+        #region Band 25 — CLB Guitar Gỗ
         new Band
         {
             Id = 25,
@@ -454,5 +537,6 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 25
         }
-    ];
+    #endregion
+    }.AsReadOnly();
 }
