@@ -180,15 +180,19 @@
 
 @media (max-width: 600px), (max-height: 760px) {
   .tp-overlay {
-    align-items: flex-start;
-    padding: max(12px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px))
-      max(12px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    /* Center the sheet on small viewports; overlay scrolls if content exceeds height */
+    align-items: center;
+    padding: max(16px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px))
+      max(16px, env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
   }
 
   .tp-modal {
-    max-height: calc(100dvh - max(24px, env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px)));
+    box-sizing: border-box;
+    max-height: calc(100dvh - max(32px, env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px)));
+    /* Taller card when content is short so the sheet feels less “stuck” to the top band */
+    min-height: min(58dvh, 520px);
     border-radius: 18px;
-    padding: 40px 14px 14px;
+    padding: 42px 14px 22px;
   }
 
   .tp-close {
