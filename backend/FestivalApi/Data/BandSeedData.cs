@@ -76,7 +76,7 @@ Album “My Tears Run Black”: https://youtu.be/No9uWqxz2D0?si=GfPbA4_LyJSo8EZv
 The Letter MV:https://youtu.be/fZ_rHDKggv8?si=XKVbxOVI7-3nYiZi
 Heartless MV:https://youtu.be/F9ld3NGyjXA?si=SHId5Lry786wmaR7
 Braindead MV:https://youtu.be/P_SCJHSgaNw?si=9lmeSKof5bsswmVH",
-            HeroUrl = null,
+            HeroUrl = "/assets/bands/blackindustry/hero.JPG",
             LogoUrl = "/assets/bands/blackindustry/logo.png",
             LineupDay = LineupDay.HoDau,
             LineupPosition = 4
@@ -173,7 +173,7 @@ Hành Trình Chinh Phục:
 Với Hypertension, âm nhạc không chỉ là một trải nghiệm nghe, mà là một trải nghiệm giác quan tổng thể. Ban nhạc không ngừng thử nghiệm, từ việc đưa những yếu tố folk Việt Nam vào một không gian Technical Death Metal, đến việc tạo ra những bản thu chất lượng cao và những buổi biểu diễn trực tiếp rực lửa. Với tầm nhìn đưa Technical Metal Việt Nam ra thế giới, Hypertension biến ""áp lực"" thành sức mạnh, biến nhạc nặng thành một loại nghệ thuật đỉnh cao.
 Hãy chuẩn bị tinh thần cho một cơn ""Tăng Huyết Áp"" thực sự!
 ",
-            HeroUrl = null,
+            HeroUrl = "/assets/bands/hypertension/hero.png",
             LogoUrl = "/assets/bands/hypertension/logo.png",
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 9
@@ -248,7 +248,7 @@ Thành viên:
         new Band
         {
             Id = 13,
-            Name = "Song Am",
+            Name = "Sóng Âm",
             Bio = "",
             HeroUrl = "/assets/bands/songam/hero.png",
             LogoUrl = "/assets/bands/songam/logo.png",
