@@ -165,10 +165,10 @@ Các thành viên:
 Hypertension (Tăng Huyết Áp) – Ngay từ cái tên, ban nhạc đã khẳng định một nguồn năng lượng bùng nổ, một áp lực không thể kìm hãm, sẵn sàng phá vỡ mọi giới hạn. Đến từ Việt Nam, Hypertension không chỉ chơi nhạc, họ đang kiến tạo một thế giới âm thanh nơi sự phức tạp kỹ thuật của Technical Death Metal và tư duy mở của Progressive Metal hòa quyện cùng sự tráng lệ, kịch tính của âm nhạc Cổ điển.
 Đây là âm nhạc của những cơn ""tăng huyết áp"" nghệ thuật. Mỗi ca khúc là một kiến trúc âm thanh đồ sộ, được xây dựng từ những riff guitar phức tạp, đối xứng như những bản giao hưởng điên loạn; nhịp trống hung bạo nhưng đầy tính toán, như nhịp đập của một trái tim cơ khí; và giọng hát linh hoạt, biến hóa từ tiếng gầm gừ địa ngục đến những giai điệu nội tâm giằng xé.
 Những Kiến Trúc Sư Của ""Áp Lực"":
-Hùng Đàm (Guitarist): Vị nhạc trưởng của những riff guitar sắc bén, hòa quyện tư duy Progressive Metal hiện đại với sự đối lập và cân bằng của âm nhạc Cổ điển.
-Hoài Thanh (Vocal): Sở hữu giọng hát có thể ""kể chuyện,"" từ sự dữ dội tột cùng đến những nốt nhạc phức tạp, lột tả sâu sắc những mâu thuẫn nội tâm và áp lực của xã hội hiện đại.
-Trúc Lộc (Bassist): Trái tim của những dòng chảy bass đầy kỹ thuật, được rèn giũa qua thời gian, tạo nền móng vững chắc cho toàn bộ kiến trúc âm nhạc.
-Cường Bùi (Drummer): Động cơ không ngừng nghỉ của ban nhạc, sở hữu nhịp trống chính xác tuyệt đối, là sự pha trộn giữa Death Metal hung bạo và sự phức tạp của Progressive.
+• Hùng Đàm (Guitarist): Vị nhạc trưởng của những riff guitar sắc bén, hòa quyện tư duy Progressive Metal hiện đại với sự đối lập và cân bằng của âm nhạc Cổ điển.
+• Hoài Thanh (Vocal): Sở hữu giọng hát có thể ""kể chuyện,"" từ sự dữ dội tột cùng đến những nốt nhạc phức tạp, lột tả sâu sắc những mâu thuẫn nội tâm và áp lực của xã hội hiện đại.
+• Trúc Lộc (Bassist): Trái tim của những dòng chảy bass đầy kỹ thuật, được rèn giũa qua thời gian, tạo nền móng vững chắc cho toàn bộ kiến trúc âm nhạc.
+• Cường Bùi (Drummer): Động cơ không ngừng nghỉ của ban nhạc, sở hữu nhịp trống chính xác tuyệt đối, là sự pha trộn giữa Death Metal hung bạo và sự phức tạp của Progressive.
 Hành Trình Chinh Phục:
 Với Hypertension, âm nhạc không chỉ là một trải nghiệm nghe, mà là một trải nghiệm giác quan tổng thể. Ban nhạc không ngừng thử nghiệm, từ việc đưa những yếu tố folk Việt Nam vào một không gian Technical Death Metal, đến việc tạo ra những bản thu chất lượng cao và những buổi biểu diễn trực tiếp rực lửa. Với tầm nhìn đưa Technical Metal Việt Nam ra thế giới, Hypertension biến ""áp lực"" thành sức mạnh, biến nhạc nặng thành một loại nghệ thuật đỉnh cao.
 Hãy chuẩn bị tinh thần cho một cơn ""Tăng Huyết Áp"" thực sự!
