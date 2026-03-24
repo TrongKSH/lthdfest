@@ -47,7 +47,12 @@ export class LineupComponent {
   }
 
   protected shouldBoostLogo(bandName: string): boolean {
-    const key = bandName.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const key = bandName
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[đĐ]/g, 'd')
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, '');
     return this.compactLogoBands.has(key);
   }
 }

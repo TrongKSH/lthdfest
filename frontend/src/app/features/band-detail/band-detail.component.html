@@ -34,11 +34,21 @@
       </section>
 
       <section class="bio">
-        @if (bioParagraphs().length) {
-          @for (paragraph of bioParagraphs(); track paragraph) {
-            <p>{{ paragraph }}</p>
+        <div class="bio-layout">
+          <div class="bio-copy">
+            @if (bioParagraphs().length) {
+              @for (paragraph of bioParagraphs(); track paragraph) {
+                <p>{{ paragraph }}</p>
+              }
+            }
+          </div>
+
+          @if (b.logoUrl) {
+            <aside class="bio-logo-wrap" aria-label="Band logo">
+              <img [src]="b.logoUrl" [alt]="b.name + ' logo'" class="bio-logo" loading="lazy" decoding="async" />
+            </aside>
           }
-        }
+        </div>
       </section>
     </article>
   } @else {
