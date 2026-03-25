@@ -41,9 +41,20 @@ public sealed class GooglePaymentOptions
     /// </summary>
     public bool DisableFileStorage { get; set; }
 
+    /// <summary>
+    /// Secret used to sign short-lived mobile receipt resume tokens.
+    /// Set with env var <c>Google__Payment__ResumeTokenSecret</c>.
+    /// </summary>
+    public string? ResumeTokenSecret { get; set; }
+
+    /// <summary>TTL for resume tokens in minutes.</summary>
+    public int ResumeTokenTtlMinutes { get; set; } = 60;
+
     /// <summary>Optional: persist the image to GCS or Drive.</summary>
     public bool HasFileStorage =>
         !DisableFileStorage
         && (!string.IsNullOrWhiteSpace(GcsBucketName)
             || !string.IsNullOrWhiteSpace(DrivePaymentRootFolderId));
+
+    public bool HasResumeTokenSecret => !string.IsNullOrWhiteSpace(ResumeTokenSecret);
 }

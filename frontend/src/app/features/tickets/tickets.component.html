@@ -1,4 +1,4 @@
-<main class="tickets-page" id="main" [class.tickets-page--modal-open]="hasPurchase()">
+<main class="tickets-page" id="main" [class.tickets-page--modal-open]="hasPurchaseFlow()">
   <div class="tickets-bg" aria-hidden="true"></div>
   <div class="tickets-inner">
     <h1 class="tickets-title">TICKETS</h1>
@@ -88,7 +88,7 @@
       }
     </div>
 
-    @if (purchaseType()) {
+    @if (hasPurchaseFlow()) {
       @if (purchaseStep() === 'qty') {
         <app-tickets-purchase
           [type]="purchaseType()!"
@@ -108,6 +108,10 @@
       }
 
       @if (purchaseStep() === 'transfer') {
+        <app-tickets-purchase-transfer />
+      }
+
+      @if (purchaseStep() === 'receipt') {
         <app-tickets-purchase-transfer />
       }
     }

@@ -21,6 +21,7 @@ import { TicketPaymentProofService } from '../../../../services/ticket-payment-p
 import { environment } from '../../../../../environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import QRCode from 'qrcode';
 
 @Component({
   selector: 'app-tickets-purchase-transfer',
@@ -53,7 +54,18 @@ export class TicketsPurchaseTransferComponent {
     },
   );
 
+  readonly purchaseStep = toSignal(
+    this.route.queryParamMap.pipe(map((p) => p.get('step') ?? 'qty')),
+    { initialValue: this.route.snapshot.queryParamMap.get('step') ?? 'qty' },
+  );
+
+  readonly resumeToken = toSignal(
+    this.route.queryParamMap.pipe(map((p) => p.get('token')?.trim() ?? '')),
+    { initialValue: this.route.snapshot.queryParamMap.get('token')?.trim() ?? '' },
+  );
+
   readonly draft = this.draftService.draft;
+  readonly isReceiptMode = computed(() => this.purchaseStep() === 'receipt');
 
   readonly headerTitle = computed(() => {
     const t = this.purchaseType();
@@ -84,11 +96,22 @@ export class TicketsPurchaseTransferComponent {
   readonly submitting = signal(false);
   readonly submitError = signal<string | null>(null);
   readonly submitSuccess = signal(false);
+  readonly generatingMobileLink = signal(false);
+  readonly mobileUploadError = signal<string | null>(null);
+  readonly mobileUploadUrl = signal<string | null>(null);
+  readonly mobileUploadQrDataUrl = signal<string | null>(null);
+  readonly copyingLink = signal(false);
+  readonly copyFeedback = signal<string | null>(null);
+
+  private lastMobileContextKey: string | null = null;
 
   readonly canSubmit = computed(() => {
     if (this.submitting() || this.submitSuccess()) return false;
     const file = this.selectedFile();
     const imageOk = file !== null || environment.paymentProofImageOptional;
+    if (this.isReceiptMode()) {
+      return imageOk && this.resumeToken().length > 0;
+    }
     return imageOk;
   });
 
@@ -99,6 +122,9 @@ export class TicketsPurchaseTransferComponent {
     });
 
     effect(() => {
+      if (this.isReceiptMode()) {
+        return;
+      }
       const t = this.purchaseType();
       const q = this.qty();
       const d = this.draft();
@@ -117,6 +143,29 @@ export class TicketsPurchaseTransferComponent {
           }),
         );
       }
+    });
+
+    effect(() => {
+      if (this.isReceiptMode()) {
+        return;
+      }
+      const t = this.purchaseType();
+      const q = this.qty();
+      const d = this.draft();
+      if (!t || q <= 0 || !d || d.purchaseType !== t || d.qty !== q) {
+        this.lastMobileContextKey = null;
+        this.mobileUploadUrl.set(null);
+        this.mobileUploadQrDataUrl.set(null);
+        this.mobileUploadError.set(null);
+        return;
+      }
+
+      const key = `${d.fullName}|${d.phone}|${d.email}|${t}|${q}`;
+      if (this.lastMobileContextKey === key) {
+        return;
+      }
+      this.lastMobileContextKey = key;
+      void this.prepareMobileUploadLink();
     });
   }
 
@@ -137,6 +186,10 @@ export class TicketsPurchaseTransferComponent {
   }
 
   onBackToConfirm(): void {
+    if (this.isReceiptMode()) {
+      void this.router.navigate(['/tickets'], { queryParams: {} });
+      return;
+    }
     this.revokePreview();
     this.selectedFile.set(null);
     const t = this.purchaseType();
@@ -169,27 +222,34 @@ export class TicketsPurchaseTransferComponent {
     if (!this.canSubmit()) return;
 
     const file = this.selectedFile();
-    const draft = this.draft();
     const purchaseType = this.purchaseType();
     const q = this.qty();
+    const token = this.resumeToken();
+    const receiptMode = this.isReceiptMode();
+    const draft = this.draft();
 
-    if (!draft || !purchaseType || q <= 0) return;
     if (!file && !environment.paymentProofImageOptional) return;
-    if (draft.purchaseType !== purchaseType || draft.qty !== q) return;
+    if (receiptMode && !token) return;
+    if (!receiptMode && (!draft || !purchaseType || q <= 0)) return;
+    if (!receiptMode && draft && (draft.purchaseType !== purchaseType || draft.qty !== q)) return;
 
     this.submitting.set(true);
     this.submitError.set(null);
 
     try {
-      await firstValueFrom(
-        this.paymentProofService.submitProof(file ?? null, {
-          fullName: draft.fullName,
-          phone: draft.phone,
-          email: draft.email,
-          purchaseType,
-          qty: q,
-        }),
-      );
+      if (receiptMode) {
+        await firstValueFrom(this.paymentProofService.submitProofWithResumeToken(file ?? null, token));
+      } else {
+        await firstValueFrom(
+          this.paymentProofService.submitProof(file ?? null, {
+            fullName: draft!.fullName,
+            phone: draft!.phone,
+            email: draft!.email,
+            purchaseType: purchaseType!,
+            qty: q,
+          }),
+        );
+      }
       this.submitSuccess.set(true);
     } catch (err: unknown) {
       const message = this.errorMessageFromHttp(err);
@@ -217,6 +277,9 @@ export class TicketsPurchaseTransferComponent {
       if (err.status === 413) {
         return 'Ảnh quá lớn. Vui lòng chọn file nhỏ hơn.';
       }
+      if (err.status === 400) {
+        return 'Thông tin tải biên lai không hợp lệ hoặc đã hết hạn. Vui lòng quay lại bước thanh toán.';
+      }
       if (err.status === 503) {
         return 'Chưa cấu hình Google Sheet (hoặc máy chủ). Kiểm tra API và Google:Payment.';
       }
@@ -230,6 +293,61 @@ export class TicketsPurchaseTransferComponent {
     if (url) {
       URL.revokeObjectURL(url);
       this.previewUrl.set(null);
+    }
+  }
+
+  async copyMobileUploadLink(): Promise<void> {
+    const url = this.mobileUploadUrl();
+    if (!url) return;
+
+    this.copyingLink.set(true);
+    this.copyFeedback.set(null);
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        throw new Error('Clipboard API unavailable');
+      }
+      this.copyFeedback.set('Đã sao chép liên kết tải biên lai.');
+    } catch {
+      this.copyFeedback.set('Không thể sao chép tự động. Vui lòng nhấn giữ để copy liên kết.');
+    } finally {
+      this.copyingLink.set(false);
+    }
+  }
+
+  private async prepareMobileUploadLink(): Promise<void> {
+    const draft = this.draft();
+    const purchaseType = this.purchaseType();
+    const qty = this.qty();
+    if (!draft || !purchaseType || qty <= 0) return;
+
+    this.generatingMobileLink.set(true);
+    this.mobileUploadError.set(null);
+    this.mobileUploadUrl.set(null);
+    this.mobileUploadQrDataUrl.set(null);
+    this.copyFeedback.set(null);
+    try {
+      const response = await firstValueFrom(
+        this.paymentProofService.createResumeToken({
+          fullName: draft.fullName,
+          phone: draft.phone,
+          email: draft.email,
+          purchaseType,
+          qty,
+        }),
+      );
+      const url = `${window.location.origin}/tickets?step=receipt&token=${encodeURIComponent(response.resumeToken)}`;
+      const qrDataUrl = await QRCode.toDataURL(url, {
+        width: 260,
+        margin: 1,
+      });
+      this.mobileUploadUrl.set(url);
+      this.mobileUploadQrDataUrl.set(qrDataUrl);
+    } catch (err: unknown) {
+      this.mobileUploadError.set(this.errorMessageFromHttp(err));
+    } finally {
+      this.generatingMobileLink.set(false);
     }
   }
 }

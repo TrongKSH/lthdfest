@@ -51,6 +51,9 @@ export class TicketsComponent {
   );
 
   readonly hasPurchase = computed(() => this.purchaseType() !== null);
+  readonly hasPurchaseFlow = computed(
+    () => this.purchaseType() !== null || this.purchaseStep() === 'receipt',
+  );
 
   toggleCard(id: string): void {
     this.activeCardId.update((current) => (current === id ? null : id));

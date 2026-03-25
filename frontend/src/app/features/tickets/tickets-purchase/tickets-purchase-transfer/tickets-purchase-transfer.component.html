@@ -3,40 +3,90 @@
     <button class="ti-close" type="button" aria-label="Đóng" (click)="onClose()">×</button>
 
     <p class="tt-back-wrap">
-      <button type="button" class="tt-back-link" (click)="onBackToConfirm()">Quay lại</button>
+      <button type="button" class="tt-back-link" (click)="onBackToConfirm()">
+        {{ isReceiptMode() ? 'Về trang vé' : 'Quay lại' }}
+      </button>
     </p>
 
     <header class="ti-header">
-      <h1 class="ti-header-title">{{ headerTitle() }}</h1>
-      <p class="ti-header-line">Thời gian: {{ headerWhen() }}</p>
-      <p class="ti-header-line">Địa điểm: {{ headerWhere() }}</p>
+      <h1 class="ti-header-title">
+        {{ isReceiptMode() ? 'Tải biên lai thanh toán' : headerTitle() }}
+      </h1>
+      @if (!isReceiptMode()) {
+        <p class="ti-header-line">Thời gian: {{ headerWhen() }}</p>
+        <p class="ti-header-line">Địa điểm: {{ headerWhere() }}</p>
+      }
     </header>
 
-    <div class="tt-layout">
-      <section class="tt-qr-card" aria-labelledby="tt-qr-heading">
-        <h2 id="tt-qr-heading" class="tt-qr-beneficiary">CONG TY CO PHAN KHONG GIAN YEN TINH</h2>
-        <p class="tt-qr-account">
-          <span class="tt-sr-only">Số tài khoản: </span>
-          7227276868
-        </p>
+    <div class="tt-layout" [class.tt-layout--receipt]="isReceiptMode()">
+      @if (!isReceiptMode()) {
+        <section class="tt-qr-card" aria-labelledby="tt-qr-heading">
+          <h2 id="tt-qr-heading" class="tt-qr-beneficiary">CONG TY CO PHAN KHONG GIAN YEN TINH</h2>
+          <p class="tt-qr-account">
+            <span class="tt-sr-only">Số tài khoản: </span>
+            7227276868
+          </p>
 
-        <div class="tt-qr-frame">
-          <img
-            class="tt-qr-img"
-            src="/assets/images/qrcode.JPG"
-            alt="Mã QR VietQR Napas 247 Techcombank để chuyển khoản thanh toán vé"
-            width="400"
-            height="400"
-          />
-        </div>
+          <div class="tt-qr-frame">
+            <img
+              class="tt-qr-img"
+              src="/assets/images/qrcode.JPG"
+              alt="Mã QR VietQR Napas 247 Techcombank để chuyển khoản thanh toán vé"
+              width="400"
+              height="400"
+            />
+          </div>
 
-        <p class="tt-qr-scan-hint">Quét để thanh toán</p>
-      </section>
+          <p class="tt-qr-scan-hint">Quét để thanh toán</p>
+
+          <section class="tt-mobile-upload" aria-labelledby="tt-mobile-upload-title">
+            <h3 id="tt-mobile-upload-title" class="tt-mobile-upload-title">Tải biên lai trực tiếp từ điện thoại</h3>
+            <p class="tt-mobile-upload-copy">
+              Nếu bạn quét QR bằng app ngân hàng trên điện thoại, hãy quét mã dưới đây để mở trang tải biên lai trên điện thoại.
+            </p>
+
+            @if (generatingMobileLink()) {
+              <p class="tt-mobile-upload-status">Đang tạo liên kết tải biên lai…</p>
+            } @else if (mobileUploadError()) {
+              <p class="tt-mobile-upload-status tt-mobile-upload-status--error" role="alert">
+                {{ mobileUploadError() }}
+              </p>
+            } @else if (mobileUploadQrDataUrl() && mobileUploadUrl()) {
+              <div class="tt-qr-frame tt-qr-frame--mobile-upload">
+                <img
+                  class="tt-qr-img"
+                  [src]="mobileUploadQrDataUrl()!"
+                  alt="Mã QR mở trang tải biên lai trên điện thoại"
+                  width="260"
+                  height="260"
+                />
+              </div>
+              <button
+                type="button"
+                class="tt-copy-link"
+                [disabled]="copyingLink()"
+                (click)="copyMobileUploadLink()"
+              >
+                {{ copyingLink() ? 'Đang sao chép…' : 'Sao chép liên kết tải biên lai' }}
+              </button>
+              @if (copyFeedback()) {
+                <p class="tt-mobile-upload-status">{{ copyFeedback() }}</p>
+              }
+            }
+          </section>
+        </section>
+      }
 
       <section class="ti-card tt-upload-card" aria-labelledby="tt-upload-title">
-        <h2 id="tt-upload-title" class="tt-section-title">Tải ảnh biên lai</h2>
+        <h2 id="tt-upload-title" class="tt-section-title">
+          {{ isReceiptMode() ? 'Tải ảnh biên lai từ điện thoại' : 'Tải ảnh biên lai' }}
+        </h2>
         <p id="tt-upload-hint" class="tt-upload-hint">
-          Sau khi hoàn tất chuyển khoản, vui lòng chụp hoặc tải ảnh màn hình giao dịch thành công.
+          @if (isReceiptMode()) {
+            Chọn ảnh chụp màn hình giao dịch thành công từ app ngân hàng trên điện thoại.
+          } @else {
+            Sau khi hoàn tất chuyển khoản, vui lòng chụp hoặc tải ảnh màn hình giao dịch thành công.
+          }
           @if (paymentProofImageOptional) {
             <span class="tt-upload-optional-note"> (Tùy chọn: có thể gửi thông tin mà chưa cần ảnh nếu máy chủ chỉ ghi Sheet.)</span>
           }

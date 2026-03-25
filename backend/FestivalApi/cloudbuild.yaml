@@ -16,6 +16,7 @@ substitutions:
   _SHEETS_TAB_NAME_SECRET: google-payment-sheets-tab-name
   _DISABLE_FILE_STORAGE_SECRET: google-payment-disable-file-storage
   _GCS_BUCKET_NAME_SECRET: google-payment-gcs-bucket-name
+  _RESUME_TOKEN_SECRET: google-payment-resume-token-secret
 
 steps:
   - name: gcr.io/cloud-builders/docker
@@ -65,7 +66,7 @@ steps:
       - --timeout
       - ${_TIMEOUT}
       - --set-secrets
-      - CORS_ALLOWED_ORIGINS=${_CORS_SECRET}:latest,Google__Payment__ServiceAccountJson=${_SERVICE_ACCOUNT_JSON_SECRET}:latest,Google__Payment__SheetsSpreadsheetId=${_SHEETS_SPREADSHEET_ID_SECRET}:latest,Google__Payment__SheetsTabName=${_SHEETS_TAB_NAME_SECRET}:latest,Google__Payment__DisableFileStorage=${_DISABLE_FILE_STORAGE_SECRET}:latest,Google__Payment__GcsBucketName=${_GCS_BUCKET_NAME_SECRET}:latest
+      - CORS_ALLOWED_ORIGINS=${_CORS_SECRET}:latest,Google__Payment__ServiceAccountJson=${_SERVICE_ACCOUNT_JSON_SECRET}:latest,Google__Payment__SheetsSpreadsheetId=${_SHEETS_SPREADSHEET_ID_SECRET}:latest,Google__Payment__SheetsTabName=${_SHEETS_TAB_NAME_SECRET}:latest,Google__Payment__DisableFileStorage=${_DISABLE_FILE_STORAGE_SECRET}:latest,Google__Payment__GcsBucketName=${_GCS_BUCKET_NAME_SECRET}:latest,Google__Payment__ResumeTokenSecret=${_RESUME_TOKEN_SECRET}:latest
 
 images:
   - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE_NAME}:${SHORT_SHA}

@@ -11,14 +11,80 @@ namespace FestivalApi.Controllers;
 public sealed class TicketPaymentProofsController : ControllerBase
 {
     private readonly GoogleDriveSheetsPaymentService _storage;
+    private readonly TicketPaymentProofResumeTokenService _resumeTokens;
     private readonly ILogger<TicketPaymentProofsController> _logger;
 
     public TicketPaymentProofsController(
         GoogleDriveSheetsPaymentService storage,
+        TicketPaymentProofResumeTokenService resumeTokens,
         ILogger<TicketPaymentProofsController> logger)
     {
         _storage = storage;
+        _resumeTokens = resumeTokens;
         _logger = logger;
+    }
+
+    [HttpPost("resume")]
+    [ProducesResponseType(typeof(TicketPaymentProofResumeResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status503ServiceUnavailable)]
+    public IActionResult CreateResumeToken([FromBody] TicketPaymentProofResumeRequestDto request)
+    {
+        if (!_resumeTokens.IsConfigured)
+        {
+            return StatusCode(StatusCodes.Status503ServiceUnavailable, new ProblemDetails
+            {
+                Title = "Resume token is not configured",
+                Detail = "Set Google:Payment:ResumeTokenSecret to enable mobile receipt upload links.",
+                Status = StatusCodes.Status503ServiceUnavailable,
+            });
+        }
+
+        var fullName = request.FullName.Trim();
+        var phone = request.Phone.Trim();
+        var email = request.Email.Trim();
+        var purchaseType = request.PurchaseType.Trim();
+        var qty = request.Qty;
+
+        if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(phone)
+            || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(purchaseType))
+        {
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Missing fields",
+                Detail = "fullName, phone, email, and purchaseType are required.",
+                Status = StatusCodes.Status400BadRequest,
+            });
+        }
+
+        if (qty < 1)
+        {
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Invalid quantity",
+                Detail = "qty must be a positive integer.",
+                Status = StatusCodes.Status400BadRequest,
+            });
+        }
+
+        if (TicketPurchaseTypeMapper.TryGetTicketCode(purchaseType) == null)
+        {
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Invalid purchase type",
+                Detail = "purchaseType is not a supported ticket option.",
+                Status = StatusCodes.Status400BadRequest,
+            });
+        }
+
+        var now = DateTimeOffset.UtcNow;
+        var expiresAt = _resumeTokens.GetExpiresAtUtc(now);
+        var token = _resumeTokens.CreateToken(fullName, phone, email, purchaseType, qty, expiresAt);
+        return Ok(new TicketPaymentProofResumeResponseDto
+        {
+            ResumeToken = token,
+            ExpiresAtUtc = expiresAt,
+        });
     }
 
     /// <summary>Accept payment screenshot + purchase fields; append Google Sheet row. Uploads image to GCS/Drive when configured.</summary>
@@ -47,6 +113,7 @@ public sealed class TicketPaymentProofsController : ControllerBase
         var form = await Request.ReadFormAsync(cancellationToken).ConfigureAwait(false);
         var file = form.Files.GetFile("file");
         var requireFile = _storage.HasFileStorage;
+        var resumeToken = form["resumeToken"].ToString().Trim();
 
         if (requireFile && (file == null || file.Length == 0))
         {
@@ -82,31 +149,68 @@ public sealed class TicketPaymentProofsController : ControllerBase
             }
         }
 
-        var fullName = form["fullName"].ToString().Trim();
-        var phone = form["phone"].ToString().Trim();
-        var email = form["email"].ToString().Trim();
-        var purchaseType = form["purchaseType"].ToString().Trim();
-        var qtyRaw = form["qty"].ToString().Trim();
+        string fullName;
+        string phone;
+        string email;
+        string purchaseType;
+        int qty;
 
-        if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(phone)
-            || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(purchaseType))
+        if (!string.IsNullOrWhiteSpace(resumeToken))
         {
-            return BadRequest(new ProblemDetails
+            if (!_resumeTokens.IsConfigured)
             {
-                Title = "Missing fields",
-                Detail = "fullName, phone, email, and purchaseType are required.",
-                Status = StatusCodes.Status400BadRequest,
-            });
+                return StatusCode(StatusCodes.Status503ServiceUnavailable, new ProblemDetails
+                {
+                    Title = "Resume token is not configured",
+                    Detail = "Set Google:Payment:ResumeTokenSecret to enable resume-token proof submission.",
+                    Status = StatusCodes.Status503ServiceUnavailable,
+                });
+            }
+
+            if (!_resumeTokens.TryReadToken(resumeToken, DateTimeOffset.UtcNow, out var claims))
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Invalid resume token",
+                    Detail = "resumeToken is invalid or expired.",
+                    Status = StatusCodes.Status400BadRequest,
+                });
+            }
+
+            fullName = claims.FullName;
+            phone = claims.Phone;
+            email = claims.Email;
+            purchaseType = claims.PurchaseType;
+            qty = claims.Qty;
         }
-
-        if (!int.TryParse(qtyRaw, NumberStyles.Integer, CultureInfo.InvariantCulture, out var qty) || qty < 1)
+        else
         {
-            return BadRequest(new ProblemDetails
+            fullName = form["fullName"].ToString().Trim();
+            phone = form["phone"].ToString().Trim();
+            email = form["email"].ToString().Trim();
+            purchaseType = form["purchaseType"].ToString().Trim();
+            var qtyRaw = form["qty"].ToString().Trim();
+
+            if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(phone)
+                || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(purchaseType))
             {
-                Title = "Invalid quantity",
-                Detail = "qty must be a positive integer.",
-                Status = StatusCodes.Status400BadRequest,
-            });
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Missing fields",
+                    Detail = "fullName, phone, email, and purchaseType are required.",
+                    Status = StatusCodes.Status400BadRequest,
+                });
+            }
+
+            if (!int.TryParse(qtyRaw, NumberStyles.Integer, CultureInfo.InvariantCulture, out qty) || qty < 1)
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Invalid quantity",
+                    Detail = "qty must be a positive integer.",
+                    Status = StatusCodes.Status400BadRequest,
+                });
+            }
         }
 
         var ticketCode = TicketPurchaseTypeMapper.TryGetTicketCode(purchaseType);
@@ -203,6 +307,21 @@ public sealed class TicketPaymentProofsController : ControllerBase
 
         return false;
     }
+}
+
+public sealed class TicketPaymentProofResumeRequestDto
+{
+    public string FullName { get; set; } = string.Empty;
+    public string Phone { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string PurchaseType { get; set; } = string.Empty;
+    public int Qty { get; set; }
+}
+
+public sealed class TicketPaymentProofResumeResponseDto
+{
+    public string ResumeToken { get; set; } = string.Empty;
+    public DateTimeOffset ExpiresAtUtc { get; set; }
 }
 
 public sealed class TicketPaymentProofResponseDto
