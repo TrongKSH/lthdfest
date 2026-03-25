@@ -108,7 +108,7 @@ export class TicketsPurchaseTransferComponent {
   readonly canSubmit = computed(() => {
     if (this.submitting() || this.submitSuccess()) return false;
     const file = this.selectedFile();
-    const imageOk = file !== null || environment.paymentProofImageOptional;
+    const imageOk = file !== null || this.paymentProofImageOptional;
     if (this.isReceiptMode()) {
       return imageOk && this.resumeToken().length > 0;
     }
@@ -248,7 +248,7 @@ export class TicketsPurchaseTransferComponent {
     const receiptMode = this.isReceiptMode();
     const draft = this.draft();
 
-    if (!file && !environment.paymentProofImageOptional) return;
+    if (!file && !this.paymentProofImageOptional) return;
     if (receiptMode && !token) return;
     if (!receiptMode && (!draft || !purchaseType || q <= 0)) return;
     if (!receiptMode && draft && (draft.purchaseType !== purchaseType || draft.qty !== q)) return;
@@ -282,14 +282,23 @@ export class TicketsPurchaseTransferComponent {
   private errorMessageFromHttp(err: unknown): string {
     if (err instanceof HttpErrorResponse) {
       const body = err.error;
-      if (typeof body === 'string' && body.trim()) return body;
+      if (typeof body === 'string' && body.trim()) return body.trim();
       if (body && typeof body === 'object') {
-        const title = (body as { title?: string }).title;
-        const detail = (body as { detail?: string }).detail;
-        const msg = (body as { message?: string }).message;
-        if (typeof detail === 'string' && detail.trim()) return detail;
-        if (typeof title === 'string' && title.trim()) return title;
-        if (typeof msg === 'string' && msg.trim()) return msg;
+        const o = body as Record<string, unknown>;
+        const detail = o['detail'];
+        if (typeof detail === 'string' && detail.trim()) return detail.trim();
+
+        const fromErrors = this.messageFromAspNetValidationErrors(o['errors']);
+        if (fromErrors) return this.withUploadHintVi(fromErrors);
+
+        const message = o['message'];
+        if (typeof message === 'string' && message.trim()) return message.trim();
+
+        const title = o['title'];
+        if (typeof title === 'string' && title.trim()) {
+          const t = title.trim();
+          if (t.toLowerCase() !== 'one or more validation errors occurred.') return t;
+        }
       }
       if (err.status === 0) {
         return 'Không kết nối được máy chủ. Kiểm tra mạng hoặc thử lại sau.';
@@ -306,6 +315,30 @@ export class TicketsPurchaseTransferComponent {
       return `Gửi không thành công (${err.status}).`;
     }
     return 'Đã xảy ra lỗi. Vui lòng thử lại.';
+  }
+
+  /** Flattens ASP.NET ValidationProblemDetails `errors` (per-field string arrays). */
+  private messageFromAspNetValidationErrors(errors: unknown): string | null {
+    if (!errors || typeof errors !== 'object') return null;
+    const parts: string[] = [];
+    for (const v of Object.values(errors as Record<string, unknown>)) {
+      if (Array.isArray(v)) {
+        for (const item of v) {
+          if (typeof item === 'string' && item.trim()) parts.push(item.trim());
+        }
+      } else if (typeof v === 'string' && v.trim()) {
+        parts.push(v.trim());
+      }
+    }
+    if (parts.length === 0) return null;
+    return [...new Set(parts)].join(' ');
+  }
+
+  private withUploadHintVi(message: string): string {
+    if (/boundary|request form|multipart/i.test(message)) {
+      return `${message} — Nếu lỗi lặp lại, thử trình duyệt khác hoặc ảnh nhỏ hơn (tối đa 10 MB).`;
+    }
+    return message;
   }
 
   private revokePreview(): void {

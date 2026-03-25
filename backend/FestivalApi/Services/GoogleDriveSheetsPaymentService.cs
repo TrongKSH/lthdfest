@@ -9,6 +9,7 @@ using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Upload;
 using Google.Cloud.Storage.V1;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 
 namespace FestivalApi.Services;
@@ -16,16 +17,51 @@ namespace FestivalApi.Services;
 public sealed class GoogleDriveSheetsPaymentService
 {
     private const string DevStorageReadWrite = "https://www.googleapis.com/auth/devstorage.read_write";
+    private const string SheetTabIdCacheKeyPrefix = "GooglePayment:SheetTabId:";
+
+    private static readonly string[] ServiceAccountScopes =
+    {
+        DevStorageReadWrite,
+        DriveService.Scope.Drive,
+        SheetsService.Scope.Spreadsheets,
+    };
 
     private readonly GooglePaymentOptions _options;
     private readonly ILogger<GoogleDriveSheetsPaymentService> _logger;
+    private readonly IMemoryCache _memoryCache;
+    private readonly Lazy<GoogleCredential> _credential;
+    private readonly Lazy<SheetsService> _sheetsService;
+    private readonly Lazy<DriveService> _driveService;
+    private readonly Lazy<StorageClient> _storageClient;
 
     public GoogleDriveSheetsPaymentService(
         IOptions<GooglePaymentOptions> options,
+        IMemoryCache memoryCache,
         ILogger<GoogleDriveSheetsPaymentService> logger)
     {
         _options = options.Value;
+        _memoryCache = memoryCache;
         _logger = logger;
+        _credential = new Lazy<GoogleCredential>(BuildCredential, LazyThreadSafetyMode.ExecutionAndPublication);
+        _sheetsService = new Lazy<SheetsService>(
+            () =>
+                new SheetsService(new BaseClientService.Initializer
+                {
+                    HttpClientInitializer = _credential.Value,
+                    ApplicationName = "LTHD Festival API",
+                }),
+            LazyThreadSafetyMode.ExecutionAndPublication);
+        _driveService = new Lazy<DriveService>(
+            () =>
+                new DriveService(new BaseClientService.Initializer
+                {
+                    HttpClientInitializer = _credential.Value,
+                    ApplicationName = "LTHD Festival API",
+                }),
+            LazyThreadSafetyMode.ExecutionAndPublication);
+        _storageClient = new Lazy<StorageClient>(
+            () => StorageClient.Create(_credential.Value),
+            LazyThreadSafetyMode.ExecutionAndPublication);
     }
 
     /// <summary>True when service account + spreadsheet id are set (sheet append works).</summary>
@@ -118,8 +154,7 @@ public sealed class GoogleDriveSheetsPaymentService
         string daySegment,
         CancellationToken cancellationToken)
     {
-        var credential = CreateCredential(DevStorageReadWrite);
-        var storage = StorageClient.Create(credential);
+        var storage = _storageClient.Value;
 
         var prefix = (_options.GcsObjectPrefix ?? "payment-proofs").Trim().Trim('/');
         var objectName = string.IsNullOrEmpty(prefix)
@@ -145,13 +180,7 @@ public sealed class GoogleDriveSheetsPaymentService
         string daySegment,
         CancellationToken cancellationToken)
     {
-        var credential = CreateCredential(DriveService.Scope.Drive, SheetsService.Scope.Spreadsheets);
-
-        var drive = new DriveService(new BaseClientService.Initializer
-        {
-            HttpClientInitializer = credential,
-            ApplicationName = "LTHD Festival API",
-        });
+        var drive = _driveService.Value;
 
         var rootId = _options.DrivePaymentRootFolderId!;
         var dayFolderId = await GetOrCreateDayFolderAsync(drive, rootId, daySegment, cancellationToken)
@@ -190,13 +219,7 @@ public sealed class GoogleDriveSheetsPaymentService
         string paymentProofLinkLabel,
         CancellationToken cancellationToken)
     {
-        var credential = CreateCredential(SheetsService.Scope.Spreadsheets);
-
-        var sheets = new SheetsService(new BaseClientService.Initializer
-        {
-            HttpClientInitializer = credential,
-            ApplicationName = "LTHD Festival API",
-        });
+        var sheets = _sheetsService.Value;
 
         var timestamp = DateTimeOffset.UtcNow.ToString("O", CultureInfo.InvariantCulture);
         // Append needs a bounded A1 range: unbounded "Sheet1!A:G" returns "Unable to parse range" on the API.
@@ -236,31 +259,40 @@ public sealed class GoogleDriveSheetsPaymentService
 
         try
         {
-            var spreadsheet = await sheets.Spreadsheets.Get(_options.SheetsSpreadsheetId!)
-                .ExecuteAsync(cancellationToken)
-                .ConfigureAwait(false);
-
-            await ClearBoldOnAppendedRangeAsync(
+            var sheetId = await ResolveSheetTabIdAsync(
                     sheets,
                     _options.SheetsSpreadsheetId!,
-                    spreadsheet,
                     parsedSheetTitle,
-                    parsedCellRange,
                     cancellationToken)
                 .ConfigureAwait(false);
-
-            if (!string.IsNullOrWhiteSpace(paymentProofUrl))
+            if (sheetId == null)
             {
-                await ApplyPaymentProofLinkToColumnGAsync(
+                _logger.LogWarning(
+                    "Could not resolve sheet id for tab {SheetTitle}; skipping post-append formatting.",
+                    parsedSheetTitle);
+            }
+            else
+            {
+                await ClearBoldOnAppendedRangeAsync(
                         sheets,
                         _options.SheetsSpreadsheetId!,
-                        spreadsheet,
-                        parsedSheetTitle,
+                        sheetId.Value,
                         parsedCellRange,
-                        paymentProofUrl,
-                        paymentProofLinkLabel,
                         cancellationToken)
                     .ConfigureAwait(false);
+
+                if (!string.IsNullOrWhiteSpace(paymentProofUrl))
+                {
+                    await ApplyPaymentProofLinkToColumnGAsync(
+                            sheets,
+                            _options.SheetsSpreadsheetId!,
+                            sheetId.Value,
+                            parsedCellRange,
+                            paymentProofUrl,
+                            paymentProofLinkLabel,
+                            cancellationToken)
+                        .ConfigureAwait(false);
+                }
             }
         }
         catch (Exception ex)
@@ -277,15 +309,14 @@ public sealed class GoogleDriveSheetsPaymentService
     private async Task ClearBoldOnAppendedRangeAsync(
         SheetsService sheets,
         string spreadsheetId,
-        Spreadsheet spreadsheet,
-        string sheetTitle,
+        int sheetId,
         string cellRange,
         CancellationToken cancellationToken)
     {
-        var grid = TryBuildGridRangeFromA1(spreadsheet, sheetTitle, cellRange);
+        var grid = TryBuildGridRangeFromA1(sheetId, cellRange);
         if (grid == null)
         {
-            _logger.LogWarning("Could not build grid range from {Sheet}!{Cells}", sheetTitle, cellRange);
+            _logger.LogWarning("Could not build grid range for sheet id {SheetId}: {Cells}", sheetId, cellRange);
             return;
         }
 
@@ -329,20 +360,19 @@ public sealed class GoogleDriveSheetsPaymentService
     private async Task ApplyPaymentProofLinkToColumnGAsync(
         SheetsService sheets,
         string spreadsheetId,
-        Spreadsheet spreadsheet,
-        string sheetTitle,
+        int sheetId,
         string cellRange,
         string paymentProofUrl,
         string paymentProofLinkLabel,
         CancellationToken cancellationToken)
     {
         const int columnGZeroBased = 6;
-        var gridG = TryBuildGridRangeForColumnIndex(spreadsheet, sheetTitle, cellRange, columnGZeroBased);
+        var gridG = TryBuildGridRangeForColumnIndex(sheetId, cellRange, columnGZeroBased);
         if (gridG == null)
         {
             _logger.LogWarning(
-                "Could not build column G grid range from {Sheet}!{Cells} for hyperlink",
-                sheetTitle,
+                "Could not build column G grid range for sheet id {SheetId}: {Cells} for hyperlink",
+                sheetId,
                 cellRange);
             return;
         }
@@ -444,17 +474,37 @@ public sealed class GoogleDriveSheetsPaymentService
         return cellRange.Length > 0;
     }
 
-    private static GridRange? TryBuildGridRangeFromA1(
-        Spreadsheet spreadsheet,
+    private async Task<int?> ResolveSheetTabIdAsync(
+        SheetsService sheets,
+        string spreadsheetId,
         string sheetTitle,
-        string cellRangePart)
+        CancellationToken cancellationToken)
     {
+        if (_options.SheetsTabSheetId is { } configuredId && configuredId >= 0)
+            return configuredId;
+
+        var cacheKey = $"{SheetTabIdCacheKeyPrefix}{spreadsheetId}\0{sheetTitle}";
+        if (_memoryCache.TryGetValue(cacheKey, out int cached))
+            return cached;
+
+        var spreadsheet = await sheets.Spreadsheets.Get(spreadsheetId)
+            .ExecuteAsync(cancellationToken)
+            .ConfigureAwait(false);
+
         var sheet = spreadsheet.Sheets?.FirstOrDefault(sh => sh.Properties?.Title == sheetTitle);
         if (sheet?.Properties?.SheetId == null)
             return null;
 
-        var sheetId = sheet.Properties.SheetId.Value;
+        var id = sheet.Properties.SheetId.Value;
+        _memoryCache.Set(
+            cacheKey,
+            id,
+            new MemoryCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(7) });
+        return id;
+    }
 
+    private static GridRange? TryBuildGridRangeFromA1(int sheetId, string cellRangePart)
+    {
         var m = Regex.Match(
             cellRangePart.Trim(),
             @"^([A-Za-z]+)(\d+):([A-Za-z]+)(\d+)$",
@@ -479,17 +529,10 @@ public sealed class GoogleDriveSheetsPaymentService
 
     /// <summary>Same rows as the append A1 range, restricted to one column (e.g. G = index 6).</summary>
     private static GridRange? TryBuildGridRangeForColumnIndex(
-        Spreadsheet spreadsheet,
-        string sheetTitle,
+        int sheetId,
         string cellRangePart,
         int columnIndexZeroBased)
     {
-        var sheet = spreadsheet.Sheets?.FirstOrDefault(sh => sh.Properties?.Title == sheetTitle);
-        if (sheet?.Properties?.SheetId == null)
-            return null;
-
-        var sheetId = sheet.Properties.SheetId.Value;
-
         var m = Regex.Match(
             cellRangePart.Trim(),
             @"^([A-Za-z]+)(\d+):([A-Za-z]+)(\d+)$",
@@ -525,13 +568,13 @@ public sealed class GoogleDriveSheetsPaymentService
         return n - 1;
     }
 
-    private GoogleCredential CreateCredential(params string[] scopes)
+    private GoogleCredential BuildCredential()
     {
         var normalizedJson = GoogleServiceAccountJsonNormalizer.Normalize(_options.ServiceAccountJson);
         var jsonBytes = Encoding.UTF8.GetBytes(normalizedJson);
         using var credentialStream = new MemoryStream(jsonBytes, writable: false);
 #pragma warning disable CS0618
-        return GoogleCredential.FromStream(credentialStream).CreateScoped(scopes);
+        return GoogleCredential.FromStream(credentialStream).CreateScoped(ServiceAccountScopes);
 #pragma warning restore CS0618
     }
 

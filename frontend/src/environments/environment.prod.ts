@@ -6,8 +6,8 @@ export const environment = {
     'https://api-staging.longtranhhodau.xyz',
   /**
    * Optional override before bootstrap: globalThis.__LT_HD_PAYMENT_PROOF_IMAGE_OPTIONAL__
-   * Keep true for sheets-only mode (no file storage).
+   * Default false (require receipt image). Set true only for sheets-only APIs with no file storage.
    */
   paymentProofImageOptional:
-    (globalThis as any).__LT_HD_PAYMENT_PROOF_IMAGE_OPTIONAL__ ?? true,
+    (globalThis as any).__LT_HD_PAYMENT_PROOF_IMAGE_OPTIONAL__ ?? false,
 };

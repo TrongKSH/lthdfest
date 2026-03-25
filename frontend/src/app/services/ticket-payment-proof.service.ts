@@ -41,6 +41,7 @@ export class TicketPaymentProofService {
   }
 
   createResumeToken(payload: TicketPaymentProofPayload): Observable<TicketPaymentProofResumeResponse> {
+    const qty = Math.trunc(Number(payload.qty));
     return this.http.post<TicketPaymentProofResumeResponse>(
       `${this.apiUrl}/api/ticket-payment-proofs/resume`,
       {
@@ -48,7 +49,7 @@ export class TicketPaymentProofService {
         phone: payload.phone.trim(),
         email: payload.email.trim(),
         purchaseType: payload.purchaseType.trim(),
-        qty: payload.qty,
+        qty: Number.isFinite(qty) && qty > 0 ? qty : 0,
       },
     );
   }
@@ -83,11 +84,12 @@ export class TicketPaymentProofService {
       body.append('resumeToken', resumeToken.trim());
     }
     if (payload) {
+      const qty = Math.trunc(Number(payload.qty));
       body.append('fullName', payload.fullName.trim());
       body.append('phone', payload.phone.trim());
       body.append('email', payload.email.trim());
       body.append('purchaseType', payload.purchaseType.trim());
-      body.append('qty', String(payload.qty));
+      body.append('qty', String(Number.isFinite(qty) && qty > 0 ? qty : 0));
     }
 
     return this.http.post<TicketPaymentProofResponse>(

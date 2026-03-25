@@ -2,7 +2,9 @@ using System.Globalization;
 using System.Net;
 using FestivalApi.Services;
 using Google;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace FestivalApi.Controllers;
 
@@ -47,7 +49,19 @@ public sealed class TicketPaymentProofsController : ControllerBase
         var phone = request.Phone.Trim();
         var email = request.Email.Trim();
         var purchaseType = request.PurchaseType.Trim();
-        var qty = request.Qty;
+        var qtyDec = request.Qty;
+
+        if (qtyDec < 1 || qtyDec != decimal.Truncate(qtyDec))
+        {
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Invalid quantity",
+                Detail = "qty must be a positive whole number.",
+                Status = StatusCodes.Status400BadRequest,
+            });
+        }
+
+        var qty = (int)qtyDec;
 
         if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(phone)
             || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(purchaseType))
@@ -56,16 +70,6 @@ public sealed class TicketPaymentProofsController : ControllerBase
             {
                 Title = "Missing fields",
                 Detail = "fullName, phone, email, and purchaseType are required.",
-                Status = StatusCodes.Status400BadRequest,
-            });
-        }
-
-        if (qty < 1)
-        {
-            return BadRequest(new ProblemDetails
-            {
-                Title = "Invalid quantity",
-                Detail = "qty must be a positive integer.",
                 Status = StatusCodes.Status400BadRequest,
             });
         }
@@ -158,7 +162,24 @@ public sealed class TicketPaymentProofsController : ControllerBase
             });
         }
 
-        var form = await Request.ReadFormAsync(cancellationToken).ConfigureAwait(false);
+        IFormCollection form;
+        try
+        {
+            form = await Request.ReadFormAsync(cancellationToken).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Could not read multipart form for ticket payment proof");
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Could not read upload",
+                Detail =
+                    "The server could not read the upload (multipart form). "
+                    + "Try again, use another browser, or use a smaller image (max 10 MB). Technical: "
+                    + ex.Message,
+                Status = StatusCodes.Status400BadRequest,
+            });
+        }
         var file = form.Files.GetFile("file");
         var requireFile = _storage.HasFileStorage;
         var resumeToken = form["resumeToken"].ToString().Trim();
@@ -368,7 +389,10 @@ public sealed class TicketPaymentProofResumeRequestDto
     public string Phone { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string PurchaseType { get; set; } = string.Empty;
-    public int Qty { get; set; }
+
+    /// <summary>Whole-number quantity; uses <see cref="decimal"/> so non-integers get a clear 400 instead of JSON model errors.</summary>
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
+    public decimal Qty { get; set; }
 }
 
 public sealed class TicketPaymentProofResumeResponseDto

@@ -26,6 +26,12 @@ public sealed class GooglePaymentOptions
 
     public string SheetsTabName { get; set; } = "Sheet1";
 
+    /// <summary>
+    /// Optional numeric sheet/tab id (see sheet properties in the Sheets UI / API). When set, post-append
+    /// formatting skips loading full spreadsheet metadata; otherwise the tab id is cached after the first fetch.
+    /// </summary>
+    public int? SheetsTabSheetId { get; set; }
+
     /// <summary>Vietnam is UTC+7 (no DST). Used for daily folder name yyyy-MM-dd.</summary>
     public int VietnamUtcOffsetHours { get; set; } = 7;
 
