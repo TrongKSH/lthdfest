@@ -1,8 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import type { LineupBand } from '../../models/band.model';
 import { BandService } from '../../services/band.service';
+
+const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
+
 type LineupFilter = 'all' | 'longtranh' | 'hodau';
 
 @Component({
@@ -14,6 +17,8 @@ type LineupFilter = 'all' | 'longtranh' | 'hodau';
 })
 export class LineupComponent {
   private readonly bandService = inject(BandService);
+  private readonly destroyRef = inject(DestroyRef);
+  private bucketBoundaryTimeoutId: ReturnType<typeof setTimeout> | undefined;
   private readonly compactLogoBands = new Set([
     'blackindustry',
     'cutlon',
@@ -31,8 +36,12 @@ export class LineupComponent {
   protected readonly bands = toSignal(this.bandService.getLineupBands(), {
     initialValue: [] as LineupBand[],
   });
+  private readonly timeBucket = signal(this.getCurrentTwoHourBucket());
+  private readonly randomizedBands = computed(() =>
+    this.shuffleWithSeed(this.bands(), this.timeBucket() + 101)
+  );
   protected readonly filteredBands = computed(() => {
-    const allBands = this.bands();
+    const allBands = this.randomizedBands();
     const filter = this.activeFilter();
     if (filter === 'all') return allBands;
     return allBands.filter((band) => this.belongsToFilter(band, filter));
@@ -42,8 +51,51 @@ export class LineupComponent {
     this.activeFilter.set(filter);
   }
 
+  constructor() {
+    this.scheduleNextTwoHourBucketTick();
+    this.destroyRef.onDestroy(() => {
+      if (this.bucketBoundaryTimeoutId !== undefined) {
+        clearTimeout(this.bucketBoundaryTimeoutId);
+      }
+    });
+  }
+
+  private scheduleNextTwoHourBucketTick(): void {
+    const now = Date.now();
+    const nextBoundaryMs = (Math.floor(now / TWO_HOURS_MS) + 1) * TWO_HOURS_MS;
+    const delayMs = nextBoundaryMs - now;
+    this.bucketBoundaryTimeoutId = setTimeout(() => {
+      this.timeBucket.set(this.getCurrentTwoHourBucket());
+      this.scheduleNextTwoHourBucketTick();
+    }, delayMs);
+  }
+
   private belongsToFilter(band: LineupBand, filter: Exclude<LineupFilter, 'all'>): boolean {
     return filter === 'longtranh' ? band.lineupDay === 'LongTranh' : band.lineupDay === 'HoDau';
+  }
+
+  private getCurrentTwoHourBucket(): number {
+    return Math.floor(Date.now() / TWO_HOURS_MS);
+  }
+
+  private seededRandom(seed: number): () => number {
+    let state = seed >>> 0;
+    return () => {
+      state = (state + 0x6d2b79f5) >>> 0;
+      let t = Math.imul(state ^ (state >>> 15), 1 | state);
+      t ^= t + Math.imul(t ^ (t >>> 7), 61 | t);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  private shuffleWithSeed<T>(items: readonly T[], seed: number): T[] {
+    const shuffled = [...items];
+    const random = this.seededRandom(seed);
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
   }
 
   protected shouldBoostLogo(bandName: string): boolean {
