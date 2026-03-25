@@ -110,7 +110,7 @@ Braindead MV:https://youtu.be/P_SCJHSgaNw?si=9lmeSKof5bsswmVH",
             HeroUrl = "/assets/bands/blackindustry/hero.JPG",
             LogoUrl = "/assets/bands/blackindustry/logo.png",
             IsFeaturedOnHome = false,
-            LineupDay = LineupDay.HoDau,
+            LineupDay = LineupDay.LongTranh,
             LineupPosition = 4
         },
         #endregion
@@ -137,7 +137,7 @@ Lineup:
             HeroUrl = "/assets/bands/cutlon/hero.jpg",
             LogoUrl = "/assets/bands/cutlon/logo.png",
             IsFeaturedOnHome = true,
-            LineupDay = LineupDay.LongTranh,
+            LineupDay = LineupDay.HoDau,
             LineupPosition = 5
         },
         #endregion
@@ -162,7 +162,7 @@ Từ khi thành lập, Die So Far đã tham gia biểu diễn tại nhiều sự
             HeroUrl = "/assets/bands/diesofar/hero.JPG",
             LogoUrl = "/assets/bands/diesofar/logo.png",
             IsFeaturedOnHome = false,
-            LineupDay = LineupDay.HoDau,
+            LineupDay = LineupDay.LongTranh,
             LineupPosition = 6
         },
         #endregion
@@ -185,7 +185,7 @@ Các thành viên:
             HeroUrl = "/assets/bands/elbowdrop/hero.jpg",
             LogoUrl = "/assets/bands/elbowdrop/logo1.png",
             IsFeaturedOnHome = true,
-            LineupDay = LineupDay.LongTranh,
+            LineupDay = LineupDay.HoDau,
             LineupPosition = 7
         },
         #endregion
@@ -222,7 +222,7 @@ Hãy chuẩn bị tinh thần cho một cơn ""Tăng Huyết Áp"" thực sự!
             HeroUrl = "/assets/bands/hypertension/hero.png",
             LogoUrl = "/assets/bands/hypertension/logo.png",
             IsFeaturedOnHome = true,
-            LineupDay = LineupDay.LongTranh,
+            LineupDay = LineupDay.HoDau,
             LineupPosition = 9
         },
         #endregion
@@ -263,7 +263,7 @@ Releases: Aug 8th, 2025
         new Band
         {
             Id = 11,
-            Name = "Nhao",
+            Name = "Nhạo",
             Bio = @"NHẠO là ban nhạc rock Việt Nam được thành lập vào ngày 20/09/2020 và hiện tại đang hoạt động ở Sài Gòn với 4 thành viên ban nhạc: 
 • Trọng Nhân (Band Leader - Vocalist)
 • Thanh Duy (Rhythm Guitarist)
@@ -357,7 +357,7 @@ Thành Viên:
 ",
             HeroUrl = "/assets/bands/thanhduc/hero.jfif",
             LogoUrl = "/assets/bands/thanhduc/logo.png",
-            LineupDay = LineupDay.HoDau,
+            LineupDay = LineupDay.LongTranh,
             LineupPosition = 14
         },
         #endregion
@@ -374,7 +374,7 @@ Vào ngày 31.12.2025 vừa rồi, band đã cho ra mắt EP “Omnipotent”. Q
 ",
             HeroUrl = "/assets/bands/underpressure/hero.jpg",
             LogoUrl = "/assets/bands/underpressure/logo.png",
-            LineupDay = LineupDay.LongTranh,
+            LineupDay = LineupDay.HoDau,
             LineupPosition = 15
         },
         #endregion
@@ -386,7 +386,7 @@ Vào ngày 31.12.2025 vừa rồi, band đã cho ra mắt EP “Omnipotent”. Q
             Bio = "",
             HeroUrl = "/assets/bands/1818/hero.png",
             LogoUrl = null,
-            LineupDay = LineupDay.HoDau,
+            LineupDay = LineupDay.LongTranh,
             LineupPosition = 16
         },
         #endregion
@@ -447,7 +447,7 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
 ",
             HeroUrl = "/assets/bands/diarsia/hero.jpg",
             LogoUrl = "/assets/bands/diarsia/logo.png",
-            LineupDay = LineupDay.LongTranh,
+            LineupDay = LineupDay.HoDau,
             LineupPosition = 19
         },
         #endregion
@@ -461,7 +461,7 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             LogoUrl = null,
             IsSecret = true,
             IsFeaturedOnHome = true,
-            LineupDay = LineupDay.HoDau,
+            LineupDay = LineupDay.LongTranh,
             LineupPosition = 20
         },
         #endregion
@@ -475,7 +475,7 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             LogoUrl = null,
             IsSecret = true,
             IsFeaturedOnHome = true,
-            LineupDay = LineupDay.LongTranh,
+            LineupDay = LineupDay.HoDau,
             LineupPosition = 21
         },
         #endregion
@@ -500,7 +500,7 @@ CÁC TÁC PHẨM ĐÃ ĐƯỢC RA MẮT:
             Bio = "",
             HeroUrl = "/assets/bands/surprise/hero.png",
             LogoUrl = null,
-            IsSecret = true,
+            IsSecret = false,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 23
         },
