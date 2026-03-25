@@ -38,42 +38,6 @@
           </div>
 
           <p class="tt-qr-scan-hint">Quét để thanh toán</p>
-
-          <section class="tt-mobile-upload" aria-labelledby="tt-mobile-upload-title">
-            <h3 id="tt-mobile-upload-title" class="tt-mobile-upload-title">Tải biên lai trực tiếp từ điện thoại</h3>
-            <p class="tt-mobile-upload-copy">
-              Nếu bạn quét QR bằng app ngân hàng trên điện thoại, hãy quét mã dưới đây để mở trang tải biên lai trên điện thoại.
-            </p>
-
-            @if (generatingMobileLink()) {
-              <p class="tt-mobile-upload-status">Đang tạo liên kết tải biên lai…</p>
-            } @else if (mobileUploadError()) {
-              <p class="tt-mobile-upload-status tt-mobile-upload-status--error" role="alert">
-                {{ mobileUploadError() }}
-              </p>
-            } @else if (mobileUploadQrDataUrl() && mobileUploadUrl()) {
-              <div class="tt-qr-frame tt-qr-frame--mobile-upload">
-                <img
-                  class="tt-qr-img"
-                  [src]="mobileUploadQrDataUrl()!"
-                  alt="Mã QR mở trang tải biên lai trên điện thoại"
-                  width="260"
-                  height="260"
-                />
-              </div>
-              <button
-                type="button"
-                class="tt-copy-link"
-                [disabled]="copyingLink()"
-                (click)="copyMobileUploadLink()"
-              >
-                {{ copyingLink() ? 'Đang sao chép…' : 'Sao chép liên kết tải biên lai' }}
-              </button>
-              @if (copyFeedback()) {
-                <p class="tt-mobile-upload-status">{{ copyFeedback() }}</p>
-              }
-            }
-          </section>
         </section>
       }
 
@@ -87,9 +51,7 @@
           } @else {
             Sau khi hoàn tất chuyển khoản, vui lòng chụp hoặc tải ảnh màn hình giao dịch thành công.
           }
-          @if (paymentProofImageOptional) {
-            <span class="tt-upload-optional-note"> (Tùy chọn: có thể gửi thông tin mà chưa cần ảnh nếu máy chủ chỉ ghi Sheet.)</span>
-          }
+
         </p>
 
         <div class="tt-upload-controls">
@@ -135,6 +97,39 @@
             <span class="tt-submit-inner">Gửi ảnh chụp giao dịch thành công</span>
           }
         </button>
+
+        @if (!isReceiptMode()) {
+          <section
+            class="tt-mobile-upload tt-mobile-upload--in-upload-card"
+            aria-labelledby="tt-mobile-upload-title"
+          >
+            <h3 id="tt-mobile-upload-title" class="tt-mobile-upload-title">Tải biên lai trực tiếp từ điện thoại</h3>
+            <p class="tt-mobile-upload-copy">
+              Nếu bạn quét QR bằng app ngân hàng trên điện thoại, hãy quét mã dưới đây để mở trang tải biên lai trên điện thoại.
+            </p>
+            <p class="tt-mobile-upload-copy tt-mobile-upload-copy--secondary">
+              Giữ trang này mở trên máy tính — sẽ tự xác nhận khi bạn gửi biên lai từ điện thoại.
+            </p>
+
+            @if (generatingMobileLink()) {
+              <p class="tt-mobile-upload-status">Đang tạo liên kết tải biên lai…</p>
+            } @else if (mobileUploadError()) {
+              <p class="tt-mobile-upload-status tt-mobile-upload-status--error" role="alert">
+                {{ mobileUploadError() }}
+              </p>
+            } @else if (mobileUploadQrDataUrl()) {
+              <div class="tt-qr-frame tt-qr-frame--mobile-upload">
+                <img
+                  class="tt-qr-img"
+                  [src]="mobileUploadQrDataUrl()!"
+                  alt="Mã QR mở trang tải biên lai trên điện thoại"
+                  width="260"
+                  height="260"
+                />
+              </div>
+            }
+          </section>
+        }
       </section>
     </div>
   </div>

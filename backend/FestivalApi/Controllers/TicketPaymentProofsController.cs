@@ -12,15 +12,18 @@ public sealed class TicketPaymentProofsController : ControllerBase
 {
     private readonly GoogleDriveSheetsPaymentService _storage;
     private readonly TicketPaymentProofResumeTokenService _resumeTokens;
+    private readonly ResumeProofCompletionTracker _resumeCompletion;
     private readonly ILogger<TicketPaymentProofsController> _logger;
 
     public TicketPaymentProofsController(
         GoogleDriveSheetsPaymentService storage,
         TicketPaymentProofResumeTokenService resumeTokens,
+        ResumeProofCompletionTracker resumeCompletion,
         ILogger<TicketPaymentProofsController> logger)
     {
         _storage = storage;
         _resumeTokens = resumeTokens;
+        _resumeCompletion = resumeCompletion;
         _logger = logger;
     }
 
@@ -84,6 +87,51 @@ public sealed class TicketPaymentProofsController : ControllerBase
         {
             ResumeToken = token,
             ExpiresAtUtc = expiresAt,
+        });
+    }
+
+    /// <summary>Whether a proof was successfully submitted for this resume token (for desktop polling while phone uploads).</summary>
+    [HttpGet("resume-status")]
+    [ProducesResponseType(typeof(TicketPaymentProofResumeStatusDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status503ServiceUnavailable)]
+    public IActionResult GetResumeStatus([FromQuery] string token)
+    {
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Missing token",
+                Detail = "Query parameter \"token\" is required.",
+                Status = StatusCodes.Status400BadRequest,
+            });
+        }
+
+        if (!_resumeTokens.IsConfigured)
+        {
+            return StatusCode(StatusCodes.Status503ServiceUnavailable, new ProblemDetails
+            {
+                Title = "Resume token is not configured",
+                Detail = "Set Google:Payment:ResumeTokenSecret to enable resume status checks.",
+                Status = StatusCodes.Status503ServiceUnavailable,
+            });
+        }
+
+        if (_resumeCompletion.IsCompleted(token))
+        {
+            return Ok(new TicketPaymentProofResumeStatusDto { Submitted = true });
+        }
+
+        if (_resumeTokens.TryReadToken(token, DateTimeOffset.UtcNow, out _))
+        {
+            return Ok(new TicketPaymentProofResumeStatusDto { Submitted = false });
+        }
+
+        return BadRequest(new ProblemDetails
+        {
+            Title = "Invalid resume token",
+            Detail = "token is invalid or expired.",
+            Status = StatusCodes.Status400BadRequest,
         });
     }
 
@@ -258,6 +306,11 @@ public sealed class TicketPaymentProofsController : ControllerBase
                     .ConfigureAwait(false);
             }
 
+            if (!string.IsNullOrWhiteSpace(resumeToken))
+            {
+                _resumeCompletion.MarkCompleted(resumeToken);
+            }
+
             return Created(string.Empty, new TicketPaymentProofResponseDto
             {
                 DriveFileId = result.DriveFileId,
@@ -322,6 +375,11 @@ public sealed class TicketPaymentProofResumeResponseDto
 {
     public string ResumeToken { get; set; } = string.Empty;
     public DateTimeOffset ExpiresAtUtc { get; set; }
+}
+
+public sealed class TicketPaymentProofResumeStatusDto
+{
+    public bool Submitted { get; set; }
 }
 
 public sealed class TicketPaymentProofResponseDto

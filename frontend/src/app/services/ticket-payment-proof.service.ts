@@ -1,6 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
+export interface TicketPaymentProofResumeStatus {
+  submitted: boolean;
+}
 import { environment } from '../../environments/environment';
 
 export interface TicketPaymentProofPayload {
@@ -28,6 +32,13 @@ export interface TicketPaymentProofResponse {
 export class TicketPaymentProofService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = environment.apiUrl;
+
+  getResumeSubmissionStatus(token: string): Observable<TicketPaymentProofResumeStatus> {
+    return this.http.get<TicketPaymentProofResumeStatus>(
+      `${this.apiUrl}/api/ticket-payment-proofs/resume-status`,
+      { params: { token: token.trim() } },
+    );
+  }
 
   createResumeToken(payload: TicketPaymentProofPayload): Observable<TicketPaymentProofResumeResponse> {
     return this.http.post<TicketPaymentProofResumeResponse>(

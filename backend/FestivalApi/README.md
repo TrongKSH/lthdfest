@@ -11,7 +11,7 @@ Multipart form fields:
 
 ## Mobile receipt upload (resume token)
 
-When buyers pay by scanning the **VietQR** on a desktop, the receipt screenshot lives on the **phone**. The web app can show a **second QR** (or copy link) that opens `/tickets?step=receipt&token=…` on the phone so they upload without re-entering name/phone/email.
+When buyers pay by scanning the **VietQR** on a desktop, the receipt screenshot lives on the **phone**. The web app can show a **second QR** that opens `/tickets?step=receipt&token=…` on the phone so they upload without re-entering name/phone/email.
 
 **Backend requirements**
 
@@ -26,6 +26,15 @@ When buyers pay by scanning the **VietQR** on a desktop, the receipt screenshot 
 4. **`POST /api/ticket-payment-proofs`** with multipart field **`resumeToken`** replays the stored buyer + line item from the token; image upload and GCS/Sheets behavior are unchanged.
 
 **Frontend:** the transfer step calls `/resume` and builds `https://<your-site>/tickets?step=receipt&token=<token>` for the second QR. Ensure CORS allows your site origin (existing `Cors:AllowedOrigins` / `CORS_ALLOWED_ORIGINS`).
+
+### Desktop sync after phone upload
+
+While the transfer page stays open on a **desktop** browser, it polls **`GET /api/ticket-payment-proofs/resume-status?token={resumeToken}`** every few seconds. After a successful phone upload, the response is `{ "submitted": true }` and the desktop shows the same success state as a local upload.
+
+- If **`submitted`** is false and the token is still valid → **200**.
+- If the token is invalid or expired and the proof was never recorded → **400**.
+
+Completion is stored in **`IMemoryCache`** on the API host for **24 hours** (keyed by a SHA-256 hash of the token, not the raw token). **Multi-instance caveat:** with **multiple Cloud Run instances**, the phone’s request might hit instance A while the desktop polls instance B until one poll hits the same instance that stored the completion—or until concurrency settles. For a single instance (common for small services), sync is reliable. For strict cross-instance behavior, use a shared store (e.g. Redis) later.
 
 ### GCP: add `ResumeTokenSecret` (Secret Manager + Cloud Run)
 

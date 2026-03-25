@@ -20,7 +20,7 @@ import { TicketsPurchaseDraftService } from '../../tickets-purchase-draft.servic
 import { TicketPaymentProofService } from '../../../../services/ticket-payment-proof.service';
 import { environment } from '../../../../../environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, switchMap, timer } from 'rxjs';
 import QRCode from 'qrcode';
 
 @Component({
@@ -98,10 +98,10 @@ export class TicketsPurchaseTransferComponent {
   readonly submitSuccess = signal(false);
   readonly generatingMobileLink = signal(false);
   readonly mobileUploadError = signal<string | null>(null);
-  readonly mobileUploadUrl = signal<string | null>(null);
   readonly mobileUploadQrDataUrl = signal<string | null>(null);
-  readonly copyingLink = signal(false);
-  readonly copyFeedback = signal<string | null>(null);
+
+  /** Raw token for polling: desktop learns when phone upload completes. */
+  readonly desktopPollToken = signal<string | null>(null);
 
   private lastMobileContextKey: string | null = null;
 
@@ -154,9 +154,9 @@ export class TicketsPurchaseTransferComponent {
       const d = this.draft();
       if (!t || q <= 0 || !d || d.purchaseType !== t || d.qty !== q) {
         this.lastMobileContextKey = null;
-        this.mobileUploadUrl.set(null);
         this.mobileUploadQrDataUrl.set(null);
         this.mobileUploadError.set(null);
+        this.desktopPollToken.set(null);
         return;
       }
 
@@ -166,6 +166,26 @@ export class TicketsPurchaseTransferComponent {
       }
       this.lastMobileContextKey = key;
       void this.prepareMobileUploadLink();
+    });
+
+    effect((onCleanup) => {
+      if (this.isReceiptMode()) return;
+      if (this.submitSuccess()) return;
+      const token = this.desktopPollToken();
+      if (!token) return;
+
+      const sub = timer(0, 2500)
+        .pipe(switchMap(() => this.paymentProofService.getResumeSubmissionStatus(token)))
+        .subscribe({
+          next: (status) => {
+            if (status.submitted) {
+              this.submitSuccess.set(true);
+            }
+          },
+          error: () => {},
+        });
+
+      onCleanup(() => sub.unsubscribe());
     });
   }
 
@@ -296,26 +316,6 @@ export class TicketsPurchaseTransferComponent {
     }
   }
 
-  async copyMobileUploadLink(): Promise<void> {
-    const url = this.mobileUploadUrl();
-    if (!url) return;
-
-    this.copyingLink.set(true);
-    this.copyFeedback.set(null);
-    try {
-      if (navigator?.clipboard?.writeText) {
-        await navigator.clipboard.writeText(url);
-      } else {
-        throw new Error('Clipboard API unavailable');
-      }
-      this.copyFeedback.set('Đã sao chép liên kết tải biên lai.');
-    } catch {
-      this.copyFeedback.set('Không thể sao chép tự động. Vui lòng nhấn giữ để copy liên kết.');
-    } finally {
-      this.copyingLink.set(false);
-    }
-  }
-
   private async prepareMobileUploadLink(): Promise<void> {
     const draft = this.draft();
     const purchaseType = this.purchaseType();
@@ -324,9 +324,8 @@ export class TicketsPurchaseTransferComponent {
 
     this.generatingMobileLink.set(true);
     this.mobileUploadError.set(null);
-    this.mobileUploadUrl.set(null);
     this.mobileUploadQrDataUrl.set(null);
-    this.copyFeedback.set(null);
+    this.desktopPollToken.set(null);
     try {
       const response = await firstValueFrom(
         this.paymentProofService.createResumeToken({
@@ -342,7 +341,7 @@ export class TicketsPurchaseTransferComponent {
         width: 260,
         margin: 1,
       });
-      this.mobileUploadUrl.set(url);
+      this.desktopPollToken.set(response.resumeToken);
       this.mobileUploadQrDataUrl.set(qrDataUrl);
     } catch (err: unknown) {
       this.mobileUploadError.set(this.errorMessageFromHttp(err));
