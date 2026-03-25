@@ -297,8 +297,10 @@
 }
 
 .tt-submit {
-  width: clamp(280px, 78%, 460px);
-  margin: 16px auto 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 16px 0 0;
   height: 64px;
   padding: 0;
   border: 0;
