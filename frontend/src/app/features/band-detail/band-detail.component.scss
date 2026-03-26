@@ -8,25 +8,42 @@
 }
 
 .back {
+  box-sizing: border-box;
   border: 0;
-  padding: 0;
-  background: transparent;
-  display: inline-block;
-  margin-bottom: 1rem;
-  color: #5b8def;
+  margin: 0 0 1rem;
+  min-width: 168px;
+  height: 52px;
+  padding: 0 1.75rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #000000;
   cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  text-decoration: none;
+  background: none;
+  background-color: transparent;
+  background-image: url('/assets/images/background-button.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: none;
+  transition: transform 0.15s ease, opacity 0.15s ease;
 
   &:hover {
-    color: #5b8def;
+    transform: scale(1.02);
+  }
+
+  &:active {
+    transform: scale(0.98);
   }
 
   &:focus-visible {
-    outline: 2px solid #5b8def;
+    outline: 2px solid #ffffff;
     outline-offset: 4px;
   }
 }
