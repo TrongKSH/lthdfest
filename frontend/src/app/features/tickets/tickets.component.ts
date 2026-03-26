@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, computed, effect } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
@@ -34,6 +35,7 @@ export class TicketsComponent {
 
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly document = inject(DOCUMENT);
 
   readonly purchaseType = toSignal(
     this.route.queryParamMap.pipe(map((p) => p.get('purchase'))),
@@ -60,6 +62,28 @@ export class TicketsComponent {
   readonly hasPurchaseFlow = computed(
     () => this.purchaseType() !== null || this.purchaseStep() === 'receipt',
   );
+
+  constructor() {
+    effect((onCleanup) => {
+      const lock = this.hasPurchaseFlow();
+      const body = this.document.body;
+      const prevOverflow = body.style.overflow;
+      const prevTouchAction = body.style.touchAction;
+
+      if (lock) {
+        body.style.overflow = 'hidden';
+        body.style.touchAction = 'none';
+      } else {
+        body.style.overflow = '';
+        body.style.touchAction = '';
+      }
+
+      onCleanup(() => {
+        body.style.overflow = prevOverflow;
+        body.style.touchAction = prevTouchAction;
+      });
+    });
+  }
 
   toggleCard(id: string): void {
     this.activeCardId.update((current) => (current === id ? null : id));

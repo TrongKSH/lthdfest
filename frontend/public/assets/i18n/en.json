@@ -42,8 +42,8 @@
     "teaserVideo": "Festival teaser",
     "playVideo": "Play video",
     "tapToPlay": "Tap to play",
-    "buyTicketsAria": "Buy tickets now",
-    "buyTicketsAlt": "BUY TICKETS NOW"
+    "buyTicketsAria": "Buy tickets",
+    "buyTicketsLabel": "BUY TICKETS"
   },
   "newsTicker": {
     "aria": "News ticker",

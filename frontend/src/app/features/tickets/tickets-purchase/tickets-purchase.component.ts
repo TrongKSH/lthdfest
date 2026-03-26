@@ -38,12 +38,6 @@ export class TicketsPurchaseComponent {
     return Array.isArray(v) ? (v as string[]) : [];
   });
 
-  readonly continueImgSrc = computed(() =>
-    this.quantity() > 0
-      ? '/assets/images/continue-enabled.png'
-      : '/assets/images/continue-disbaled.png',
-  );
-
   readonly selectedPack = computed<TicketPackDef | null>(() => {
     const t = this.type();
     if (t === 'presale') return null;

@@ -323,24 +323,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 46px;
+  min-height: 52px;
   padding: 0.7rem 1.25rem;
-  border-radius: 999px;
-  background: #fff;
+  border-radius: 12px;
+  background: url('/assets/images/background-button.png') center / 100% 100% no-repeat;
   color: #000;
   font-family: 'Inter', sans-serif;
-  font-weight: 800;
-  font-size: 0.88rem;
-  letter-spacing: 0.1em;
+  font-weight: 900;
+  font-size: 0.86rem;
+  letter-spacing: 0.07em;
   text-decoration: none;
   text-transform: uppercase;
   border: none;
   cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition: transform 0.15s ease, filter 0.15s ease;
 
   &:hover {
     transform: scale(1.01);
-    opacity: 0.95;
+    filter: brightness(1.08);
   }
 
   &:focus-visible {
@@ -585,29 +585,37 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 46px;
+  min-height: 52px;
   padding: 0.7rem 1.25rem;
-  border-radius: 999px;
-  background: #fff;
+  border-radius: 12px;
+  background: url('/assets/images/background-button.png') center / 100% 100% no-repeat;
   color: #000;
   font-family: 'Inter', sans-serif;
-  font-weight: 800;
-  font-size: 0.88rem;
-  letter-spacing: 0.1em;
+  font-weight: 900;
+  font-size: 0.86rem;
+  letter-spacing: 0.07em;
   text-decoration: none;
   text-transform: uppercase;
   border: none;
   cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition: transform 0.15s ease, filter 0.15s ease;
 
   &:hover {
     transform: scale(1.01);
-    opacity: 0.95;
+    filter: brightness(1.08);
   }
 
   &:focus-visible {
     outline: 2px solid #fff;
     outline-offset: 3px;
   }
+}
+
+.tickets-buy-label {
+  display: block;
+  text-align: center;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-shadow: none;
 }
 

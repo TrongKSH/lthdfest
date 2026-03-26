@@ -28,7 +28,7 @@
             class="tickets-presale__btn"
             (click)="$event.stopPropagation(); onPresaleBuy()"
           >
-            {{ 'tickets.packs.presale.buyLabel' | transloco }}
+            <span class="tickets-buy-label">{{ 'tickets.packs.presale.buyLabel' | transloco }}</span>
           </button>
         </div>
       </article>
@@ -80,7 +80,7 @@
                 class="tickets-pack__btn"
                 (click)="$event.stopPropagation(); onPackBuy(pack)"
               >
-                {{ ('tickets.packs.' + pack.id + '.buyLabel') | transloco }}
+                <span class="tickets-buy-label">{{ ('tickets.packs.' + pack.id + '.buyLabel') | transloco }}</span>
               </button>
             }
           </div>

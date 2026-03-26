@@ -136,10 +136,11 @@
 
           <button
             class="ti-continue"
+            [class.ti-continue--disabled]="!continueEnabled()"
             type="button"
             (click)="onContinue()"
           >
-            <img class="ti-continue-img" [src]="continueImgSrc()" [attr.alt]="'common.continue' | transloco" />
+            <span class="ti-continue-label">{{ 'common.continue' | transloco }}</span>
           </button>
 
           @if (continueError()) {

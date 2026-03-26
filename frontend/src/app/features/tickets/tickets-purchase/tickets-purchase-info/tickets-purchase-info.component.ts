@@ -71,12 +71,6 @@ export class TicketsPurchaseInfoComponent {
     return true;
   });
 
-  readonly continueImgSrc = computed(() =>
-    this.continueEnabled()
-      ? '/assets/images/continue-enabled.png'
-      : '/assets/images/continue-disbaled.png',
-  );
-
   readonly formattedSubtotal = computed(() => this.locale.formatVnd(this.subtotalVnd()));
 
   readonly formattedUnitPrice = computed(() => this.locale.formatVnd(this.unitPriceVnd()));

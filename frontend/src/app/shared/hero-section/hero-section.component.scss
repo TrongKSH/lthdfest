@@ -109,12 +109,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  width: min(300px, calc(100vw - 2rem));
+  min-height: 92px;
+  margin: 0 auto;
+  padding: 0.6rem 1.25rem;
+  background: url('/assets/images/background-button.png') center / 100% 100% no-repeat;
   text-decoration: none;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-.cta:hover .cta-img {
+.cta:hover {
   transform: scale(1.02);
+  filter: brightness(1.08);
 }
 
 .cta:focus-visible {
@@ -122,18 +128,24 @@
   outline-offset: 4px;
 }
 
-.cta-img {
+.cta-label {
   display: block;
-  height: auto;
-  max-width: 320px;
-  width: auto;
-  transition: transform 0.2s ease;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.3rem, 3.15vw, 1.52rem);
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  color: #000;
+  text-shadow: none;
 }
 
 /* Tablet (e.g. iPad Mini, iPad Pro) */
 @media (max-width: 1024px) {
-  .cta-img {
-    max-width: 280px;
+  .cta {
+    width: min(275px, calc(100vw - 2rem));
+    min-height: 84px;
   }
 }
 
@@ -142,8 +154,9 @@
     bottom: var(--lthd-space-12, 3rem);
   }
 
-  .cta-img {
-    max-width: 260px;
+  .cta {
+    width: min(260px, calc(100vw - 2rem));
+    min-height: 76px;
   }
 }
 
@@ -153,8 +166,10 @@
     bottom: var(--lthd-space-8, 2rem);
   }
 
-  .cta-img {
-    max-width: 224px;
+  .cta {
+    width: min(230px, calc(100vw - 2rem));
+    min-height: 68px;
+    padding: 0.5rem 1rem;
   }
 }
 

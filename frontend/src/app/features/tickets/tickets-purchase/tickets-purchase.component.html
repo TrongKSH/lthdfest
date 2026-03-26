@@ -61,7 +61,7 @@
       [disabled]="quantity() <= 0"
       (click)="onContinue()"
     >
-      <img class="tp-continue-img" [src]="continueImgSrc()" [attr.alt]="'tickets.purchase.continueAlt' | transloco" />
+      <span class="tp-continue-label">{{ 'common.continue' | transloco }}</span>
     </button>
   </div>
 </div>
