@@ -1,5 +1,5 @@
 <div class="detail">
-  <a routerLink="/" fragment="bands" class="back">Quay lại</a>
+  <button type="button" class="back" (click)="goBack()">Quay lại</button>
   @if (band(); as b) {
     <article class="band-detail">
       <section class="hero">

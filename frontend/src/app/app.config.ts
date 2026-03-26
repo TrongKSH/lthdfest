@@ -21,7 +21,8 @@ export const appConfig: ApplicationConfig = {
       routes,
       withPreloading(PreloadAllModules),
       withInMemoryScrolling({
-        scrollPositionRestoration: 'top',
+        // Restore scroll on back/forward; still scroll to top on forward navigations.
+        scrollPositionRestoration: 'enabled',
         anchorScrolling: 'enabled',
       })
     ),

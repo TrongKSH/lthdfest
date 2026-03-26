@@ -9,7 +9,8 @@ import {
   untracked,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { BandService } from '../../services/band.service';
@@ -17,12 +18,14 @@ import { BandService } from '../../services/band.service';
 @Component({
   selector: 'app-band-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './band-detail.component.html',
   styleUrl: './band-detail.component.scss',
 })
 export class BandDetailComponent {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly location = inject(Location);
   private readonly bandService = inject(BandService);
   private readonly destroyRef = inject(DestroyRef);
   private heroImgEl: HTMLImageElement | null = null;
@@ -109,4 +112,13 @@ export class BandDetailComponent {
     if (day === 'HoDau') return 'Hổ Đấu';
     return '';
   });
+
+  /** Prefer real history (lineup vs home); fall back to home #bands when there is no in-app entry. */
+  protected goBack(): void {
+    if (typeof history !== 'undefined' && history.length > 1) {
+      this.location.back();
+    } else {
+      void this.router.navigate(['/'], { fragment: 'bands' });
+    }
+  }
 }
