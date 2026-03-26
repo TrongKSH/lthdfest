@@ -22,10 +22,10 @@ import { AppLocaleService, type AppLang } from '../../i18n/locale.service';
           [class.lang-switch__flag--en]="locale.activeLang === 'en'"
           aria-hidden="true"
         ></span>
-        <span class="lang-switch__caret" aria-hidden="true"></span>
       </button>
 
       @if (open()) {
+        <button type="button" class="lang-switch__overlay" aria-hidden="true" tabindex="-1" (click)="open.set(false)"></button>
         <div class="lang-switch__menu" role="menu">
           <button type="button" class="lang-switch__item" role="menuitemradio" [attr.aria-checked]="locale.activeLang === 'vi'" (click)="set('vi')">
             <span class="lang-switch__flag lang-switch__flag--vi" aria-hidden="true"></span>
@@ -50,17 +50,36 @@ import { AppLocaleService, type AppLang } from '../../i18n/locale.service';
       justify-content: center;
     }
     .lang-switch__trigger {
+      position: relative;
+      z-index: 52;
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
-      min-width: 60px;
-      height: 34px;
-      padding: 0 8px;
+      gap: 0;
+      min-width: 44px;
+      height: 30px;
+      padding: 0 4px;
       border: none;
       border-radius: 5px;
-      background: rgba(0, 0, 0, 0.55);
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
       color: #fff;
       cursor: pointer;
+    }
+    .lang-switch__trigger:hover,
+    .lang-switch__trigger:focus-visible {
+      background: transparent;
+    }
+    .lang-switch__overlay {
+      position: fixed;
+      inset: 0;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      background: rgba(0, 0, 0, 0.12);
+      z-index: 49;
+      cursor: default;
     }
     .lang-switch__flag {
       width: 22px;
@@ -93,18 +112,6 @@ import { AppLocaleService, type AppLang } from '../../i18n/locale.service';
     .lang-switch__flag--en::before {
       content: '';
     }
-    .lang-switch__caret {
-      width: 0;
-      height: 0;
-      border-left: 4px solid transparent;
-      border-right: 4px solid transparent;
-      border-top: 6px solid #fff;
-      opacity: 0.9;
-      transition: transform 0.16s ease;
-    }
-    .lang-switch--open .lang-switch__caret {
-      transform: rotate(180deg);
-    }
     .lang-switch__menu {
       position: absolute;
       top: calc(100% + 6px);
@@ -113,8 +120,8 @@ import { AppLocaleService, type AppLang } from '../../i18n/locale.service';
       padding: 3px;
       border: none;
       border-radius: 7px;
-      background: rgba(0, 0, 0, 0.9);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.34);
+      background: rgba(0, 0, 0, 0.56);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
       z-index: 50;
     }
     .lang-switch__item {
@@ -134,7 +141,7 @@ import { AppLocaleService, type AppLang } from '../../i18n/locale.service';
     }
     .lang-switch__item:hover,
     .lang-switch__item:focus-visible {
-      background: rgba(255, 255, 255, 0.12);
+      background: transparent;
     }
   `,
 })

@@ -292,7 +292,11 @@
 }
 
 .tt-submit-inner {
-  display: inline-block;
+  display: block;
+  padding: 0 16px;
+  line-height: 1.15;
+  text-align: center;
+  white-space: normal;
   text-transform: uppercase;
 }
 
@@ -342,6 +346,31 @@
 @media (max-width: 900px) {
   .tt-layout {
     grid-template-columns: 1fr;
+  }
+
+  /* On phones/tablets, users can upload directly, so hide desktop QR handoff block. */
+  .tt-mobile-upload--in-upload-card {
+    display: none;
+  }
+
+  .tt-submit,
+  .tt-success-modal-btn {
+    height: 58px;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+}
+
+@media (max-width: 480px) {
+  .tt-submit,
+  .tt-success-modal-btn {
+    height: 54px;
+    font-size: 12px;
+    letter-spacing: 0.01em;
+  }
+
+  .tt-submit-inner {
+    padding: 0 12px;
   }
 }
 
