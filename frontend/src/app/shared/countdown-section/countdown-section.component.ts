@@ -1,6 +1,5 @@
-import { Component, ChangeDetectionStrategy, inject, signal, computed, effect } from '@angular/core';
-import { FestivalService } from '../../services/festival.service';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, ChangeDetectionStrategy, input, signal, computed, effect } from '@angular/core';
+import type { CountdownDto } from '../../models/countdown.model';
 
 const STATIC_EVENT_DATE = new Date(2026, 4, 8); // 08 May 2026 (month 0-indexed)
 
@@ -11,8 +10,8 @@ const STATIC_EVENT_DATE = new Date(2026, 4, 8); // 08 May 2026 (month 0-indexed)
   styleUrl: './countdown-section.component.scss',
 })
 export class CountdownSectionComponent {
-  private readonly festivalService = inject(FestivalService);
-  readonly countdownDto = toSignal(this.festivalService.getCountdown(), { initialValue: null });
+  /** When set (e.g. from Home), avoids a second countdown subscription. */
+  readonly countdownDto = input<CountdownDto | null>(null);
   readonly eventDate = computed(() => {
     const dto = this.countdownDto();
     if (dto?.eventDate) {

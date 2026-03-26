@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using FestivalApi.Data;
 using FestivalApi.Models;
+using FestivalApi.Services;
 
 namespace FestivalApi.Controllers;
 
@@ -9,11 +8,11 @@ namespace FestivalApi.Controllers;
 [Route("api/[controller]")]
 public class FestivalController : ControllerBase
 {
-    private readonly FestivalDbContext _db;
+    private readonly FestivalReadService _festivalRead;
 
-    public FestivalController(FestivalDbContext db)
+    public FestivalController(FestivalReadService festivalRead)
     {
-        _db = db;
+        _festivalRead = festivalRead;
     }
 
     /// <summary>
@@ -22,7 +21,7 @@ public class FestivalController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<Festival>> GetFestival(CancellationToken cancellationToken = default)
     {
-        var festival = await _db.Festivals.OrderBy(f => f.EventDate).FirstOrDefaultAsync(cancellationToken);
+        var festival = await _festivalRead.GetPrimaryFestivalAsync(cancellationToken);
         if (festival == null)
             return NotFound();
         return Ok(festival);

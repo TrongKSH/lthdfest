@@ -14,6 +14,7 @@ builder.Services.AddControllers()
 builder.Services.Configure<GooglePaymentOptions>(
     builder.Configuration.GetSection(GooglePaymentOptions.SectionName));
 builder.Services.AddMemoryCache();
+builder.Services.AddScoped<FestivalReadService>();
 builder.Services.AddSingleton<GoogleDriveSheetsPaymentService>();
 builder.Services.AddSingleton<TicketPaymentProofResumeTokenService>();
 builder.Services.AddSingleton<ResumeProofCompletionTracker>();

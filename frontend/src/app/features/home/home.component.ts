@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
 import { HeroSectionComponent } from '../../shared/hero-section/hero-section.component';
 import { NewsTickerComponent } from '../../shared/news-ticker/news-ticker.component';
 import { BandsSectionComponent } from '../../shared/bands-section/bands-section.component';
@@ -22,5 +22,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class HomeComponent {
   private readonly festivalService = inject(FestivalService);
-  readonly festival = toSignal(this.festivalService.getFestival(), { initialValue: null });
+  readonly homeData = toSignal(this.festivalService.getHomePageData(), { initialValue: null });
+  readonly festival = computed(() => this.homeData()?.festival ?? null);
 }

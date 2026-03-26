@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using FestivalApi.Data;
 using FestivalApi.Models;
+using FestivalApi.Services;
 
 namespace FestivalApi.Controllers;
 
@@ -9,11 +8,11 @@ namespace FestivalApi.Controllers;
 [Route("api/[controller]")]
 public class CountdownController : ControllerBase
 {
-    private readonly FestivalDbContext _db;
+    private readonly FestivalReadService _festivalRead;
 
-    public CountdownController(FestivalDbContext db)
+    public CountdownController(FestivalReadService festivalRead)
     {
-        _db = db;
+        _festivalRead = festivalRead;
     }
 
     /// <summary>
@@ -22,7 +21,7 @@ public class CountdownController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<CountdownDto>> Get(CancellationToken cancellationToken = default)
     {
-        var festival = await _db.Festivals.OrderBy(f => f.EventDate).FirstOrDefaultAsync(cancellationToken);
+        var festival = await _festivalRead.GetPrimaryFestivalAsync(cancellationToken);
         if (festival == null)
             return NotFound();
         return Ok(new CountdownDto
