@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+
+import { AppLocaleService } from '../../../../i18n/locale.service';
 import {
-  getPurchaseHeaderMeta,
-  getPurchaseHeaderTitle,
+  getPurchaseHeaderMetaKeys,
   getTicketPricing,
+  purchaseTierTitleKey,
 } from '../../tickets-content';
 import { TicketsPurchaseDraftService } from '../../tickets-purchase-draft.service';
 
@@ -12,12 +15,15 @@ type RadioValue = 'yes' | 'no';
 @Component({
   selector: 'app-tickets-purchase-info',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoPipe],
   templateUrl: './tickets-purchase-info.component.html',
   styleUrl: './tickets-purchase-info.component.scss',
 })
 export class TicketsPurchaseInfoComponent {
   private readonly router = inject(Router);
   private readonly draftService = inject(TicketsPurchaseDraftService);
+  private readonly transloco = inject(TranslocoService);
+  private readonly locale = inject(AppLocaleService);
 
   readonly type = input<string>('presale');
   readonly qty = input<number>(0);
@@ -30,7 +36,8 @@ export class TicketsPurchaseInfoComponent {
   readonly fullName = signal('');
   readonly phone = signal('');
   readonly email = signal('');
-  readonly taxCode = signal('');
+
+  readonly termIndices = [1, 2, 3, 4, 5, 6, 7] as const;
 
   constructor() {
     effect(() => {
@@ -45,14 +52,13 @@ export class TicketsPurchaseInfoComponent {
 
   readonly unitPriceVnd = computed(() => this.pricing()?.unitPriceVnd ?? 0);
 
-  readonly summaryLineLabel = computed(() => this.pricing()?.summaryDisplayName ?? '—');
+  readonly tierTitleKey = computed(
+    () => purchaseTierTitleKey(this.type()) ?? 'tickets.packs.presale.title',
+  );
+
+  readonly metaKeys = computed(() => getPurchaseHeaderMetaKeys(this.type()));
 
   readonly subtotalVnd = computed(() => this.quantity() * this.unitPriceVnd());
-
-  readonly headerTitle = computed(() => getPurchaseHeaderTitle(this.type()));
-  readonly headerMeta = computed(() => getPurchaseHeaderMeta(this.type()));
-  readonly headerWhen = computed(() => this.headerMeta().when);
-  readonly headerWhere = computed(() => this.headerMeta().where);
 
   readonly continueEnabled = computed(() => {
     if (!this.pricing()) return false;
@@ -71,15 +77,15 @@ export class TicketsPurchaseInfoComponent {
       : '/assets/images/continue-disbaled.png',
   );
 
-  readonly formattedSubtotal = computed(() => this.formatVnd(this.subtotalVnd()));
+  readonly formattedSubtotal = computed(() => this.locale.formatVnd(this.subtotalVnd()));
 
-  readonly formattedUnitPrice = computed(() => this.formatVnd(this.unitPriceVnd()));
+  readonly formattedUnitPrice = computed(() => this.locale.formatVnd(this.unitPriceVnd()));
 
   readonly continueError = signal<string | null>(null);
 
   onContinue(): void {
     if (!this.continueEnabled()) {
-      this.continueError.set('Vui lòng trả lời hết tất cả câu hỏi để tiếp tục.');
+      this.continueError.set(this.transloco.translate('tickets.info.continueError'));
       return;
     }
 
@@ -102,9 +108,4 @@ export class TicketsPurchaseInfoComponent {
     this.draftService.clearDraft();
     void this.router.navigate(['/tickets'], { queryParams: {} });
   }
-
-  private formatVnd(n: number): string {
-    return `${n.toLocaleString('vi-VN')} vnđ`;
-  }
 }
-

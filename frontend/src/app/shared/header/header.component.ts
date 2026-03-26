@@ -6,13 +6,16 @@ import {
   signal,
 } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { TranslocoPipe } from '@ngneat/transloco';
+
+import { LangSwitchComponent } from '../lang-switch/lang-switch.component';
 
 type DesktopNavSection = 'soul' | 'commerce' | 'info';
 
 @Component({
   selector: 'app-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, TranslocoPipe, LangSwitchComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -42,6 +45,7 @@ export class HeaderComponent {
         const t = e.target as HTMLElement | null;
         if (!t) return;
         if (t.closest('.menu-btn')) return;
+        if (t.closest('.header-tools')) return;
         if (t.closest('.nav-link')) return;
         if (t.closest('.nav')) return;
         if (t.closest('.mobile-drawer')) return;

@@ -1,8 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-news-ticker',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoPipe],
   templateUrl: './news-ticker.component.html',
   styleUrl: './news-ticker.component.scss',
 })

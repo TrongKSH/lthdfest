@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, input, signal, computed, effect } from '@angular/core';
+import { TranslocoPipe } from '@ngneat/transloco';
 import type { CountdownDto } from '../../models/countdown.model';
 
 const STATIC_EVENT_DATE = new Date(2026, 4, 8); // 08 May 2026 (month 0-indexed)
@@ -6,6 +7,7 @@ const STATIC_EVENT_DATE = new Date(2026, 4, 8); // 08 May 2026 (month 0-indexed)
 @Component({
   selector: 'app-countdown-section',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoPipe],
   templateUrl: './countdown-section.component.html',
   styleUrl: './countdown-section.component.scss',
 })

@@ -13,12 +13,15 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
+import { startWith } from 'rxjs';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+
 import { BandService } from '../../services/band.service';
 
 @Component({
   selector: 'app-band-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
+  imports: [TranslocoPipe],
   templateUrl: './band-detail.component.html',
   styleUrl: './band-detail.component.scss',
 })
@@ -28,6 +31,11 @@ export class BandDetailComponent {
   private readonly location = inject(Location);
   private readonly bandService = inject(BandService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly transloco = inject(TranslocoService);
+  private readonly activeLang = toSignal(
+    this.transloco.langChanges$.pipe(startWith(this.transloco.getActiveLang())),
+    { initialValue: this.transloco.getActiveLang() },
+  );
   private heroImgEl: HTMLImageElement | null = null;
 
   /** True when object-fit: cover crops the image vertically — enable slow pan. */
@@ -93,24 +101,12 @@ export class BandDetailComponent {
   }
 
   protected readonly bioParagraphs = computed(() => {
-    const bio = this.band()?.bio?.trim();
-    if (!bio) return [];
-    return bio.split(/\n{2,}/).map((part) => part.trim()).filter(Boolean);
-  });
-
-  /** Festival day on stage — derived from lineupDay (single source for all bands). */
-  protected readonly performanceDateDisplay = computed(() => {
-    const day = this.band()?.lineupDay;
-    if (day === 'LongTranh') return '08/05/2026';
-    if (day === 'HoDau') return '09/05/2026';
-    return '';
-  });
-
-  protected readonly stageTitle = computed(() => {
-    const day = this.band()?.lineupDay;
-    if (day === 'LongTranh') return 'Long Tranh';
-    if (day === 'HoDau') return 'Hổ Đấu';
-    return '';
+    this.activeLang();
+    const b = this.band();
+    const preferEn = this.transloco.getActiveLang() === 'en';
+    const raw = (preferEn && b?.bioEn?.trim() ? b.bioEn : b?.bio)?.trim() ?? '';
+    if (!raw) return [];
+    return raw.split(/\n{2,}/).map((part) => part.trim()).filter(Boolean);
   });
 
   /** Prefer real history (lineup vs home); fall back to home #bands when there is no in-app entry. */

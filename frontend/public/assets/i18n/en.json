@@ -1,0 +1,324 @@
+{
+  "common": {
+    "close": "Close",
+    "continue": "CONTINUE",
+    "loading": "Loading...",
+    "lang": {
+      "en": "English",
+      "vi": "Vietnamese",
+      "switchTo": "Language"
+    }
+  },
+  "header": {
+    "menuToggle": "Toggle navigation menu",
+    "mainNav": "Main navigation",
+    "primaryNav": "Primary",
+    "soulSubmenu": "Soul submenu",
+    "commerceSubmenu": "Commerce submenu",
+    "infoSubmenu": "Info submenu",
+    "soul": "Soul",
+    "commerce": "Commerce",
+    "info": "Info",
+    "fullLineup": "Full Line-up",
+    "runningOrder": "Running Order",
+    "ticketsInfo": "Tickets Info",
+    "merchandise": "Merchandise (Shop)",
+    "festivalInfo": "Festival Info",
+    "infoPratique": "Practical Info",
+    "mediaPress": "Media/Press",
+    "logoAria": "Soul, Commerce and Info — Back to home",
+    "logoAlt": "Soul, Commerce and Info",
+    "mobileNavDrawer": "Main navigation"
+  },
+  "footer": {
+    "followUs": "FOLLOW US",
+    "socialLinks": "Social links",
+    "contact": "CONTACT",
+    "anyQuestion": "ANY QUESTION?",
+    "faq": "FAQ",
+    "brand": "LONG TRANH HỔ ĐẤU"
+  },
+  "hero": {
+    "teaserVideo": "Festival teaser",
+    "playVideo": "Play video",
+    "tapToPlay": "Tap to play",
+    "buyTicketsAria": "Buy tickets now",
+    "buyTicketsAlt": "BUY TICKETS NOW"
+  },
+  "newsTicker": {
+    "aria": "News ticker",
+    "announce": "Hot news announcements",
+    "hotNews": "HOT NEWS",
+    "longTranh": "Long Tranh",
+    "hoDau": "Hổ Đấu"
+  },
+  "bandsSection": {
+    "title": "20+ BANDS",
+    "discoverAria": "Discover lineup",
+    "infoAria": "Festival information"
+  },
+  "bandCard": {
+    "secretBand": "Secret band",
+    "secretAlt": "Secret band",
+    "viewBandAria": "View {{name}}"
+  },
+  "countdown": {
+    "daysLeft": "{{count}} days to go",
+    "dash": "—",
+    "warning": "WARNING",
+    "caution": "CAUTION"
+  },
+  "lineup": {
+    "title": "LINE-UP",
+    "filterAria": "Filter lineup",
+    "all": "All",
+    "longTranh": "Long Tranh",
+    "hoDau": "Hổ Đấu",
+    "empty": "No artist data yet.",
+    "secretBand": "Secret band",
+    "artistAria": "Artist {{name}}"
+  },
+  "faq": {
+    "title": "FAQ",
+    "regionAria": "Frequently asked questions",
+    "items": {
+      "1": {
+        "question": "When is the festival?",
+        "answer": "The event runs over two days with two distinct experiences. Gate times and the full schedule will be updated on this website."
+      },
+      "2": {
+        "question": "Where can I buy tickets?",
+        "answer": "Tickets are sold officially on the festival website. Buy only from official sources to protect your purchase."
+      },
+      "3": {
+        "question": "How do I receive my tickets after payment?",
+        "answer": "E-tickets will be emailed within 48 hours of successful payment. Please check your inbox."
+      },
+      "4": {
+        "question": "What if I don't receive my tickets by email?",
+        "answer": "Check spam and other folders. If you still don't see them, contact us via the official fan page or hotline."
+      },
+      "5": {
+        "question": "Can I refund or exchange my tickets?",
+        "answer": "Paid tickets are non-refundable and non-exchangeable unless the organizer cancels the event."
+      },
+      "6": {
+        "question": "Is there an age limit?",
+        "answer": "The event is intended for ages 16+. Under 16 must attend with a guardian."
+      }
+    }
+  },
+  "tickets": {
+    "pageTitle": "TICKETS",
+    "timeLabel": "When:",
+    "placeLabel": "Where:",
+    "priceLabel": "Price:",
+    "when": {
+      "full": "Fri–Sat, May 8–9, 2026",
+      "may8": "Fri, May 8, 2026",
+      "may9": "Sat, May 9, 2026"
+    },
+    "meta": {
+      "eventName": "Long Tranh Hổ Đấu Festival",
+      "where": "327 Tran Xuan Soan, Tan Kieng, District 7, Ho Chi Minh City"
+    },
+    "purchase": {
+      "dialogAria": "Ticket purchase",
+      "tierRule": "(You can only select tickets within the same tier)",
+      "quantityTitle": "Quantity",
+      "quantityGroupAria": "Select ticket quantity",
+      "decreaseQty": "Decrease quantity",
+      "increaseQty": "Increase quantity",
+      "qtyInputAria": "Quantity",
+      "perksTitle": "What's included at the event:",
+      "chooseOtherArea": "Choose another area",
+      "continueAlt": "CONTINUE",
+      "headingTier": "{{tier}} tier"
+    },
+    "packs": {
+      "presale": {
+        "title": "PRE-SALE",
+        "summaryDisplayName": "Pre-Sale",
+        "buyLabel": "BUY TICKETS NOW",
+        "priceAmount": "549,000 VND"
+      },
+      "brotherhood": {
+        "peekTitle": "BROTHERHOOD PACK",
+        "peekSub": "(BROTHERHOOD)",
+        "hoverTitle": "BROTHERHOOD PACK",
+        "hoverSubtitle": "(BROTHERHOOD)",
+        "summaryDisplayName": "Brotherhood Pack",
+        "buyLabel": "BUY TICKETS NOW",
+        "priceAmount": "999,000 VND"
+      },
+      "longtranh": {
+        "peekTitle": "LONG TRANH",
+        "hoverTitle": "LONG TRANH",
+        "summaryDisplayName": "Long Tranh",
+        "buyLabel": "BUY TICKETS NOW",
+        "priceAmount": "349,000 VND"
+      },
+      "hodau": {
+        "peekTitle": "HỔ ĐẤU",
+        "hoverTitle": "HỔ ĐẤU",
+        "summaryDisplayName": "Hổ Đấu",
+        "buyLabel": "BUY TICKETS NOW",
+        "priceAmount": "349,000 VND"
+      },
+      "metalhead": {
+        "peekTitle": "TRUE METALHEAD PACK",
+        "hoverTitle": "TRUE METALHEAD PACK",
+        "summaryDisplayName": "True Metalhead Pack",
+        "buyLabel": "BUY TICKETS NOW",
+        "priceAmount": "849,000 VND"
+      },
+      "vip": {
+        "peekTitle": "VIP",
+        "hoverTitle": "VIP",
+        "summaryDisplayName": "VIP",
+        "buyLabel": "BUY TICKETS NOW",
+        "priceAmount": "1,099,000 VND"
+      },
+      "atdoor": {
+        "peekTitle": "AT DOOR",
+        "hoverTitle": "AT DOOR",
+        "summaryDisplayName": "At Door",
+        "buyLabel": "BUY TICKETS NOW",
+        "priceAmount": "649,000 VND"
+      }
+    },
+    "perks": {
+      "default": [
+        "2-day ticket",
+        "Wristband",
+        "LTHĐ passport"
+      ],
+      "longtranh": [
+        "1-day ticket — May 8, 2026",
+        "Wristband",
+        "LTHĐ passport"
+      ],
+      "hodau": [
+        "1-day ticket — May 9, 2026",
+        "Wristband",
+        "LTHĐ passport"
+      ],
+      "brotherhood": [
+        "Two 2-day tickets",
+        "Two wristbands",
+        "Two LTHĐ passports"
+      ],
+      "metalhead": [
+        "2-day ticket",
+        "Official merch T-shirt (350,000đ)",
+        "Two drink vouchers"
+      ],
+      "vip": [
+        "2-day ticket",
+        "Special-edition merch T-shirt",
+        "Free-flow beer (unlimited) during two golden windows",
+        "Fast-track entry",
+        "VIP lounge access"
+      ],
+      "presale": [
+        "2-day ticket",
+        "Wristband",
+        "LTHĐ passport"
+      ]
+    },
+    "info": {
+      "mainAria": "Ticket purchase details",
+      "termsTitle": "Terms and ticket purchase policy",
+      "terms": {
+        "1": "Paid tickets are non-refundable and non-exchangeable.",
+        "2": "Tickets are valid only for the date and tier purchased.",
+        "3": "Attendees are responsible for keeping tickets safe after purchase.",
+        "4": "Lost, damaged, or fraudulently copied tickets cannot be replaced.",
+        "5": "The organizer is not responsible for tickets bought from unofficial sources.",
+        "6": "The organizer may refuse entry for violations of event rules.",
+        "7": "If the event is cancelled, a separate ticket policy will be announced."
+      },
+      "termsQuestion": "Have you read and agree to the programme \"Terms and conditions\"?",
+      "termsYes": "I have read and agree",
+      "termsNo": "I do not agree",
+      "consentQuestion": "Allow \"Long Tranh Hổ Đấu\" to use your booking data for marketing and operations?",
+      "consentYes": "I agree",
+      "consentNo": "I do not agree",
+      "fullName": "Full name",
+      "phone": "Phone number",
+      "email": "Email for tickets",
+      "required": "*",
+      "summaryTitle": "Booking summary",
+      "quantity": "Quantity",
+      "subtotal": "Subtotal",
+      "continueError": "Please answer all questions to continue."
+    },
+    "confirm": {
+      "mainAria": "Order confirmation",
+      "receiveTitle": "Ticket delivery",
+      "receiveText": "E-tickets for Long Tranh Hổ Đấu will be sent to the email you provided:",
+      "bookingTitle": "Booking details",
+      "reselectTickets": "Change tickets",
+      "ticketType": "Ticket type",
+      "quantity": "Quantity",
+      "unitPrice": "Unit price",
+      "subtotal": "Subtotal",
+      "vatNote": "Price includes 10% VAT",
+      "total": "Total",
+      "agreedNote": "You agreed to the general transaction terms when purchasing",
+      "payAria": "Pay",
+      "pay": "Pay"
+    },
+    "transfer": {
+      "mainAria": "Bank transfer payment",
+      "backToTickets": "Back to tickets",
+      "back": "Back",
+      "receiptTitle": "Upload payment receipt",
+      "beneficiary": "CONG TY CO PHAN KHONG GIAN YEN TINH",
+      "accountSr": "Account number:",
+      "qrAlt": "VietQR Napas 247 Techcombank QR code for ticket payment",
+      "scanHint": "Scan to pay",
+      "uploadTitle": "Upload receipt image",
+      "uploadTitleReceipt": "Upload receipt from phone",
+      "uploadHintReceipt": "Choose a screenshot of a successful transfer from your banking app.",
+      "uploadHintDesktop": "After you complete the transfer, upload or capture a screenshot of the successful transaction.",
+      "chooseImage": "Choose image",
+      "preview": "Preview",
+      "previewAlt": "Receipt preview",
+      "submitting": "Sending…",
+      "submit": "Send successful transaction screenshot",
+      "mobileSectionTitle": "Upload receipt from your phone",
+      "mobileSectionCopy": "If you paid via your bank app on your phone, scan the code below to open the receipt upload page.",
+      "mobileSectionCopySecondary": "Keep this page open on your computer — it will confirm automatically when your phone submits the receipt.",
+      "generatingLink": "Creating upload link…",
+      "mobileQrAlt": "QR code to open receipt upload on phone",
+      "successTitle": "Payment submitted",
+      "successText1": "Your payment screenshot was sent.",
+      "successText2": "Thank you!",
+      "done": "DONE",
+      "errors": {
+        "network": "Cannot reach the server. Check your network and try again.",
+        "payloadTooLarge": "Image is too large. Please choose a smaller file.",
+        "badRequest": "Receipt upload information is invalid or expired. Please return to the payment step.",
+        "serviceUnavailable": "Google Sheet (or server) is not configured. Check the API and Google:Payment.",
+        "genericStatus": "Upload failed ({{status}}).",
+        "unknown": "Something went wrong. Please try again.",
+        "multipartHint": "{{message}} — If this repeats, try another browser or a smaller image (max 10 MB)."
+      }
+    }
+  },
+  "bandDetail": {
+    "back": "Back",
+    "logoAside": "Band logo",
+    "loading": "Loading...",
+    "notFound": "This band is hidden or does not exist.",
+    "stage": {
+      "LongTranh": "Long Tranh",
+      "HoDau": "Hổ Đấu"
+    },
+    "date": {
+      "LongTranh": "08/05/2026",
+      "HoDau": "09/05/2026"
+    }
+  }
+}

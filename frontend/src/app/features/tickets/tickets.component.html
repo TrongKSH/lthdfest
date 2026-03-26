@@ -1,7 +1,7 @@
 <main class="tickets-page" id="main" [class.tickets-page--modal-open]="hasPurchaseFlow()">
   <div class="tickets-bg" aria-hidden="true"></div>
   <div class="tickets-inner">
-    <h1 class="tickets-title">TICKETS</h1>
+    <h1 class="tickets-title">{{ 'tickets.pageTitle' | transloco }}</h1>
 
     <div class="tickets-grid">
       <article
@@ -12,23 +12,23 @@
         <div class="tickets-presale__art" aria-hidden="true"></div>
         <div class="tickets-presale__shade" aria-hidden="true"></div>
         <div class="tickets-presale__panel" aria-hidden="true"></div>
-        <h2 class="tickets-presale__peek">{{ presale.title }}</h2>
+        <h2 class="tickets-presale__peek">{{ 'tickets.packs.presale.title' | transloco }}</h2>
         <div class="tickets-presale__inner">
-          <h2 class="tickets-presale__title">{{ presale.title }}</h2>
-          <p class="tickets-presale__event">{{ presale.eventName }}</p>
+          <h2 class="tickets-presale__title">{{ 'tickets.packs.presale.title' | transloco }}</h2>
+          <p class="tickets-presale__event">{{ 'tickets.meta.eventName' | transloco }}</p>
           <hr class="tickets-presale__rule" />
-          <p class="tickets-presale__line">Thời gian: {{ presale.when }}</p>
-          <p class="tickets-presale__line tickets-presale__line--place">Địa điểm: {{ presale.where }}</p>
+          <p class="tickets-presale__line">{{ 'tickets.timeLabel' | transloco }} {{ 'tickets.when.full' | transloco }}</p>
+          <p class="tickets-presale__line tickets-presale__line--place">{{ 'tickets.placeLabel' | transloco }} {{ 'tickets.meta.where' | transloco }}</p>
           <p class="tickets-presale__price">
-            <span class="tickets-presale__price-label">{{ presale.priceLabel }}</span>
-            <span class="tickets-presale__price-amount">{{ presale.priceAmount }}</span>
+            <span class="tickets-presale__price-label">{{ 'tickets.priceLabel' | transloco }}</span>
+            <span class="tickets-presale__price-amount">{{ 'tickets.packs.presale.priceAmount' | transloco }}</span>
           </p>
           <button
             type="button"
             class="tickets-presale__btn"
             (click)="$event.stopPropagation(); onPresaleBuy()"
           >
-            {{ presale.buyLabel }}
+            {{ 'tickets.packs.presale.buyLabel' | transloco }}
           </button>
         </div>
       </article>
@@ -54,25 +54,25 @@
           <div class="tickets-pack__shade" aria-hidden="true"></div>
           <div class="tickets-pack__panel" aria-hidden="true"></div>
           <h2 class="tickets-pack__peek">
-            {{ pack.peekTitle }}
-            @if (pack.peekSub) {
-              <span class="tickets-pack__peek-sub">{{ pack.peekSub }}</span>
+            {{ ('tickets.packs.' + pack.id + '.peekTitle') | transloco }}
+            @if (hasPeekSub(pack)) {
+              <span class="tickets-pack__peek-sub">{{ ('tickets.packs.' + pack.id + '.peekSub') | transloco }}</span>
             }
           </h2>
           <div class="tickets-pack__inner">
             <h2 class="tickets-pack__detail-title">
-              {{ pack.hoverTitle }}
-              @if (pack.hoverSubtitle) {
-                <span class="tickets-pack__detail-sub">{{ pack.hoverSubtitle }}</span>
+              {{ ('tickets.packs.' + pack.id + '.hoverTitle') | transloco }}
+              @if (hasHoverSubtitle(pack)) {
+                <span class="tickets-pack__detail-sub">{{ ('tickets.packs.' + pack.id + '.hoverSubtitle') | transloco }}</span>
               }
             </h2>
-            <p class="tickets-pack__event">{{ pack.eventName }}</p>
+            <p class="tickets-pack__event">{{ 'tickets.meta.eventName' | transloco }}</p>
             <hr class="tickets-pack__rule" />
-            <p class="tickets-pack__line">Thời gian: {{ pack.when }}</p>
-            <p class="tickets-pack__line tickets-pack__line--place">Địa điểm: {{ pack.where }}</p>
+            <p class="tickets-pack__line">{{ 'tickets.timeLabel' | transloco }} {{ ('tickets.when.' + pack.whenKey) | transloco }}</p>
+            <p class="tickets-pack__line tickets-pack__line--place">{{ 'tickets.placeLabel' | transloco }} {{ 'tickets.meta.where' | transloco }}</p>
             <p class="tickets-pack__price">
-              <span class="tickets-pack__price-label">{{ pack.priceLabel }}</span>
-              <span class="tickets-pack__price-amount">{{ pack.priceAmount }}</span>
+              <span class="tickets-pack__price-label">{{ 'tickets.priceLabel' | transloco }}</span>
+              <span class="tickets-pack__price-amount">{{ ('tickets.packs.' + pack.id + '.priceAmount') | transloco }}</span>
             </p>
             @if (pack.variant !== 'atdoor') {
               <button
@@ -80,7 +80,7 @@
                 class="tickets-pack__btn"
                 (click)="$event.stopPropagation(); onPackBuy(pack)"
               >
-                {{ pack.buyLabel }}
+                {{ ('tickets.packs.' + pack.id + '.buyLabel') | transloco }}
               </button>
             }
           </div>

@@ -9,16 +9,16 @@ import {
 import { ActivatedRoute, Router, type ParamMap } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import {
-  getPurchaseHeaderMeta,
-  getPurchaseHeaderTitle,
-  getTicketPricing,
-} from '../../tickets-content';
+import { TranslocoPipe } from '@ngneat/transloco';
+
+import { AppLocaleService } from '../../../../i18n/locale.service';
+import { getPurchaseHeaderMetaKeys, getTicketPricing, purchaseTierTitleKey } from '../../tickets-content';
 import { TicketsPurchaseDraftService } from '../../tickets-purchase-draft.service';
 
 @Component({
   selector: 'app-tickets-purchase-confirm',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoPipe],
   templateUrl: './tickets-purchase-confirm.component.html',
   styleUrl: './tickets-purchase-confirm.component.scss',
 })
@@ -26,6 +26,7 @@ export class TicketsPurchaseConfirmComponent {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly draftService = inject(TicketsPurchaseDraftService);
+  private readonly locale = inject(AppLocaleService);
 
   private static qtyFromParams(p: ParamMap): number {
     const raw = p.get('qty');
@@ -45,24 +46,18 @@ export class TicketsPurchaseConfirmComponent {
 
   readonly draft = this.draftService.draft;
 
-  readonly headerTitle = computed(() => {
-    const t = this.purchaseType();
-    return t ? getPurchaseHeaderTitle(t) : '';
-  });
+  readonly tierTitleKey = computed(
+    () => purchaseTierTitleKey(this.purchaseType() ?? 'presale') ?? 'tickets.packs.presale.title',
+  );
 
-  readonly headerMeta = computed(() => {
-    const t = this.purchaseType();
-    return t ? getPurchaseHeaderMeta(t) : getPurchaseHeaderMeta('presale');
-  });
-  readonly headerWhen = computed(() => this.headerMeta().when);
-  readonly headerWhere = computed(() => this.headerMeta().where);
+  readonly metaKeys = computed(() => getPurchaseHeaderMetaKeys(this.purchaseType() ?? 'presale'));
 
   readonly pricing = computed(() => {
     const t = this.purchaseType();
     return t ? getTicketPricing(t) : null;
   });
 
-  readonly ticketLabel = computed(() => this.pricing()?.summaryDisplayName ?? '—');
+  readonly ticketSummaryKey = computed(() => this.pricing()?.summaryKey ?? '');
 
   readonly unitPriceVnd = computed(() => this.pricing()?.unitPriceVnd ?? 0);
 
@@ -96,7 +91,7 @@ export class TicketsPurchaseConfirmComponent {
   }
 
   formatVnd(n: number): string {
-    return `${n.toLocaleString('vi-VN')} vnđ`;
+    return this.locale.formatVnd(n);
   }
 
   onClose(): void {

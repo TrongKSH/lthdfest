@@ -24,6 +24,7 @@ public class FestivalDbContext : DbContext
                 EventDate = new DateTime(2026, 5, 8, 18, 0, 0, DateTimeKind.Utc),
                 Venue = "Hà Nội",
                 Description = "Lễ hội âm nhạc quy mô lớn với hơn 20 ban nhạc.",
+                DescriptionEn = "Large-scale music festival with over 20 bands.",
                 ImageUrl = null
             }
         );

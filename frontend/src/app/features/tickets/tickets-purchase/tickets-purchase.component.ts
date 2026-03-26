@@ -1,28 +1,29 @@
 import { Component, ChangeDetectionStrategy, signal, computed, inject, input, effect } from '@angular/core';
 import { Router } from '@angular/router';
-import { getTicketPricing, PRESALE, TICKET_PACKS, type TicketPack } from '../tickets-content';
-
-const DEFAULT_PERKS = ['Vé 2 ngày', 'Vòng tay', 'LTHĐ passport'] as const;
-const LONG_TRANH_PERKS = ['Vé 1 ngày 08/05/2026', 'Vòng tay', 'LTHĐ passport'] as const;
-const HO_DAU_PERKS = ['Vé 1 ngày 09/05/2026', 'Vòng tay', 'LTHĐ passport'] as const;
-const BROTHERHOOD_PERKS = ['2 vé 2 ngày', '2 vòng tay', '2 LTHĐ passport'] as const;
-const METALHEAD_PERKS = ['Vé 2 ngày', 'Áo thun Official Merch 350.000đ', '2 phần nước'] as const;
-const VIP_PERKS = [
-  'Vé 2 ngày',
-  'Áo thun Merch (phiên bản đặc biệt)',
-  'Uống bia free-flow (không giới hạn) trong 2 khung giờ vàng',
-  'Lối đi fast-track không xếp hàng',
-  'Khu vực phòng VIP',
-] as const;
+import { toSignal } from '@angular/core/rxjs-interop';
+import { startWith } from 'rxjs';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import {
+  getTicketPricing,
+  perksGroupKey,
+  TICKET_PACK_DEFS,
+  type TicketPackDef,
+} from '../tickets-content';
 
 @Component({
   selector: 'app-tickets-purchase',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoPipe],
   templateUrl: './tickets-purchase.component.html',
   styleUrl: './tickets-purchase.component.scss',
 })
 export class TicketsPurchaseComponent {
   private readonly router = inject(Router);
+  private readonly transloco = inject(TranslocoService);
+  private readonly activeLang = toSignal(
+    this.transloco.langChanges$.pipe(startWith(this.transloco.getActiveLang())),
+    { initialValue: this.transloco.getActiveLang() },
+  );
 
   readonly type = input<string>('presale');
 
@@ -30,14 +31,11 @@ export class TicketsPurchaseComponent {
 
   readonly quantity = signal(0);
 
-  readonly perks = computed<readonly string[]>(() => {
-    const t = this.type();
-    if (t === 'longtranh') return LONG_TRANH_PERKS;
-    if (t === 'hodau') return HO_DAU_PERKS;
-    if (t === 'brotherhood') return BROTHERHOOD_PERKS;
-    if (t === 'metalhead') return METALHEAD_PERKS;
-    if (t === 'vip') return VIP_PERKS;
-    return DEFAULT_PERKS;
+  readonly perks = computed(() => {
+    this.activeLang();
+    const g = perksGroupKey(this.type());
+    const v = this.transloco.translateObject(`tickets.perks.${g}`) as unknown;
+    return Array.isArray(v) ? (v as string[]) : [];
   });
 
   readonly continueImgSrc = computed(() =>
@@ -46,17 +44,23 @@ export class TicketsPurchaseComponent {
       : '/assets/images/continue-disbaled.png',
   );
 
-  readonly selectedPack = computed<TicketPack | null>(() => {
+  readonly selectedPack = computed<TicketPackDef | null>(() => {
     const t = this.type();
     if (t === 'presale') return null;
-    return TICKET_PACKS.find((p) => p.id === t) ?? null;
+    return TICKET_PACK_DEFS.find((p) => p.id === t) ?? null;
   });
 
   readonly heading = computed(() => {
+    this.activeLang();
     const t = this.type();
-    if (t === 'presale') return `Hạng vé ${PRESALE.title}`;
-    const pack = this.selectedPack();
-    return pack ? `Hạng vé ${pack.peekTitle}` : 'Hạng vé';
+    const tierKey =
+      t === 'presale'
+        ? 'tickets.packs.presale.title'
+        : this.selectedPack()
+          ? `tickets.packs.${this.selectedPack()!.id}.peekTitle`
+          : 'tickets.packs.presale.title';
+    const tier = this.transloco.translate(tierKey);
+    return this.transloco.translate('tickets.purchase.headingTier', { tier });
   });
 
   increment(): void {
@@ -85,7 +89,6 @@ export class TicketsPurchaseComponent {
     void this.router.navigate(['/tickets'], { queryParams: {} });
   }
 
-  /** Back to ticket grid (same tier rule: pick another pack / presale). */
   onChooseArea(): void {
     void this.router.navigate(['/tickets'], { queryParams: {} });
   }
@@ -106,4 +109,3 @@ export class TicketsPurchaseComponent {
       });
   }
 }
-

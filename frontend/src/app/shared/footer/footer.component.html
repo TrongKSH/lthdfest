@@ -1,8 +1,8 @@
 <footer class="footer" id="info" role="contentinfo">
   <div class="footer-inner">
     <div class="block block--follow">
-      <h3 class="block-title">FOLLOW US</h3>
-      <div class="socials" aria-label="Social links">
+      <h3 class="block-title">{{ 'footer.followUs' | transloco }}</h3>
+      <div class="socials" [attr.aria-label]="'footer.socialLinks' | transloco">
         <a
           href="https://www.facebook.com/profile.php?id=61588366535208"
           class="social-link"
@@ -31,25 +31,25 @@
     </div>
     <div class="footer-links-group">
       <div class="block block--links">
-        <h3 class="block-title">Soul</h3>
-        <a routerLink="/lineup" class="link">Full Line-up</a>
-        <a href="#" class="link">Running Order</a>
+        <h3 class="block-title">{{ 'header.soul' | transloco }}</h3>
+        <a routerLink="/lineup" class="link">{{ 'header.fullLineup' | transloco }}</a>
+        <a href="#" class="link">{{ 'header.runningOrder' | transloco }}</a>
       </div>
       <div class="block block--links">
-        <h3 class="block-title">Commerce</h3>
-        <a routerLink="/tickets" class="link">Tickets Info</a>
-        <a href="#" class="link">Merchandise (Shop)</a>
+        <h3 class="block-title">{{ 'header.commerce' | transloco }}</h3>
+        <a routerLink="/tickets" class="link">{{ 'header.ticketsInfo' | transloco }}</a>
+        <a href="#" class="link">{{ 'header.merchandise' | transloco }}</a>
       </div>
       <div class="block block--links">
-        <h3 class="block-title">Info</h3>
-        <a href="#" class="link">Festival Info</a>
-        <a href="#" class="link">Info Pratique</a>
-        <a href="#" class="link">Media/Press</a>
+        <h3 class="block-title">{{ 'header.info' | transloco }}</h3>
+        <a href="#" class="link">{{ 'header.festivalInfo' | transloco }}</a>
+        <a routerLink="/faq" class="link">{{ 'header.infoPratique' | transloco }}</a>
+        <a href="#" class="link">{{ 'header.mediaPress' | transloco }}</a>
       </div>
     </div>
     <div class="footer-contact-faq">
     <div class="block block--contact">
-      <h3 class="block-title">CONTACT</h3>
+      <h3 class="block-title">{{ 'footer.contact' | transloco }}</h3>
       <p class="contact-line">
         <a href="mailto:outlastpeople.2024@gmail.com">
           <lucide-icon name="Mail" [size]="iconSizeSmall" strokeWidth="2" class="contact-icon"></lucide-icon>
@@ -62,10 +62,10 @@
       </p>
     </div>
     <div class="block block--faq">
-      <h3 class="block-title">ANY QUESTION?</h3>
-      <a routerLink="/faq" class="btn-faq">FAQ</a>
+      <h3 class="block-title">{{ 'footer.anyQuestion' | transloco }}</h3>
+      <a routerLink="/faq" class="btn-faq">{{ 'footer.faq' | transloco }}</a>
     </div>
     </div>
   </div>
-  <p class="brand">LONG TRANH HỔ ĐẤU</p>
+  <p class="brand">{{ 'footer.brand' | transloco }}</p>
 </footer>

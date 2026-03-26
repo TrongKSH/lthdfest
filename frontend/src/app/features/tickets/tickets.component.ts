@@ -2,7 +2,8 @@ import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@a
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { PRESALE, TICKET_PACKS, type TicketPack } from './tickets-content';
+import { TranslocoPipe } from '@ngneat/transloco';
+import { PRESALE_DEF, TICKET_PACK_DEFS, type TicketPackDef } from './tickets-content';
 import { TicketsPurchaseComponent } from './tickets-purchase/tickets-purchase.component';
 import { TicketsPurchaseInfoComponent } from './tickets-purchase/tickets-purchase-info/tickets-purchase-info.component';
 import { TicketsPurchaseConfirmComponent } from './tickets-purchase/tickets-purchase-confirm/tickets-purchase-confirm.component';
@@ -12,6 +13,7 @@ import { TicketsPurchaseTransferComponent } from './tickets-purchase/tickets-pur
   selector: 'app-tickets',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    TranslocoPipe,
     TicketsPurchaseComponent,
     TicketsPurchaseInfoComponent,
     TicketsPurchaseConfirmComponent,
@@ -21,8 +23,12 @@ import { TicketsPurchaseTransferComponent } from './tickets-purchase/tickets-pur
   styleUrl: './tickets.component.scss',
 })
 export class TicketsComponent {
-  readonly presale = PRESALE;
-  readonly packs = TICKET_PACKS;
+  readonly presale = PRESALE_DEF;
+  readonly packs = TICKET_PACK_DEFS;
+  /** For template: packs that show a secondary peek line */
+  protected readonly hasPeekSub = (p: TicketPackDef): boolean => p.id === 'brotherhood';
+  protected readonly hasHoverSubtitle = (p: TicketPackDef): boolean => p.id === 'brotherhood';
+
   /** For touch devices: one expanded card at a time. */
   readonly activeCardId = signal<string | null>(null);
 
@@ -60,13 +66,11 @@ export class TicketsComponent {
   }
 
   onPresaleBuy(): void {
-    // Reset any expanded/hover-like card state before opening modal
     this.activeCardId.set(null);
     this.router.navigate(['/tickets'], { queryParams: { purchase: 'presale' } });
   }
 
-  onPackBuy(pack: TicketPack): void {
-    // Reset any expanded/hover-like card state before opening modal
+  onPackBuy(pack: TicketPackDef): void {
     this.activeCardId.set(null);
     this.router.navigate(['/tickets'], { queryParams: { purchase: pack.id } });
   }

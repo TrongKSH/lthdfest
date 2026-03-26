@@ -3,14 +3,14 @@
     <span class="card-placeholder">?</span>
   </div>
 } @else if (band().isSecret) {
-  <div class="card" role="img" aria-label="Secret band">
-    <img class="card-img" src="/assets/images/question.png" alt="Secret band" />
+  <div class="card" role="img" [attr.aria-label]="'bandCard.secretBand' | transloco">
+    <img class="card-img" src="/assets/images/question.png" [attr.alt]="'bandCard.secretAlt' | transloco" />
   </div>
 } @else {
   <a
     [routerLink]="['/bands', band().id]"
     class="card"
-    [attr.aria-label]="'Xem thông tin ' + band().name"
+    [attr.aria-label]="'bandCard.viewBandAria' | transloco: { name: band().name }"
   >
     @if (band().logoUrl || band().heroUrl) {
       <img

@@ -1,25 +1,22 @@
-<div class="ti-overlay" role="main" aria-label="Thông tin mua vé">
+<div class="ti-overlay" role="main" [attr.aria-label]="'tickets.info.mainAria' | transloco">
   <div class="ti-page">
-    <button class="ti-close" type="button" aria-label="Đóng" (click)="onClose()">×</button>
+    <button class="ti-close" type="button" [attr.aria-label]="'common.close' | transloco" (click)="onClose()">×</button>
 
     <header class="ti-header">
-      <h1 class="ti-header-title">{{ headerTitle() }}</h1>
-      <p class="ti-header-line">Thời gian: {{ headerWhen() }}</p>
-      <p class="ti-header-line">Địa điểm: {{ headerWhere() }}</p>
+      <h1 class="ti-header-title">
+        {{ 'tickets.meta.eventName' | transloco }} — {{ tierTitleKey() | transloco }}
+      </h1>
+      <p class="ti-header-line">{{ 'tickets.timeLabel' | transloco }} {{ metaKeys().whenKey | transloco }}</p>
+      <p class="ti-header-line">{{ 'tickets.placeLabel' | transloco }} {{ metaKeys().whereKey | transloco }}</p>
     </header>
 
     <div class="ti-layout">
       <section class="ti-card ti-terms">
-        <h2 class="ti-title">Điều khoản và Dịch vụ mua vé</h2>
+        <h2 class="ti-title">{{ 'tickets.info.termsTitle' | transloco }}</h2>
         <ul class="ti-list">
-          <li>Vé đã thanh toán không được hoàn tiền hoặc đổi trả.</li>
-          <li>Vé chỉ hợp lệ cho ngày và hạng vé đã đăng ký.</li>
-          <li>Người tham dự có trách nhiệm bảo quản vé sau khi mua.</li>
-          <li>Vé bị mất, hư hỏng hoặc sao chép trái phép sẽ không được hỗ trợ.</li>
-          <li>Ban Tổ Chức không chịu trách nhiệm cho các vé mua từ nguồn không chính thức.</li>
-          <li>Ban Tổ Chức có quyền từ chối nhập cảnh nếu phát hiện vi phạm quy định sự kiện.</li>
-          <li>Trong trường hợp sự kiện bị hủy, chính sách xử lý vé sẽ được thông báo riêng.</li>
-
+          @for (i of termIndices; track i) {
+            <li>{{ ('tickets.info.terms.' + i) | transloco }}</li>
+          }
         </ul>
       </section>
 
@@ -27,7 +24,7 @@
         <div class="ti-card ti-form">
           <div class="ti-question">
             <div class="ti-question-text">
-              Bạn đã đọc và đồng ý với “Điều khoản và điều kiện" của chương trình?
+              {{ 'tickets.info.termsQuestion' | transloco }}
             </div>
 
             <label class="ti-radio">
@@ -38,7 +35,7 @@
                 [checked]="termsAccepted() === 'yes'"
                 (change)="termsAccepted.set('yes')"
               />
-              Tôi đã đọc và đồng ý
+              {{ 'tickets.info.termsYes' | transloco }}
             </label>
             <label class="ti-radio">
               <input
@@ -48,13 +45,13 @@
                 [checked]="termsAccepted() === 'no'"
                 (change)="termsAccepted.set('no')"
               />
-              Tôi không đồng ý
+              {{ 'tickets.info.termsNo' | transloco }}
             </label>
           </div>
 
           <div class="ti-question">
             <div class="ti-question-text">
-              Cho phép “Long Tranh Hổ Đấu” sử dụng thông tin đặt vé để quảng cáo và vận hành?
+              {{ 'tickets.info.consentQuestion' | transloco }}
             </div>
 
             <label class="ti-radio">
@@ -65,7 +62,7 @@
                 [checked]="consentProgram() === 'yes'"
                 (change)="consentProgram.set('yes')"
               />
-              Tôi đồng ý
+              {{ 'tickets.info.consentYes' | transloco }}
             </label>
             <label class="ti-radio">
               <input
@@ -75,14 +72,14 @@
                 [checked]="consentProgram() === 'no'"
                 (change)="consentProgram.set('no')"
               />
-              Tôi không đồng ý
+              {{ 'tickets.info.consentNo' | transloco }}
             </label>
           </div>
 
           <div class="ti-fields">
             <label class="ti-label">
               <span class="ti-label-text">
-                Họ và tên <span class="ti-required">*</span>
+                {{ 'tickets.info.fullName' | transloco }} <span class="ti-required">{{ 'tickets.info.required' | transloco }}</span>
               </span>
               <input
                 class="ti-input"
@@ -94,7 +91,7 @@
 
             <label class="ti-label">
               <span class="ti-label-text">
-                Số điện thoại <span class="ti-required">*</span>
+                {{ 'tickets.info.phone' | transloco }} <span class="ti-required">{{ 'tickets.info.required' | transloco }}</span>
               </span>
               <input
                 class="ti-input"
@@ -105,7 +102,7 @@
             </label>
             <label class="ti-label">
               <span class="ti-label-text">
-                Email nhận vé <span class="ti-required">*</span>
+                {{ 'tickets.info.email' | transloco }} <span class="ti-required">{{ 'tickets.info.required' | transloco }}</span>
               </span>
               <input
                 class="ti-input"
@@ -118,22 +115,22 @@
         </div>
 
         <div class="ti-card ti-summary">
-          <h3 class="ti-summary-title">Thông tin đặt vé</h3>
+          <h3 class="ti-summary-title">{{ 'tickets.info.summaryTitle' | transloco }}</h3>
 
           <div class="ti-summary-row">
-            <div class="ti-summary-label">{{ summaryLineLabel() }}</div>
+            <div class="ti-summary-label">@if (pricing(); as p) { {{ p.summaryKey | transloco }} }</div>
             <div class="ti-summary-value">{{ formattedUnitPrice() }}</div>
           </div>
 
           <div class="ti-summary-row">
-            <div class="ti-summary-label">Số lượng</div>
+            <div class="ti-summary-label">{{ 'tickets.info.quantity' | transloco }}</div>
             <div class="ti-summary-value">{{ qtyLabel() }}</div>
           </div>
 
           <div class="ti-divider"></div>
 
           <div class="ti-summary-total-row">
-            <div class="ti-summary-label">Tạm tính</div>
+            <div class="ti-summary-label">{{ 'tickets.info.subtotal' | transloco }}</div>
             <div class="ti-summary-value">{{ formattedSubtotal() }}</div>
           </div>
 
@@ -142,7 +139,7 @@
             type="button"
             (click)="onContinue()"
           >
-            <img class="ti-continue-img" [src]="continueImgSrc()" alt="TIẾP TỤC" />
+            <img class="ti-continue-img" [src]="continueImgSrc()" [attr.alt]="'common.continue' | transloco" />
           </button>
 
           @if (continueError()) {
@@ -153,4 +150,3 @@
     </div>
   </div>
 </div>
-

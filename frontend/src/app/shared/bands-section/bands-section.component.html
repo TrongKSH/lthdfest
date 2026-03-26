@@ -1,5 +1,5 @@
 <section class="bands" id="bands" aria-labelledby="bands-title">
-  <h2 id="bands-title" class="title">HƠN 20 BAN NHẠC</h2>
+  <h2 id="bands-title" class="title">{{ 'bandsSection.title' | transloco }}</h2>
   <div class="grid">
     <div class="grid-row grid-row--4">
       @for (slot of slotsRow1(); track $index) {
@@ -31,12 +31,12 @@
   </div>
   <div class="actions">
     <span class="btn-slot">
-      <a routerLink="/lineup" class="btn btn--img" aria-label="Khám phá">
+      <a routerLink="/lineup" class="btn btn--img" [attr.aria-label]="'bandsSection.discoverAria' | transloco">
         <img src="/assets/images/discover-btn.png" alt="" class="btn-img" />
       </a>
     </span>
     <span class="btn-slot">
-      <a href="#info" class="btn btn--img" aria-label="Thông tin">
+      <a href="#info" class="btn btn--img" [attr.aria-label]="'bandsSection.infoAria' | transloco">
         <img src="/assets/images/info-btn.png" alt="" class="btn-img" />
       </a>
     </span>

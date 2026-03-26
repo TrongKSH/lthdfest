@@ -4,6 +4,8 @@ export interface Band {
   id: number;
   name: string;
   bio: string;
+  /** Optional English bio from API; falls back to `bio` when empty. */
+  bioEn?: string;
   heroUrl?: string;
   logoUrl?: string;
   isFeaturedOnHome?: boolean;

@@ -9,11 +9,12 @@ import {
   ElementRef,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TranslocoPipe } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-hero-section',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, TranslocoPipe],
   templateUrl: './hero-section.component.html',
   styleUrl: './hero-section.component.scss',
 })

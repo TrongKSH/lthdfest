@@ -1,19 +1,19 @@
-<div class="tp-overlay" role="dialog" aria-modal="true" aria-label="Ticket purchase">
+<div class="tp-overlay" role="dialog" aria-modal="true" [attr.aria-label]="'tickets.purchase.dialogAria' | transloco">
   <div class="tp-modal">
-    <button class="tp-close" type="button" aria-label="Đóng" (click)="onClose()">
+    <button class="tp-close" type="button" [attr.aria-label]="'common.close' | transloco" (click)="onClose()">
       ×
     </button>
 
     <h1 class="tp-title">{{ heading() }}</h1>
-    <p class="tp-sub">(Bạn chỉ có thể chọn vé trong cùng hạng vé)</p>
+    <p class="tp-sub">{{ 'tickets.purchase.tierRule' | transloco }}</p>
 
-    <h2 class="tp-section-title">Số lượng</h2>
+    <h2 class="tp-section-title">{{ 'tickets.purchase.quantityTitle' | transloco }}</h2>
 
-    <div class="tp-stepper" role="group" aria-label="Chọn số lượng vé">
+    <div class="tp-stepper" role="group" [attr.aria-label]="'tickets.purchase.quantityGroupAria' | transloco">
       <button
         class="tp-stepper-btn tp-stepper-btn--minus"
         type="button"
-        aria-label="Giảm số lượng"
+        [attr.aria-label]="'tickets.purchase.decreaseQty' | transloco"
         [disabled]="quantity() === 0"
         (click)="decrement()"
       >
@@ -27,7 +27,7 @@
           min="0"
           inputmode="numeric"
           [value]="quantity()"
-          aria-label="Số lượng"
+          [attr.aria-label]="'tickets.purchase.qtyInputAria' | transloco"
           (input)="onQuantityInput($event)"
         />
       </div>
@@ -35,7 +35,7 @@
       <button
         class="tp-stepper-btn tp-stepper-btn--plus"
         type="button"
-        aria-label="Tăng số lượng"
+        [attr.aria-label]="'tickets.purchase.increaseQty' | transloco"
         (click)="increment()"
       >
         +
@@ -43,7 +43,7 @@
     </div>
 
     <section class="tp-perks">
-      <h3 class="tp-perks-title">Quyền lợi nhận tại sự kiện:</h3>
+      <h3 class="tp-perks-title">{{ 'tickets.purchase.perksTitle' | transloco }}</h3>
       <ul class="tp-perks-list">
         @for (perk of perks(); track perk) {
           <li>{{ perk }}</li>
@@ -52,7 +52,7 @@
     </section>
 
     <button class="tp-area-link" type="button" (click)="onChooseArea()">
-      Chọn khu vực khác
+      {{ 'tickets.purchase.chooseOtherArea' | transloco }}
     </button>
 
     <button
@@ -61,8 +61,7 @@
       [disabled]="quantity() <= 0"
       (click)="onContinue()"
     >
-      <img class="tp-continue-img" [src]="continueImgSrc()" alt="TIẾP TỤC" />
+      <img class="tp-continue-img" [src]="continueImgSrc()" [attr.alt]="'tickets.purchase.continueAlt' | transloco" />
     </button>
   </div>
 </div>
-

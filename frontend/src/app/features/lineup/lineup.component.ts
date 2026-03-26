@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TranslocoPipe } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 import type { LineupBand } from '../../models/band.model';
 import { BandService } from '../../services/band.service';
@@ -11,7 +12,7 @@ type LineupFilter = 'all' | 'longtranh' | 'hodau';
 @Component({
   selector: 'app-lineup',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, TranslocoPipe],
   templateUrl: './lineup.component.html',
   styleUrl: './lineup.component.scss',
 })

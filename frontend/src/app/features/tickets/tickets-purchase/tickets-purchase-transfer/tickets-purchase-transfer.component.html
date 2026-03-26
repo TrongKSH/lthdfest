@@ -1,29 +1,37 @@
-<div class="ti-overlay tt-transfer-overlay" role="main" aria-label="Chuyển khoản thanh toán">
+<div class="ti-overlay tt-transfer-overlay" role="main" [attr.aria-label]="'tickets.transfer.mainAria' | transloco">
   <div class="ti-page">
-    <button class="ti-close" type="button" aria-label="Đóng" (click)="onClose()">×</button>
+    <button class="ti-close" type="button" [attr.aria-label]="'common.close' | transloco" (click)="onClose()">×</button>
 
     <p class="tt-back-wrap">
       <button type="button" class="tt-back-link" (click)="onBackToConfirm()">
-        {{ isReceiptMode() ? 'Về trang vé' : 'Quay lại' }}
+        @if (isReceiptMode()) {
+          {{ 'tickets.transfer.backToTickets' | transloco }}
+        } @else {
+          {{ 'tickets.transfer.back' | transloco }}
+        }
       </button>
     </p>
 
     <header class="ti-header">
       <h1 class="ti-header-title">
-        {{ isReceiptMode() ? 'Tải biên lai thanh toán' : headerTitle() }}
+        @if (isReceiptMode()) {
+          {{ 'tickets.transfer.receiptTitle' | transloco }}
+        } @else {
+          {{ 'tickets.meta.eventName' | transloco }} — {{ tierTitleKey() | transloco }}
+        }
       </h1>
       @if (!isReceiptMode()) {
-        <p class="ti-header-line">Thời gian: {{ headerWhen() }}</p>
-        <p class="ti-header-line">Địa điểm: {{ headerWhere() }}</p>
+        <p class="ti-header-line">{{ 'tickets.timeLabel' | transloco }} {{ metaKeys().whenKey | transloco }}</p>
+        <p class="ti-header-line">{{ 'tickets.placeLabel' | transloco }} {{ metaKeys().whereKey | transloco }}</p>
       }
     </header>
 
     <div class="tt-layout" [class.tt-layout--receipt]="isReceiptMode()">
       @if (!isReceiptMode()) {
         <section class="tt-qr-card" aria-labelledby="tt-qr-heading">
-          <h2 id="tt-qr-heading" class="tt-qr-beneficiary">CONG TY CO PHAN KHONG GIAN YEN TINH</h2>
+          <h2 id="tt-qr-heading" class="tt-qr-beneficiary">{{ 'tickets.transfer.beneficiary' | transloco }}</h2>
           <p class="tt-qr-account">
-            <span class="tt-sr-only">Số tài khoản: </span>
+            <span class="tt-sr-only">{{ 'tickets.transfer.accountSr' | transloco }}</span>
             7227276868
           </p>
 
@@ -31,31 +39,33 @@
             <img
               class="tt-qr-img"
               src="/assets/images/qrcode.JPG"
-              alt="Mã QR VietQR Napas 247 Techcombank để chuyển khoản thanh toán vé"
+              [attr.alt]="'tickets.transfer.qrAlt' | transloco"
               width="400"
               height="400"
             />
           </div>
 
-          <p class="tt-qr-scan-hint">Quét để thanh toán</p>
+          <p class="tt-qr-scan-hint">{{ 'tickets.transfer.scanHint' | transloco }}</p>
         </section>
       }
 
       <section class="ti-card tt-upload-card" aria-labelledby="tt-upload-title">
         <h2 id="tt-upload-title" class="tt-section-title">
-          {{ isReceiptMode() ? 'Tải ảnh biên lai từ điện thoại' : 'Tải ảnh biên lai' }}
+          @if (isReceiptMode()) {
+            {{ 'tickets.transfer.uploadTitleReceipt' | transloco }}
+          } @else {
+            {{ 'tickets.transfer.uploadTitle' | transloco }}
+          }
         </h2>
         <p id="tt-upload-hint" class="tt-upload-hint">
           @if (isReceiptMode()) {
-            Chọn ảnh chụp màn hình giao dịch thành công từ app ngân hàng trên điện thoại.
+            {{ 'tickets.transfer.uploadHintReceipt' | transloco }}
           } @else {
-            Sau khi hoàn tất chuyển khoản, vui lòng chụp hoặc tải ảnh màn hình giao dịch thành công.
+            {{ 'tickets.transfer.uploadHintDesktop' | transloco }}
           }
-
         </p>
 
         <div class="tt-upload-controls">
-          <!-- No capture= — on phones, capture forces camera-only; omitting lets users pick from gallery or camera. -->
           <input
             id="transfer-proof-input"
             class="tt-file-input"
@@ -66,16 +76,16 @@
             (change)="onFileSelected($event)"
           />
 
-          <label class="tt-file-label" for="transfer-proof-input">Chọn ảnh</label>
+          <label class="tt-file-label" for="transfer-proof-input">{{ 'tickets.transfer.chooseImage' | transloco }}</label>
         </div>
 
         @if (previewUrl()) {
           <div class="tt-preview-wrap">
-            <p class="tt-preview-caption">Xem trước</p>
+            <p class="tt-preview-caption">{{ 'tickets.transfer.preview' | transloco }}</p>
             <img
               class="tt-preview-img"
               [src]="previewUrl()!"
-              alt="Xem trước ảnh biên lai chuyển khoản"
+              [attr.alt]="'tickets.transfer.previewAlt' | transloco"
             />
           </div>
         }
@@ -92,9 +102,9 @@
           (click)="onSubmitProof()"
         >
           @if (submitting()) {
-            <span class="tt-submit-inner">Đang gửi…</span>
+            <span class="tt-submit-inner">{{ 'tickets.transfer.submitting' | transloco }}</span>
           } @else {
-            <span class="tt-submit-inner">Gửi ảnh chụp giao dịch thành công</span>
+            <span class="tt-submit-inner">{{ 'tickets.transfer.submit' | transloco }}</span>
           }
         </button>
 
@@ -103,16 +113,16 @@
             class="tt-mobile-upload tt-mobile-upload--in-upload-card"
             aria-labelledby="tt-mobile-upload-title"
           >
-            <h3 id="tt-mobile-upload-title" class="tt-mobile-upload-title">Tải biên lai trực tiếp từ điện thoại</h3>
+            <h3 id="tt-mobile-upload-title" class="tt-mobile-upload-title">{{ 'tickets.transfer.mobileSectionTitle' | transloco }}</h3>
             <p class="tt-mobile-upload-copy">
-              Nếu bạn quét QR bằng app ngân hàng trên điện thoại, hãy quét mã dưới đây để mở trang tải biên lai trên điện thoại.
+              {{ 'tickets.transfer.mobileSectionCopy' | transloco }}
             </p>
             <p class="tt-mobile-upload-copy tt-mobile-upload-copy--secondary">
-              Giữ trang này mở trên máy tính — sẽ tự xác nhận khi bạn gửi biên lai từ điện thoại.
+              {{ 'tickets.transfer.mobileSectionCopySecondary' | transloco }}
             </p>
 
             @if (generatingMobileLink()) {
-              <p class="tt-mobile-upload-status">Đang tạo liên kết tải biên lai…</p>
+              <p class="tt-mobile-upload-status">{{ 'tickets.transfer.generatingLink' | transloco }}</p>
             } @else if (mobileUploadError()) {
               <p class="tt-mobile-upload-status tt-mobile-upload-status--error" role="alert">
                 {{ mobileUploadError() }}
@@ -122,7 +132,7 @@
                 <img
                   class="tt-qr-img"
                   [src]="mobileUploadQrDataUrl()!"
-                  alt="Mã QR mở trang tải biên lai trên điện thoại"
+                  [attr.alt]="'tickets.transfer.mobileQrAlt' | transloco"
                   width="260"
                   height="260"
                 />
@@ -145,13 +155,13 @@
         aria-describedby="tt-success-desc"
       >
         <div class="tt-success-modal-card">
-          <h2 id="tt-success-title" class="tt-success-modal-title">Thanh toán thành công</h2>
+          <h2 id="tt-success-title" class="tt-success-modal-title">{{ 'tickets.transfer.successTitle' | transloco }}</h2>
           <p id="tt-success-desc" class="tt-success-modal-text">
-            Đã gửi ảnh chụp giao dịch thành công.<br />
-            Cảm ơn bạn!
+            {{ 'tickets.transfer.successText1' | transloco }}
+            {{ 'tickets.transfer.successText2' | transloco }}
           </p>
           <button type="button" class="tt-success-modal-btn" (click)="finishAndGoHome()">
-            HOÀN THÀNH
+            {{ 'tickets.transfer.done' | transloco }}
           </button>
         </div>
       </div>

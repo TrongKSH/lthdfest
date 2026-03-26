@@ -7,7 +7,7 @@
       muted
       loop
       playsinline
-      [attr.aria-label]="eventName() || 'Festival teaser'"
+      [attr.aria-label]="eventName() || ('hero.teaserVideo' | transloco)"
       (loadedmetadata)="onVideoLoaded()"
       (play)="onVideoPlay()"
     >
@@ -19,19 +19,19 @@
       <button
         type="button"
         class="hero-play-prompt"
-        aria-label="Phát video"
+        [attr.aria-label]="'hero.playVideo' | transloco"
         (click)="onTapToPlay()"
       >
         <span class="hero-play-icon" aria-hidden="true"></span>
-        <span class="hero-play-text">Chạm để phát</span>
+        <span class="hero-play-text">{{ 'hero.tapToPlay' | transloco }}</span>
       </button>
     }
   </div>
   <a
     class="cta"
     routerLink="/tickets"
-    aria-label="Mua vé ngay"
+    [attr.aria-label]="'hero.buyTicketsAria' | transloco"
   >
-    <img class="cta-img" src="/assets/images/buyticket-btn.png" alt="MUA VÉ NGAY" />
+    <img class="cta-img" src="/assets/images/buyticket-btn.png" [attr.alt]="'hero.buyTicketsAlt' | transloco" />
   </a>
 </section>

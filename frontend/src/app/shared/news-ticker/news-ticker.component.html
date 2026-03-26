@@ -1,4 +1,4 @@
-<section class="ticker" aria-label="News ticker">
+<section class="ticker" [attr.aria-label]="'newsTicker.aria' | transloco">
   <div class="ticker-bg" aria-hidden="true">
     <img class="ticker-bg-img" src="/assets/images/lthd-ticker-background.jpg" alt="" />
     <div class="ticker-bg-overlay"></div>
@@ -10,14 +10,12 @@
       <div class="ticker-track-inner">
         <div class="ticker-track-content">
           @for (i of items; track i) {
-            <span class="ticker-announce-text">Thông báo tin tức nóng hổi</span>
-            <!-- <span class="ticker-dot" aria-hidden="true"></span> -->
+            <span class="ticker-announce-text">{{ 'newsTicker.announce' | transloco }}</span>
           }
         </div>
         <div class="ticker-track-content" aria-hidden="true">
           @for (i of items; track i) {
-            <span class="ticker-announce-text">Thông báo tin tức nóng hổi</span>
-            <!-- <span class="ticker-dot" aria-hidden="true"></span> -->
+            <span class="ticker-announce-text">{{ 'newsTicker.announce' | transloco }}</span>
           }
         </div>
       </div>
@@ -30,13 +28,13 @@
       <div class="ticker-track-inner">
         <div class="ticker-track-content">
           @for (i of items; track i) {
-            <span class="ticker-text">HOT NEWS</span>
+            <span class="ticker-text">{{ 'newsTicker.hotNews' | transloco }}</span>
             <span class="ticker-dot" aria-hidden="true"></span>
           }
         </div>
         <div class="ticker-track-content" aria-hidden="true">
           @for (i of items; track i) {
-            <span class="ticker-text">HOT NEWS</span>
+            <span class="ticker-text">{{ 'newsTicker.hotNews' | transloco }}</span>
             <span class="ticker-dot" aria-hidden="true"></span>
           }
         </div>
@@ -55,17 +53,17 @@
       <div class="ticker-track-inner">
         <div class="ticker-track-content">
           @for (i of itemsAlt; track i) {
-            <span class="ticker-text-alt">Long Tranh</span>
+            <span class="ticker-text-alt">{{ 'newsTicker.longTranh' | transloco }}</span>
             <span class="ticker-dot" aria-hidden="true"></span>
-            <span class="ticker-text-alt">Hổ Đấu</span>
+            <span class="ticker-text-alt">{{ 'newsTicker.hoDau' | transloco }}</span>
             <span class="ticker-dot" aria-hidden="true"></span>
           }
         </div>
         <div class="ticker-track-content" aria-hidden="true">
           @for (i of itemsAlt; track i) {
-            <span class="ticker-text-alt">Long Tranh</span>
+            <span class="ticker-text-alt">{{ 'newsTicker.longTranh' | transloco }}</span>
             <span class="ticker-dot" aria-hidden="true"></span>
-            <span class="ticker-text-alt">Hổ Đấu</span>
+            <span class="ticker-text-alt">{{ 'newsTicker.hoDau' | transloco }}</span>
             <span class="ticker-dot" aria-hidden="true"></span>
           }
         </div>

@@ -1,5 +1,5 @@
 <div class="detail">
-  <button type="button" class="back" (click)="goBack()">Quay lại</button>
+  <button type="button" class="back" (click)="goBack()">{{ 'bandDetail.back' | transloco }}</button>
   @if (band(); as b) {
     <article class="band-detail">
       <section class="hero">
@@ -19,14 +19,14 @@
         <div class="hero-meta">
           <h1>{{ b.name }}</h1>
           <div class="hero-day">
-            @if (performanceDateDisplay()) {
-              <span class="hero-date">{{ performanceDateDisplay() }}</span>
+            @if (b.lineupDay) {
+              <span class="hero-date">{{ ('bandDetail.date.' + b.lineupDay) | transloco }}</span>
             }
-            @if (stageTitle()) {
+            @if (b.lineupDay) {
               <strong
                 class="hero-stage"
                 [class.hero-stage--longtranh]="b.lineupDay === 'LongTranh'"
-                >{{ stageTitle() }}</strong
+                >{{ ('bandDetail.stage.' + b.lineupDay) | transloco }}</strong
               >
             }
           </div>
@@ -44,7 +44,7 @@
           </div>
 
           @if (b.logoUrl) {
-            <aside class="bio-logo-wrap" aria-label="Band logo">
+            <aside class="bio-logo-wrap" [attr.aria-label]="'bandDetail.logoAside' | transloco">
               <img [src]="b.logoUrl" [alt]="b.name + ' logo'" class="bio-logo" loading="lazy" decoding="async" />
             </aside>
           }
@@ -52,8 +52,8 @@
       </section>
     </article>
   } @else if (isLoading()) {
-    <p>Đang tải...</p>
+    <p>{{ 'bandDetail.loading' | transloco }}</p>
   } @else if (isNotFound()) {
-    <p>Band này hiện đang được ẩn hoặc không tồn tại.</p>
+    <p>{{ 'bandDetail.notFound' | transloco }}</p>
   }
 </div>

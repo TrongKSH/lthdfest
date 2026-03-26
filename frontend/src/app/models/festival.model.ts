@@ -4,5 +4,7 @@ export interface Festival {
   eventDate: string;
   venue: string;
   description: string;
+  /** Optional English copy; client falls back to `description` when absent. */
+  descriptionEn?: string;
   imageUrl?: string;
 }

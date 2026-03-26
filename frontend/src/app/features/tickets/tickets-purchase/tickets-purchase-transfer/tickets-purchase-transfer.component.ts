@@ -11,11 +11,8 @@ import {
 import { ActivatedRoute, Router, type ParamMap } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import {
-  getPurchaseHeaderMeta,
-  getPurchaseHeaderTitle,
-  getTicketPricing,
-} from '../../tickets-content';
+import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
+import { getPurchaseHeaderMetaKeys, getTicketPricing, purchaseTierTitleKey } from '../../tickets-content';
 import { TicketsPurchaseDraftService } from '../../tickets-purchase-draft.service';
 import { TicketPaymentProofService } from '../../../../services/ticket-payment-proof.service';
 import { environment } from '../../../../../environments/environment';
@@ -26,6 +23,7 @@ import QRCode from 'qrcode';
 @Component({
   selector: 'app-tickets-purchase-transfer',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslocoPipe],
   templateUrl: './tickets-purchase-transfer.component.html',
   styleUrl: './tickets-purchase-transfer.component.scss',
 })
@@ -35,6 +33,7 @@ export class TicketsPurchaseTransferComponent {
   private readonly draftService = inject(TicketsPurchaseDraftService);
   private readonly paymentProofService = inject(TicketPaymentProofService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly transloco = inject(TranslocoService);
 
   private static qtyFromParams(p: ParamMap): number {
     const raw = p.get('qty');
@@ -67,17 +66,13 @@ export class TicketsPurchaseTransferComponent {
   readonly draft = this.draftService.draft;
   readonly isReceiptMode = computed(() => this.purchaseStep() === 'receipt');
 
-  readonly headerTitle = computed(() => {
-    const t = this.purchaseType();
-    return t ? getPurchaseHeaderTitle(t) : '';
-  });
+  readonly tierTitleKey = computed(
+    () => purchaseTierTitleKey(this.purchaseType() ?? 'presale') ?? 'tickets.packs.presale.title',
+  );
 
-  readonly headerMeta = computed(() => {
-    const t = this.purchaseType();
-    return t ? getPurchaseHeaderMeta(t) : getPurchaseHeaderMeta('presale');
-  });
-  readonly headerWhen = computed(() => this.headerMeta().when);
-  readonly headerWhere = computed(() => this.headerMeta().where);
+  readonly metaKeys = computed(() =>
+    getPurchaseHeaderMetaKeys(this.purchaseType() ?? 'presale'),
+  );
 
   /** When true, user may submit without an image (API sheets-only). */
   readonly paymentProofImageOptional = environment.paymentProofImageOptional;
@@ -301,20 +296,20 @@ export class TicketsPurchaseTransferComponent {
         }
       }
       if (err.status === 0) {
-        return 'Không kết nối được máy chủ. Kiểm tra mạng hoặc thử lại sau.';
+        return this.transloco.translate('tickets.transfer.errors.network');
       }
       if (err.status === 413) {
-        return 'Ảnh quá lớn. Vui lòng chọn file nhỏ hơn.';
+        return this.transloco.translate('tickets.transfer.errors.payloadTooLarge');
       }
       if (err.status === 400) {
-        return 'Thông tin tải biên lai không hợp lệ hoặc đã hết hạn. Vui lòng quay lại bước thanh toán.';
+        return this.transloco.translate('tickets.transfer.errors.badRequest');
       }
       if (err.status === 503) {
-        return 'Chưa cấu hình Google Sheet (hoặc máy chủ). Kiểm tra API và Google:Payment.';
+        return this.transloco.translate('tickets.transfer.errors.serviceUnavailable');
       }
-      return `Gửi không thành công (${err.status}).`;
+      return this.transloco.translate('tickets.transfer.errors.genericStatus', { status: err.status });
     }
-    return 'Đã xảy ra lỗi. Vui lòng thử lại.';
+    return this.transloco.translate('tickets.transfer.errors.unknown');
   }
 
   /** Flattens ASP.NET ValidationProblemDetails `errors` (per-field string arrays). */
@@ -336,7 +331,7 @@ export class TicketsPurchaseTransferComponent {
 
   private withUploadHintVi(message: string): string {
     if (/boundary|request form|multipart/i.test(message)) {
-      return `${message} — Nếu lỗi lặp lại, thử trình duyệt khác hoặc ảnh nhỏ hơn (tối đa 10 MB).`;
+      return this.transloco.translate('tickets.transfer.errors.multipartHint', { message });
     }
     return message;
   }

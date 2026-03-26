@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, DestroyRef, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TranslocoPipe } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BandCardComponent } from '../band-card/band-card.component';
 import { BandService } from '../../services/band.service';
@@ -27,7 +28,7 @@ const PLACEHOLDER_SLOTS: BandSlot[] = Array.from({ length: SLOTS_COUNT }, () => 
 @Component({
   selector: 'app-bands-section',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BandCardComponent, RouterLink],
+  imports: [BandCardComponent, RouterLink, TranslocoPipe],
   templateUrl: './bands-section.component.html',
   styleUrl: './bands-section.component.scss',
 })

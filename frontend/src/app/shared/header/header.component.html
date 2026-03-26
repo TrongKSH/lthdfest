@@ -1,8 +1,11 @@
 <header class="header" [class.header--nav-open]="menuOpen()" role="banner">
+  <div class="header-tools">
+    <app-lang-switch />
+  </div>
   <button
     type="button"
     class="menu-btn"
-    aria-label="Toggle menu"
+    [attr.aria-label]="'header.menuToggle' | transloco"
     [attr.aria-expanded]="menuOpen()"
     (click)="toggleMenu()"
   >
@@ -10,11 +13,12 @@
     <span class="menu-btn-bar"></span>
     <span class="menu-btn-bar"></span>
   </button>
-  <nav class="nav" [class.nav--open]="menuOpen()" aria-label="Main navigation">
+  <nav class="nav" [class.nav--open]="menuOpen()" [attr.aria-label]="'header.mainNav' | transloco">
     <div
       class="nav-desktop"
       role="navigation"
-      aria-label="Primary"
+      [attr.aria-label]="'header.primaryNav' | transloco"
+
       (mouseleave)="onDesktopNavBarLeave()"
     >
       <div
@@ -34,16 +38,16 @@
           aria-haspopup="menu"
           (click)="$event.stopPropagation(); onDesktopMenuNavigate('soul')"
         >
-          Soul
+          {{ 'header.soul' | transloco }}
         </a>
-        <div class="nav-submenu" role="menu" aria-label="Soul submenu">
+        <div class="nav-submenu" role="menu" [attr.aria-label]="'header.soulSubmenu' | transloco">
           <a
             routerLink="/lineup"
             class="nav-link nav-link--sub"
             role="menuitem"
             (click)="$event.stopPropagation(); onDesktopMenuNavigate('soul')"
           >
-            Full Line-up
+            {{ 'header.fullLineup' | transloco }}
           </a>
           <a
             routerLink="/lineup"
@@ -52,7 +56,7 @@
             role="menuitem"
             (click)="$event.stopPropagation(); onDesktopMenuNavigate('soul')"
           >
-            Running Order
+            {{ 'header.runningOrder' | transloco }}
           </a>
         </div>
       </div>
@@ -73,16 +77,16 @@
           aria-haspopup="menu"
           (click)="$event.stopPropagation(); onDesktopMenuNavigate('commerce')"
         >
-          Commerce
+          {{ 'header.commerce' | transloco }}
         </a>
-        <div class="nav-submenu" role="menu" aria-label="Commerce submenu">
+        <div class="nav-submenu" role="menu" [attr.aria-label]="'header.commerceSubmenu' | transloco">
           <a
             routerLink="/tickets"
             class="nav-link nav-link--sub"
             role="menuitem"
             (click)="$event.stopPropagation(); onDesktopMenuNavigate('commerce')"
           >
-            Tickets Info
+            {{ 'header.ticketsInfo' | transloco }}
           </a>
           <a
             href="#"
@@ -90,7 +94,7 @@
             role="menuitem"
             (click)="$event.preventDefault(); $event.stopPropagation(); onDesktopMenuNavigate('commerce')"
           >
-            Merchandise (Shop)
+            {{ 'header.merchandise' | transloco }}
           </a>
         </div>
       </div>
@@ -111,9 +115,9 @@
           aria-haspopup="menu"
           (click)="$event.stopPropagation(); onDesktopMenuNavigate('info')"
         >
-          Info
+          {{ 'header.info' | transloco }}
         </a>
-        <div class="nav-submenu" role="menu" aria-label="Info submenu">
+        <div class="nav-submenu" role="menu" [attr.aria-label]="'header.infoSubmenu' | transloco">
           <a
             routerLink="/"
             fragment="info"
@@ -121,7 +125,7 @@
             role="menuitem"
             (click)="$event.stopPropagation(); onDesktopMenuNavigate('info')"
           >
-            Festival Info
+            {{ 'header.festivalInfo' | transloco }}
           </a>
           <a
             routerLink="/faq"
@@ -129,7 +133,7 @@
             role="menuitem"
             (click)="$event.stopPropagation(); onDesktopMenuNavigate('info')"
           >
-            Info Pratique
+            {{ 'header.infoPratique' | transloco }}
           </a>
           <a
             href="#"
@@ -137,7 +141,7 @@
             role="menuitem"
             (click)="$event.preventDefault(); $event.stopPropagation(); onDesktopMenuNavigate('info')"
           >
-            Media/Press
+            {{ 'header.mediaPress' | transloco }}
           </a>
         </div>
       </div>
@@ -147,13 +151,13 @@
   <a
     href="/"
     class="logo-wrap logo-link"
-    aria-label="Soul, Commerce and Info — Về trang chủ"
+    [attr.aria-label]="'header.logoAria' | transloco"
     (click)="onLogoClick($event)"
   >
     <img
       class="logo"
       src="/assets/images/lthd-logo.png"
-      alt="Soul, Commerce and Info"
+      [attr.alt]="'header.logoAlt' | transloco"
       width="269"
       height="120"
     />
@@ -161,16 +165,16 @@
 </header>
 
 @if (menuOpen()) {
-  <div class="mobile-drawer" aria-label="Main navigation">
+  <div class="mobile-drawer" [attr.aria-label]="'header.mobileNavDrawer' | transloco">
     <div class="nav-mobile">
       <div class="nav-group">
-        <div class="nav-group-title">Soul</div>
+        <div class="nav-group-title">{{ 'header.soul' | transloco }}</div>
         <a
           routerLink="/lineup"
           class="nav-link nav-link--sub"
           (click)="$event.stopPropagation(); closeMenu()"
         >
-          Full Line-up
+          {{ 'header.fullLineup' | transloco }}
         </a>
         <a
           routerLink="/lineup"
@@ -178,51 +182,51 @@
           class="nav-link nav-link--sub"
           (click)="$event.stopPropagation(); closeMenu()"
         >
-          Running Order
+          {{ 'header.runningOrder' | transloco }}
         </a>
       </div>
 
       <div class="nav-group">
-        <div class="nav-group-title">Commerce</div>
+        <div class="nav-group-title">{{ 'header.commerce' | transloco }}</div>
         <a
           routerLink="/tickets"
           class="nav-link nav-link--sub"
           (click)="$event.stopPropagation(); closeMenu()"
         >
-          Tickets Info
+          {{ 'header.ticketsInfo' | transloco }}
         </a>
         <a
           href="#"
           class="nav-link nav-link--sub"
           (click)="$event.preventDefault(); $event.stopPropagation(); closeMenu()"
         >
-          Merchandise (Shop)
+          {{ 'header.merchandise' | transloco }}
         </a>
       </div>
 
       <div class="nav-group">
-        <div class="nav-group-title">Info</div>
+        <div class="nav-group-title">{{ 'header.info' | transloco }}</div>
         <a
           routerLink="/"
           fragment="info"
           class="nav-link nav-link--sub"
           (click)="$event.stopPropagation(); closeMenu()"
         >
-          Festival Info
+          {{ 'header.festivalInfo' | transloco }}
         </a>
         <a
           routerLink="/faq"
           class="nav-link nav-link--sub"
           (click)="$event.stopPropagation(); closeMenu()"
         >
-          Info Pratique
+          {{ 'header.infoPratique' | transloco }}
         </a>
         <a
           href="#"
           class="nav-link nav-link--sub"
           (click)="$event.preventDefault(); $event.stopPropagation(); closeMenu()"
         >
-          Media/Press
+          {{ 'header.mediaPress' | transloco }}
         </a>
       </div>
     </div>

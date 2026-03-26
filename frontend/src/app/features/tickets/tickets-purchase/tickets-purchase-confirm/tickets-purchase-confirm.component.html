@@ -1,18 +1,20 @@
-<div class="ti-overlay" role="main" aria-label="Xác nhận đơn hàng">
+<div class="ti-overlay" role="main" [attr.aria-label]="'tickets.confirm.mainAria' | transloco">
   <div class="ti-page">
-    <button class="ti-close" type="button" aria-label="Đóng" (click)="onClose()">×</button>
+    <button class="ti-close" type="button" [attr.aria-label]="'common.close' | transloco" (click)="onClose()">×</button>
 
     <header class="ti-header">
-      <h1 class="ti-header-title">{{ headerTitle() }}</h1>
-      <p class="ti-header-line">Thời gian: {{ headerWhen() }}</p>
-      <p class="ti-header-line">Địa điểm: {{ headerWhere() }}</p>
+      <h1 class="ti-header-title">
+        {{ 'tickets.meta.eventName' | transloco }} — {{ tierTitleKey() | transloco }}
+      </h1>
+      <p class="ti-header-line">{{ 'tickets.timeLabel' | transloco }} {{ metaKeys().whenKey | transloco }}</p>
+      <p class="ti-header-line">{{ 'tickets.placeLabel' | transloco }} {{ metaKeys().whereKey | transloco }}</p>
     </header>
 
     <div class="ti-layout">
       <section class="ti-card ti-confirm-receive">
-        <h2 class="ti-confirm-card-title">Thông tin nhận vé</h2>
+        <h2 class="ti-confirm-card-title">{{ 'tickets.confirm.receiveTitle' | transloco }}</h2>
         <p class="ti-confirm-receive-text">
-          Vé điện tử của Long Tranh Hổ Đấu sẽ được gửi đến email quý khách đã cung cấp:
+          {{ 'tickets.confirm.receiveText' | transloco }}
           <strong class="ti-confirm-email">{{ emailForTickets() }}</strong>
         </p>
       </section>
@@ -20,50 +22,50 @@
       <div class="ti-column">
         <section class="ti-card ti-confirm-booking">
           <div class="ti-confirm-booking-head">
-            <h2 class="ti-confirm-card-title ti-confirm-card-title--inline">Thông tin đặt vé</h2>
+            <h2 class="ti-confirm-card-title ti-confirm-card-title--inline">{{ 'tickets.confirm.bookingTitle' | transloco }}</h2>
             <button type="button" class="ti-confirm-link" (click)="onReselectTickets()">
-              Chọn lại vé
+              {{ 'tickets.confirm.reselectTickets' | transloco }}
             </button>
           </div>
 
           <div class="ti-confirm-grid">
-            <span class="ti-confirm-grid-label">Loại vé</span>
-            <span class="ti-confirm-grid-label">Số lượng</span>
-            <span class="ti-confirm-grid-value">{{ ticketLabel() }}</span>
+            <span class="ti-confirm-grid-label">{{ 'tickets.confirm.ticketType' | transloco }}</span>
+            <span class="ti-confirm-grid-label">{{ 'tickets.confirm.quantity' | transloco }}</span>
+            <span class="ti-confirm-grid-value">@if (ticketSummaryKey(); as key) { {{ key | transloco }} }</span>
             <span class="ti-confirm-grid-value">{{ qtyPadded() }}</span>
           </div>
 
           <div class="ti-confirm-price-row">
-            <span class="ti-confirm-grid-label">Đơn giá</span>
+            <span class="ti-confirm-grid-label">{{ 'tickets.confirm.unitPrice' | transloco }}</span>
             <span class="ti-confirm-grid-value">{{ formatVnd(unitPriceVnd()) }}</span>
           </div>
         </section>
 
         <section class="ti-card ti-confirm-order">
           <div class="ti-confirm-row">
-            <span class="ti-confirm-label">Tạm tính</span>
+            <span class="ti-confirm-label">{{ 'tickets.confirm.subtotal' | transloco }}</span>
             <span class="ti-confirm-amount">{{ formatVnd(subtotalVnd()) }}</span>
           </div>
-          <p class="ti-confirm-note">Vé đã bao gồm 10% thuế VAT</p>
+          <p class="ti-confirm-note">{{ 'tickets.confirm.vatNote' | transloco }}</p>
 
           <div class="ti-confirm-divider"></div>
 
           <div class="ti-confirm-row ti-confirm-row--total">
-            <span class="ti-confirm-label">Tổng tiền</span>
+            <span class="ti-confirm-label">{{ 'tickets.confirm.total' | transloco }}</span>
             <span class="ti-confirm-amount">{{ formatVnd(subtotalVnd()) }}</span>
           </div>
 
           <p class="ti-confirm-terms-note">
-            Bạn đã đồng ý với điều kiện giao dịch chung khi tiến hành mua vé
+            {{ 'tickets.confirm.agreedNote' | transloco }}
           </p>
 
           <button
             type="button"
             class="ti-confirm-pay"
-            aria-label="Thanh toán"
+            [attr.aria-label]="'tickets.confirm.payAria' | transloco"
             (click)="onPay()"
           >
-            <span class="ti-confirm-pay-label">Thanh toán</span>
+            <span class="ti-confirm-pay-label">{{ 'tickets.confirm.pay' | transloco }}</span>
           </button>
         </section>
       </div>

@@ -11,6 +11,7 @@ public class Band
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Bio { get; set; } = string.Empty;
+    public string BioEn { get; set; } = string.Empty;
     public string? HeroUrl { get; set; }
     public string? LogoUrl { get; set; }
     public bool IsFeaturedOnHome { get; set; }

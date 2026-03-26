@@ -1,0 +1,324 @@
+{
+  "common": {
+    "close": "Đóng",
+    "continue": "TIẾP TỤC",
+    "loading": "Đang tải...",
+    "lang": {
+      "en": "English",
+      "vi": "Tiếng Việt",
+      "switchTo": "Ngôn ngữ"
+    }
+  },
+  "header": {
+    "menuToggle": "Mở menu điều hướng",
+    "mainNav": "Điều hướng chính",
+    "primaryNav": "Chính",
+    "soulSubmenu": "Menu Soul",
+    "commerceSubmenu": "Menu Commerce",
+    "infoSubmenu": "Menu Info",
+    "soul": "Soul",
+    "commerce": "Commerce",
+    "info": "Info",
+    "fullLineup": "Full Line-up",
+    "runningOrder": "Running Order",
+    "ticketsInfo": "Tickets Info",
+    "merchandise": "Merchandise (Shop)",
+    "festivalInfo": "Festival Info",
+    "infoPratique": "Info Pratique",
+    "mediaPress": "Media/Press",
+    "logoAria": "Soul, Commerce và Info — Về trang chủ",
+    "logoAlt": "Soul, Commerce và Info",
+    "mobileNavDrawer": "Điều hướng chính"
+  },
+  "footer": {
+    "followUs": "FOLLOW US",
+    "socialLinks": "Liên kết mạng xã hội",
+    "contact": "CONTACT",
+    "anyQuestion": "ANY QUESTION?",
+    "faq": "FAQ",
+    "brand": "LONG TRANH HỔ ĐẤU"
+  },
+  "hero": {
+    "teaserVideo": "Teaser lễ hội",
+    "playVideo": "Phát video",
+    "tapToPlay": "Chạm để phát",
+    "buyTicketsAria": "Mua vé ngay",
+    "buyTicketsAlt": "MUA VÉ NGAY"
+  },
+  "newsTicker": {
+    "aria": "Băng tin",
+    "announce": "Thông báo tin tức nóng hổi",
+    "hotNews": "HOT NEWS",
+    "longTranh": "Long Tranh",
+    "hoDau": "Hổ Đấu"
+  },
+  "bandsSection": {
+    "title": "HƠN 20 BAN NHẠC",
+    "discoverAria": "Khám phá",
+    "infoAria": "Thông tin"
+  },
+  "bandCard": {
+    "secretBand": "Ban nhạc bí mật",
+    "secretAlt": "Ban nhạc bí mật",
+    "viewBandAria": "Xem thông tin {{name}}"
+  },
+  "countdown": {
+    "daysLeft": "Còn {{count}} ngày",
+    "dash": "—",
+    "warning": "WARNING",
+    "caution": "CAUTION"
+  },
+  "lineup": {
+    "title": "LINE-UP",
+    "filterAria": "Lọc line-up",
+    "all": "Tất cả",
+    "longTranh": "Long Tranh",
+    "hoDau": "Hổ Đấu",
+    "empty": "Chưa có dữ liệu nghệ sĩ.",
+    "secretBand": "Ban nhạc bí mật",
+    "artistAria": "Nghệ sĩ {{name}}"
+  },
+  "faq": {
+    "title": "FAQ",
+    "regionAria": "Câu hỏi thường gặp",
+    "items": {
+      "1": {
+        "question": "Festival sẽ diễn ra khi nào?",
+        "answer": "Sự kiện sẽ diễn ra trong 2 ngày với 2 tính chất. Thời gian mở cổng và lịch diễn chi tiết sẽ được cập nhật trên website."
+      },
+      "2": {
+        "question": "Tôi có thể mua vé ở đâu?",
+        "answer": "Vé được bán chính thức trên website của festival. Khán giả nên mua vé từ nguồn chính thức để đảm bảo quyền lợi."
+      },
+      "3": {
+        "question": "Tôi nhận vé bằng cách nào sau khi thanh toán?",
+        "answer": "Vé điện tử sẽ được gửi qua Email trong 48 giờ sau khi thanh toán thành công. Hãy kiểm tra hộp thư của bạn."
+      },
+      "4": {
+        "question": "Tôi phải làm sao nếu như không nhận được vé Email?",
+        "answer": "Hãy kiểm tra kỹ các hộp thư, nếu vẫn không thấy, bạn có thể liên hệ chúng tôi qua FANPAGE/HOTLINE để được hỗ trợ."
+      },
+      "5": {
+        "question": "Vé đã mua có được hoàn tiền hoặc đổi trả không?",
+        "answer": "Vé đã thanh toán sẽ không được hoàn tiền hoặc đổi trả, trừ trường hợp sự kiện bị hủy bởi Ban Tổ Chức."
+      },
+      "6": {
+        "question": "Festival có giới hạn độ tuổi tham gia không?",
+        "answer": "Sự kiện phù hợp với người từ 16 tuổi trở lên. Người dưới 16 tuổi cần có người giám hộ đi kèm."
+      }
+    }
+  },
+  "tickets": {
+    "pageTitle": "TICKETS",
+    "timeLabel": "Thời gian:",
+    "placeLabel": "Địa điểm:",
+    "priceLabel": "Giá:",
+    "when": {
+      "full": "T6-T7, 08-09/05/2026",
+      "may8": "T6, 08/05/2026",
+      "may9": "T7, 09/05/2026"
+    },
+    "meta": {
+      "eventName": "Long Tranh Hổ Đấu Festival",
+      "where": "327 Trần Xuân Soạn, Tân Kiểng, Quận 7 (cũ), TP.HCM"
+    },
+    "purchase": {
+      "dialogAria": "Mua vé",
+      "tierRule": "(Bạn chỉ có thể chọn vé trong cùng hạng vé)",
+      "quantityTitle": "Số lượng",
+      "quantityGroupAria": "Chọn số lượng vé",
+      "decreaseQty": "Giảm số lượng",
+      "increaseQty": "Tăng số lượng",
+      "qtyInputAria": "Số lượng",
+      "perksTitle": "Quyền lợi nhận tại sự kiện:",
+      "chooseOtherArea": "Chọn khu vực khác",
+      "continueAlt": "TIẾP TỤC",
+      "headingTier": "Hạng vé {{tier}}"
+    },
+    "packs": {
+      "presale": {
+        "title": "PRE-SALE",
+        "summaryDisplayName": "Pre-Sale",
+        "buyLabel": "MUA VÉ NGAY",
+        "priceAmount": "549.000 vnđ"
+      },
+      "brotherhood": {
+        "peekTitle": "GÓI HUYNH ĐỆ",
+        "peekSub": "(BROTHERHOOD)",
+        "hoverTitle": "GÓI HUYNH ĐỆ",
+        "hoverSubtitle": "(BROTHERHOOD)",
+        "summaryDisplayName": "Gói Huynh Đệ",
+        "buyLabel": "MUA VÉ NGAY",
+        "priceAmount": "999.000 vnđ"
+      },
+      "longtranh": {
+        "peekTitle": "LONG TRANH",
+        "hoverTitle": "LONG TRANH",
+        "summaryDisplayName": "Long Tranh",
+        "buyLabel": "MUA VÉ NGAY",
+        "priceAmount": "349.000 vnđ"
+      },
+      "hodau": {
+        "peekTitle": "HỔ ĐẤU",
+        "hoverTitle": "HỔ ĐẤU",
+        "summaryDisplayName": "Hổ Đấu",
+        "buyLabel": "MUA VÉ NGAY",
+        "priceAmount": "349.000 vnđ"
+      },
+      "metalhead": {
+        "peekTitle": "TRUE METALHEAD PACK",
+        "hoverTitle": "TRUE METALHEAD PACK",
+        "summaryDisplayName": "True Metalhead Pack",
+        "buyLabel": "MUA VÉ NGAY",
+        "priceAmount": "849.000 vnđ"
+      },
+      "vip": {
+        "peekTitle": "VIP",
+        "hoverTitle": "VIP",
+        "summaryDisplayName": "VIP",
+        "buyLabel": "MUA VÉ NGAY",
+        "priceAmount": "1.099.000 vnđ"
+      },
+      "atdoor": {
+        "peekTitle": "AT DOOR",
+        "hoverTitle": "AT DOOR",
+        "summaryDisplayName": "At Door",
+        "buyLabel": "MUA VÉ NGAY",
+        "priceAmount": "649.000 vnđ"
+      }
+    },
+    "perks": {
+      "default": [
+        "Vé 2 ngày",
+        "Vòng tay",
+        "LTHĐ passport"
+      ],
+      "longtranh": [
+        "Vé 1 ngày 08/05/2026",
+        "Vòng tay",
+        "LTHĐ passport"
+      ],
+      "hodau": [
+        "Vé 1 ngày 09/05/2026",
+        "Vòng tay",
+        "LTHĐ passport"
+      ],
+      "brotherhood": [
+        "2 vé 2 ngày",
+        "2 vòng tay",
+        "2 LTHĐ passport"
+      ],
+      "metalhead": [
+        "Vé 2 ngày",
+        "Áo thun Official Merch 350.000đ",
+        "2 phần nước"
+      ],
+      "vip": [
+        "Vé 2 ngày",
+        "Áo thun Merch (phiên bản đặc biệt)",
+        "Uống bia free-flow (không giới hạn) trong 2 khung giờ vàng",
+        "Lối đi fast-track không xếp hàng",
+        "Khu vực phòng VIP"
+      ],
+      "presale": [
+        "Vé 2 ngày",
+        "Vòng tay",
+        "LTHĐ passport"
+      ]
+    },
+    "info": {
+      "mainAria": "Thông tin mua vé",
+      "termsTitle": "Điều khoản và Dịch vụ mua vé",
+      "terms": {
+        "1": "Vé đã thanh toán không được hoàn tiền hoặc đổi trả.",
+        "2": "Vé chỉ hợp lệ cho ngày và hạng vé đã đăng ký.",
+        "3": "Người tham dự có trách nhiệm bảo quản vé sau khi mua.",
+        "4": "Vé bị mất, hư hỏng hoặc sao chép trái phép sẽ không được hỗ trợ.",
+        "5": "Ban Tổ Chức không chịu trách nhiệm cho các vé mua từ nguồn không chính thức.",
+        "6": "Ban Tổ Chức có quyền từ chối nhập cảnh nếu phát hiện vi phạm quy định sự kiện.",
+        "7": "Trong trường hợp sự kiện bị hủy, chính sách xử lý vé sẽ được thông báo riêng."
+      },
+      "termsQuestion": "Bạn đã đọc và đồng ý với \"Điều khoản và điều kiện\" của chương trình?",
+      "termsYes": "Tôi đã đọc và đồng ý",
+      "termsNo": "Tôi không đồng ý",
+      "consentQuestion": "Cho phép \"Long Tranh Hổ Đấu\" sử dụng thông tin đặt vé để quảng cáo và vận hành?",
+      "consentYes": "Tôi đồng ý",
+      "consentNo": "Tôi không đồng ý",
+      "fullName": "Họ và tên",
+      "phone": "Số điện thoại",
+      "email": "Email nhận vé",
+      "required": "*",
+      "summaryTitle": "Thông tin đặt vé",
+      "quantity": "Số lượng",
+      "subtotal": "Tạm tính",
+      "continueError": "Vui lòng trả lời hết tất cả câu hỏi để tiếp tục."
+    },
+    "confirm": {
+      "mainAria": "Xác nhận đơn hàng",
+      "receiveTitle": "Thông tin nhận vé",
+      "receiveText": "Vé điện tử của Long Tranh Hổ Đấu sẽ được gửi đến email quý khách đã cung cấp:",
+      "bookingTitle": "Thông tin đặt vé",
+      "reselectTickets": "Chọn lại vé",
+      "ticketType": "Loại vé",
+      "quantity": "Số lượng",
+      "unitPrice": "Đơn giá",
+      "subtotal": "Tạm tính",
+      "vatNote": "Vé đã bao gồm 10% thuế VAT",
+      "total": "Tổng tiền",
+      "agreedNote": "Bạn đã đồng ý với điều kiện giao dịch chung khi tiến hành mua vé",
+      "payAria": "Thanh toán",
+      "pay": "Thanh toán"
+    },
+    "transfer": {
+      "mainAria": "Chuyển khoản thanh toán",
+      "backToTickets": "Về trang vé",
+      "back": "Quay lại",
+      "receiptTitle": "Tải biên lai thanh toán",
+      "beneficiary": "CONG TY CO PHAN KHONG GIAN YEN TINH",
+      "accountSr": "Số tài khoản:",
+      "qrAlt": "Mã QR VietQR Napas 247 Techcombank để chuyển khoản thanh toán vé",
+      "scanHint": "Quét để thanh toán",
+      "uploadTitle": "Tải ảnh biên lai",
+      "uploadTitleReceipt": "Tải ảnh biên lai từ điện thoại",
+      "uploadHintReceipt": "Chọn ảnh chụp màn hình giao dịch thành công từ app ngân hàng trên điện thoại.",
+      "uploadHintDesktop": "Sau khi hoàn tất chuyển khoản, vui lòng chụp hoặc tải ảnh màn hình giao dịch thành công.",
+      "chooseImage": "Chọn ảnh",
+      "preview": "Xem trước",
+      "previewAlt": "Xem trước ảnh biên lai chuyển khoản",
+      "submitting": "Đang gửi…",
+      "submit": "Gửi ảnh chụp giao dịch thành công",
+      "mobileSectionTitle": "Tải biên lai trực tiếp từ điện thoại",
+      "mobileSectionCopy": "Nếu bạn quét QR bằng app ngân hàng trên điện thoại, hãy quét mã dưới đây để mở trang tải biên lai trên điện thoại.",
+      "mobileSectionCopySecondary": "Giữ trang này mở trên máy tính — sẽ tự xác nhận khi bạn gửi biên lai từ điện thoại.",
+      "generatingLink": "Đang tạo liên kết tải biên lai…",
+      "mobileQrAlt": "Mã QR mở trang tải biên lai trên điện thoại",
+      "successTitle": "Thanh toán thành công",
+      "successText1": "Đã gửi ảnh chụp giao dịch thành công.",
+      "successText2": "Cảm ơn bạn!",
+      "done": "HOÀN THÀNH",
+      "errors": {
+        "network": "Không kết nối được máy chủ. Kiểm tra mạng hoặc thử lại sau.",
+        "payloadTooLarge": "Ảnh quá lớn. Vui lòng chọn file nhỏ hơn.",
+        "badRequest": "Thông tin tải biên lai không hợp lệ hoặc đã hết hạn. Vui lòng quay lại bước thanh toán.",
+        "serviceUnavailable": "Chưa cấu hình Google Sheet (hoặc máy chủ). Kiểm tra API và Google:Payment.",
+        "genericStatus": "Gửi không thành công ({{status}}).",
+        "unknown": "Đã xảy ra lỗi. Vui lòng thử lại.",
+        "multipartHint": "{{message}} — Nếu lỗi lặp lại, thử trình duyệt khác hoặc ảnh nhỏ hơn (tối đa 10 MB)."
+      }
+    }
+  },
+  "bandDetail": {
+    "back": "Quay lại",
+    "logoAside": "Logo ban nhạc",
+    "loading": "Đang tải...",
+    "notFound": "Band này hiện đang được ẩn hoặc không tồn tại.",
+    "stage": {
+      "LongTranh": "Long Tranh",
+      "HoDau": "Hổ Đấu"
+    },
+    "date": {
+      "LongTranh": "08/05/2026",
+      "HoDau": "09/05/2026"
+    }
+  }
+}
