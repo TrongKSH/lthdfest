@@ -155,7 +155,7 @@ export class TicketsPurchaseTransferComponent {
         return;
       }
 
-      const key = `${d.fullName}|${d.phone}|${d.email}|${t}|${q}`;
+      const key = `${d.fullName}|${d.phone}|${d.email}|${d.merchSize}|${t}|${q}`;
       if (this.lastMobileContextKey === key) {
         return;
       }
@@ -262,6 +262,7 @@ export class TicketsPurchaseTransferComponent {
             email: draft!.email,
             purchaseType: purchaseType!,
             qty: q,
+            merchSize: draft!.merchSize,
           }),
         );
       }
@@ -362,6 +363,7 @@ export class TicketsPurchaseTransferComponent {
           email: draft.email,
           purchaseType,
           qty,
+          merchSize: draft.merchSize,
         }),
       );
       const url = `${window.location.origin}/tickets?step=receipt&token=${encodeURIComponent(response.resumeToken)}`;

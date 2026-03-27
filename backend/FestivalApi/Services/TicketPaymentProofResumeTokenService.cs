@@ -34,6 +34,7 @@ public sealed class TicketPaymentProofResumeTokenService
         string email,
         string purchaseType,
         int qty,
+        string merchSize,
         DateTimeOffset expiresAtUtc)
     {
         var payload = new ResumeTokenPayload(
@@ -42,6 +43,7 @@ public sealed class TicketPaymentProofResumeTokenService
             email.Trim(),
             purchaseType.Trim(),
             qty,
+            merchSize.Trim(),
             expiresAtUtc.ToUnixTimeSeconds());
 
         var payloadJson = JsonSerializer.Serialize(payload, JsonOptions);
@@ -142,4 +144,5 @@ public sealed record ResumeTokenPayload(
     string Email,
     string PurchaseType,
     int Qty,
+    string MerchSize,
     long Exp);

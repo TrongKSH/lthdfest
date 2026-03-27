@@ -137,6 +137,19 @@
   margin-top: 10px;
 }
 
+.ti-merch {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ti-merch-title {
+  margin: 8px 0 2px;
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.95);
+}
+
 .ti-label {
   display: flex;
   flex-direction: column;
@@ -170,6 +183,51 @@
   outline: none;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
+}
+
+/* Pill-shaped dark field (matches merch / reference selectors) */
+.ti-select {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 10px 2.5rem 10px 1rem;
+  background-color: #1c1c1c;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 9999px;
+  color-scheme: dark;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  /* Chevron */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath stroke='rgba(255,255,255,0.55)' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M3 4.5 6 7.5l3-3'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 12px 12px;
+}
+
+.ti-select:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.ti-select:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.ti-select:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.35);
+  outline-offset: 2px;
+}
+
+.ti-select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ti-select option {
+  background-color: #1c1c1c;
+  color: #ffffff;
 }
 
 .ti-input::placeholder,

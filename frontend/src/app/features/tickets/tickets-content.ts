@@ -10,6 +10,7 @@ export type TicketPackVariant =
 
 /** Aligns with `tickets.when.*` translation keys. */
 export type TicketWhenKey = 'full' | 'may8' | 'may9';
+export type MerchSize = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
 export interface TicketPackDef {
   id: string;
@@ -77,6 +78,8 @@ export const TICKET_PACK_DEFS: readonly TicketPackDef[] = [
   },
 ] as const;
 
+export const MERCH_SIZE_OPTIONS: readonly MerchSize[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL'] as const;
+
 export function getTicketPricing(purchaseKey: string): {
   unitPriceVnd: number;
   summaryKey: string;
@@ -93,6 +96,10 @@ export function getTicketPricing(purchaseKey: string): {
     unitPriceVnd: pack.unitPriceVnd,
     summaryKey: `tickets.packs.${pack.id}.summaryDisplayName`,
   };
+}
+
+export function requiresMerchSize(purchaseType: string): boolean {
+  return purchaseType === 'metalhead' || purchaseType === 'vip';
 }
 
 /** Translation key under `tickets.packs.*` for tier line in purchase header. */

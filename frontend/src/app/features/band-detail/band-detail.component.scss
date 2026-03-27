@@ -48,6 +48,12 @@
   }
 }
 
+@media (max-width: 900px) {
+  .back {
+    display: none;
+  }
+}
+
 .band-detail {
   color: var(--lthd-text);
 }

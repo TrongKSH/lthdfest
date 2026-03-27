@@ -4,9 +4,11 @@ import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 
 import { AppLocaleService } from '../../../../i18n/locale.service';
 import {
+  MERCH_SIZE_OPTIONS,
   getPurchaseHeaderMetaKeys,
   getTicketPricing,
   purchaseTierTitleKey,
+  requiresMerchSize,
 } from '../../tickets-content';
 import { TicketsPurchaseDraftService } from '../../tickets-purchase-draft.service';
 
@@ -36,6 +38,8 @@ export class TicketsPurchaseInfoComponent {
   readonly fullName = signal('');
   readonly phone = signal('');
   readonly email = signal('');
+  readonly merchSizes = signal<string[]>([]);
+  readonly merchSizeOptions = MERCH_SIZE_OPTIONS;
 
   readonly termIndices = [1, 2, 3, 4, 5, 6, 7] as const;
 
@@ -43,6 +47,19 @@ export class TicketsPurchaseInfoComponent {
     effect(() => {
       const q = this.qty();
       this.quantity.set(Number.isFinite(q) ? Math.max(0, Math.floor(q)) : 0);
+    });
+
+    effect(() => {
+      const qty = this.quantity();
+      const current = this.merchSizes();
+      if (qty <= 0) {
+        if (current.length > 0) this.merchSizes.set([]);
+        return;
+      }
+      const next = Array.from({ length: qty }, (_, index) => current[index] ?? '');
+      if (next.length !== current.length || next.some((size, index) => size !== current[index])) {
+        this.merchSizes.set(next);
+      }
     });
   }
 
@@ -59,6 +76,13 @@ export class TicketsPurchaseInfoComponent {
   readonly metaKeys = computed(() => getPurchaseHeaderMetaKeys(this.type()));
 
   readonly subtotalVnd = computed(() => this.quantity() * this.unitPriceVnd());
+  readonly needsMerchSize = computed(() => requiresMerchSize(this.type()));
+  readonly merchSelectorIndices = computed(() => this.merchSizes().map((_, index) => index));
+  readonly merchSizeCsv = computed(() =>
+    this.merchSizes()
+      .map((size) => size.trim())
+      .join(','),
+  );
 
   readonly continueEnabled = computed(() => {
     if (!this.pricing()) return false;
@@ -68,6 +92,10 @@ export class TicketsPurchaseInfoComponent {
     if (!this.fullName().trim()) return false;
     if (!this.phone().trim()) return false;
     if (!this.email().trim() || !this.email().includes('@')) return false;
+    if (this.needsMerchSize()) {
+      if (this.merchSizes().length !== this.quantity()) return false;
+      if (this.merchSizes().some((size) => !size.trim())) return false;
+    }
     return true;
   });
 
@@ -91,6 +119,7 @@ export class TicketsPurchaseInfoComponent {
       fullName: this.fullName().trim(),
       phone: this.phone().trim(),
       email: this.email().trim(),
+      merchSize: this.needsMerchSize() ? this.merchSizeCsv() : '',
     });
 
     void this.router.navigate(['/tickets'], {
@@ -101,5 +130,14 @@ export class TicketsPurchaseInfoComponent {
   onClose(): void {
     this.draftService.clearDraft();
     void this.router.navigate(['/tickets'], { queryParams: {} });
+  }
+
+  onMerchSizeChange(index: number, value: string): void {
+    this.merchSizes.update((sizes) => {
+      if (index < 0 || index >= sizes.length) return sizes;
+      const next = [...sizes];
+      next[index] = value.trim();
+      return next;
+    });
   }
 }

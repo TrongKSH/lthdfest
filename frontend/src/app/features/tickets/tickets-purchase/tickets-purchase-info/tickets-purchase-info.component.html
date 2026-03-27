@@ -111,6 +111,32 @@
                 (input)="email.set(($any($event.target)).value)"
               />
             </label>
+
+            @if (needsMerchSize()) {
+              <div class="ti-merch">
+                <p class="ti-merch-title">
+                  {{ 'tickets.info.merchSizeTitle' | transloco }}
+                  <span class="ti-required">{{ 'tickets.info.required' | transloco }}</span>
+                </p>
+                @for (index of merchSelectorIndices(); track index) {
+                  <label class="ti-label">
+                    <span class="ti-label-text">
+                      {{ 'tickets.info.merchSizeForTicket' | transloco: { number: index + 1 } }}
+                    </span>
+                    <select
+                      class="ti-input ti-select"
+                      [value]="merchSizes()[index]"
+                      (change)="onMerchSizeChange(index, ($any($event.target)).value)"
+                    >
+                      <option value="">{{ 'tickets.info.merchSizePlaceholder' | transloco }}</option>
+                      @for (size of merchSizeOptions; track size) {
+                        <option [value]="size">{{ size }}</option>
+                      }
+                    </select>
+                  </label>
+                }
+              </div>
+            }
           </div>
         </div>
 

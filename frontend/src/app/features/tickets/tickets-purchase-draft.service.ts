@@ -7,6 +7,7 @@ export interface TicketsPurchaseDraft {
   fullName: string;
   phone: string;
   email: string;
+  merchSize: string;
 }
 
 @Injectable({ providedIn: 'root' })

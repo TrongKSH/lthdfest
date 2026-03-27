@@ -79,6 +79,7 @@ public sealed class GoogleDriveSheetsPaymentService
         string email,
         string ticketCode,
         int qty,
+        string merchSize,
         CancellationToken cancellationToken = default)
     {
         if (!_options.IsSheetsConfigured)
@@ -138,6 +139,7 @@ public sealed class GoogleDriveSheetsPaymentService
                 email,
                 ticketCode,
                 qty,
+                merchSize,
                 proofMeta.PaymentProofUrl,
                 paymentProofLinkLabel,
                 cancellationToken)
@@ -215,6 +217,7 @@ public sealed class GoogleDriveSheetsPaymentService
         string email,
         string ticketCode,
         int qty,
+        string merchSize,
         string? paymentProofUrl,
         string paymentProofLinkLabel,
         CancellationToken cancellationToken)
@@ -225,7 +228,7 @@ public sealed class GoogleDriveSheetsPaymentService
         // Append needs a bounded A1 range: unbounded "Sheet1!A:G" returns "Unable to parse range" on the API.
         var sheetTitle = FormatSheetTitleForAppend(_options.SheetsTabName);
         const int appendMaxRow = 100_000;
-        var range = $"{sheetTitle}!A1:G{appendMaxRow}";
+        var range = $"{sheetTitle}!A1:H{appendMaxRow}";
         var valueRange = new ValueRange
         {
             Values = new IList<object>[]
@@ -241,6 +244,7 @@ public sealed class GoogleDriveSheetsPaymentService
                     string.IsNullOrWhiteSpace(paymentProofUrl)
                         ? string.Empty
                         : paymentProofLinkLabel,
+                    merchSize,
                 },
             },
         };

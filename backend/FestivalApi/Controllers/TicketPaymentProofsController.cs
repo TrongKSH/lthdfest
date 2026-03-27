@@ -12,6 +12,11 @@ namespace FestivalApi.Controllers;
 [Route("api/ticket-payment-proofs")]
 public sealed class TicketPaymentProofsController : ControllerBase
 {
+    private static readonly HashSet<string> AllowedMerchSizes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "XS", "S", "M", "L", "XL", "XXL",
+    };
+
     private readonly GoogleDriveSheetsPaymentService _storage;
     private readonly TicketPaymentProofResumeTokenService _resumeTokens;
     private readonly ResumeProofCompletionTracker _resumeCompletion;
@@ -49,6 +54,7 @@ public sealed class TicketPaymentProofsController : ControllerBase
         var phone = request.Phone.Trim();
         var email = request.Email.Trim();
         var purchaseType = request.PurchaseType.Trim();
+        var merchSize = request.MerchSize.Trim();
         var qtyDec = request.Qty;
 
         if (qtyDec < 1 || qtyDec != decimal.Truncate(qtyDec))
@@ -74,7 +80,8 @@ public sealed class TicketPaymentProofsController : ControllerBase
             });
         }
 
-        if (TicketPurchaseTypeMapper.TryGetTicketCode(purchaseType) == null)
+        var ticketCode = TicketPurchaseTypeMapper.TryGetTicketCode(purchaseType);
+        if (ticketCode == null)
         {
             return BadRequest(new ProblemDetails
             {
@@ -84,9 +91,19 @@ public sealed class TicketPaymentProofsController : ControllerBase
             });
         }
 
+        if (!TryNormalizeMerchSizeCsv(ticketCode, qty, merchSize, out var normalizedMerchSize, out var merchError))
+        {
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Invalid merch size",
+                Detail = merchError,
+                Status = StatusCodes.Status400BadRequest,
+            });
+        }
+
         var now = DateTimeOffset.UtcNow;
         var expiresAt = _resumeTokens.GetExpiresAtUtc(now);
-        var token = _resumeTokens.CreateToken(fullName, phone, email, purchaseType, qty, expiresAt);
+        var token = _resumeTokens.CreateToken(fullName, phone, email, purchaseType, qty, normalizedMerchSize, expiresAt);
         return Ok(new TicketPaymentProofResumeResponseDto
         {
             ResumeToken = token,
@@ -223,6 +240,7 @@ public sealed class TicketPaymentProofsController : ControllerBase
         string email;
         string purchaseType;
         int qty;
+        string merchSize;
 
         if (!string.IsNullOrWhiteSpace(resumeToken))
         {
@@ -251,6 +269,7 @@ public sealed class TicketPaymentProofsController : ControllerBase
             email = claims.Email;
             purchaseType = claims.PurchaseType;
             qty = claims.Qty;
+            merchSize = claims.MerchSize;
         }
         else
         {
@@ -258,6 +277,7 @@ public sealed class TicketPaymentProofsController : ControllerBase
             phone = form["phone"].ToString().Trim();
             email = form["email"].ToString().Trim();
             purchaseType = form["purchaseType"].ToString().Trim();
+            merchSize = form["merchSize"].ToString().Trim();
             var qtyRaw = form["qty"].ToString().Trim();
 
             if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(phone)
@@ -293,6 +313,16 @@ public sealed class TicketPaymentProofsController : ControllerBase
             });
         }
 
+        if (!TryNormalizeMerchSizeCsv(ticketCode, qty, merchSize, out var normalizedMerchSize, out var merchError))
+        {
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Invalid merch size",
+                Detail = merchError,
+                Status = StatusCodes.Status400BadRequest,
+            });
+        }
+
         try
         {
             TicketPaymentProofResult result;
@@ -309,6 +339,7 @@ public sealed class TicketPaymentProofsController : ControllerBase
                         email,
                         ticketCode,
                         qty,
+                        normalizedMerchSize,
                         cancellationToken)
                     .ConfigureAwait(false);
             }
@@ -323,6 +354,7 @@ public sealed class TicketPaymentProofsController : ControllerBase
                         email,
                         ticketCode,
                         qty,
+                        normalizedMerchSize,
                         cancellationToken)
                     .ConfigureAwait(false);
             }
@@ -381,6 +413,56 @@ public sealed class TicketPaymentProofsController : ControllerBase
 
         return false;
     }
+
+    private static bool TryNormalizeMerchSizeCsv(
+        string ticketCode,
+        int qty,
+        string merchSizeCsv,
+        out string normalizedMerchSize,
+        out string? error)
+    {
+        normalizedMerchSize = string.Empty;
+        error = null;
+
+        var requiresMerchSize = ticketCode.Equals("LTHD-TMH", StringComparison.OrdinalIgnoreCase)
+            || ticketCode.Equals("LTHD-VIP", StringComparison.OrdinalIgnoreCase);
+        var raw = merchSizeCsv?.Trim() ?? string.Empty;
+
+        if (!requiresMerchSize)
+        {
+            normalizedMerchSize = string.Empty;
+            return true;
+        }
+
+        if (string.IsNullOrWhiteSpace(raw))
+        {
+            error = "merchSize is required for this ticket type.";
+            return false;
+        }
+
+        var parts = raw
+            .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+            .Select(static s => s.ToUpperInvariant())
+            .ToArray();
+
+        if (parts.Length != qty)
+        {
+            error = "merchSize must contain exactly qty entries for this ticket type.";
+            return false;
+        }
+
+        foreach (var part in parts)
+        {
+            if (!AllowedMerchSizes.Contains(part))
+            {
+                error = "merchSize entries must be one of: XS,S,M,L,XL,XXL.";
+                return false;
+            }
+        }
+
+        normalizedMerchSize = string.Join(",", parts);
+        return true;
+    }
 }
 
 public sealed class TicketPaymentProofResumeRequestDto
@@ -389,6 +471,7 @@ public sealed class TicketPaymentProofResumeRequestDto
     public string Phone { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string PurchaseType { get; set; } = string.Empty;
+    public string MerchSize { get; set; } = string.Empty;
 
     /// <summary>Whole-number quantity; uses <see cref="decimal"/> so non-integers get a clear 400 instead of JSON model errors.</summary>
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]

@@ -14,6 +14,8 @@ export interface TicketPaymentProofPayload {
   /** Route/query purchase key, e.g. presale or pack id */
   purchaseType: string;
   qty: number;
+  /** Comma-separated merch sizes, e.g. XL,L,M */
+  merchSize: string;
 }
 
 export interface TicketPaymentProofResumeResponse {
@@ -50,6 +52,7 @@ export class TicketPaymentProofService {
         email: payload.email.trim(),
         purchaseType: payload.purchaseType.trim(),
         qty: Number.isFinite(qty) && qty > 0 ? qty : 0,
+        merchSize: payload.merchSize.trim(),
       },
     );
   }
@@ -90,6 +93,7 @@ export class TicketPaymentProofService {
       body.append('email', payload.email.trim());
       body.append('purchaseType', payload.purchaseType.trim());
       body.append('qty', String(Number.isFinite(qty) && qty > 0 ? qty : 0));
+      body.append('merchSize', payload.merchSize.trim());
     }
 
     return this.http.post<TicketPaymentProofResponse>(
