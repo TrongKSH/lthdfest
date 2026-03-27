@@ -22,6 +22,7 @@
 }
 
 .tp-modal {
+  container-type: inline-size;
   width: min(480px, 100%);
   max-height: calc(100dvh - max(48px, env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px)));
   background: #ffffff;
@@ -58,9 +59,32 @@
 
 .tp-title {
   margin: 0;
-  font-size: 36px;
+  padding: 0 6px;
+  box-sizing: border-box;
+  max-width: 100%;
   font-weight: 800;
+  line-height: 1.15;
   text-align: center;
+  /* One line: shrink with modal width; scroll only if still too long */
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  font-size: clamp(13px, 7.5cqi, 36px);
+
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+/* Browsers without container query length units */
+@supports not (font-size: 1cqi) {
+  .tp-title {
+    font-size: clamp(13px, 3.6vw + 0.65rem, 36px);
+  }
 }
 
 .tp-sub {
@@ -239,10 +263,6 @@
     border-radius: 999px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
     z-index: 10001;
-  }
-
-  .tp-title {
-    font-size: 28px;
   }
 
   .tp-sub {

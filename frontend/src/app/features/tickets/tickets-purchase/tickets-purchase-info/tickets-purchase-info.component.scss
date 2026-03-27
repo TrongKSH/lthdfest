@@ -27,6 +27,7 @@
 }
 
 .ti-header {
+  container-type: inline-size;
   margin: var(--lthd-space-8, 2rem) 0 var(--lthd-space-8, 2rem);
   background-image: url('/assets/images/purchase-background.png');
   background-position: center;
@@ -41,8 +42,29 @@
 
 .ti-header-title {
   margin: 0;
-  font-size: 28px;
+  padding: 0 2px;
+  box-sizing: border-box;
+  max-width: 100%;
   font-weight: 900;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  font-size: clamp(13px, 5.8cqi, 28px);
+
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+@supports not (font-size: 1cqi) {
+  .ti-header-title {
+    font-size: clamp(13px, 2.8vw + 0.6rem, 28px);
+  }
 }
 
 .ti-header-line {

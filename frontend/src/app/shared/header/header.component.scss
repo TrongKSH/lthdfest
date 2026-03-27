@@ -1,12 +1,3 @@
-.header-tools {
-  position: absolute;
-  right: var(--lthd-gutter, 1rem);
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1300;
-  color: var(--lthd-text);
-}
-
 .header {
   position: fixed;
   left: 0;

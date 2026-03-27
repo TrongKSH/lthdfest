@@ -133,7 +133,7 @@
       "perksTitle": "Quyền lợi nhận tại sự kiện:",
       "chooseOtherArea": "Chọn khu vực khác",
       "continueAlt": "TIẾP TỤC",
-      "headingTier": "Hạng vé {{tier}}"
+      "headingTier": "{{tier}}"
     },
     "packs": {
       "presale": {

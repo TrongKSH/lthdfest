@@ -1,0 +1,15 @@
+/* Above ticket purchase overlays (see tickets-page--modal-open / ti-overlay z-index). */
+.app-lang-float {
+  position: fixed;
+  top: env(safe-area-inset-top, 0);
+  right: var(--lthd-gutter, 1rem);
+  z-index: 11000;
+  display: flex;
+  align-items: center;
+  height: var(--lthd-header-height, 88px);
+  pointer-events: none;
+}
+
+.app-lang-float app-lang-switch {
+  pointer-events: auto;
+}

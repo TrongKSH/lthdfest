@@ -133,7 +133,7 @@
       "perksTitle": "What's included at the event:",
       "chooseOtherArea": "Choose another area",
       "continueAlt": "CONTINUE",
-      "headingTier": "{{tier}} tier"
+      "headingTier": "{{tier}}"
     },
     "packs": {
       "presale": {
