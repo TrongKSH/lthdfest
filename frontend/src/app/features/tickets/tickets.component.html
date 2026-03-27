@@ -33,7 +33,7 @@
         </div>
       </article>
 
-      @for (pack of packs; track pack.id) {
+      @for (pack of visiblePacks(); track pack.id) {
         <article
           class="tickets-pack"
           [class.tickets-pack--brotherhood]="pack.variant === 'brotherhood'"

@@ -26,6 +26,7 @@ import { TicketsPurchaseTransferComponent } from './tickets-purchase/tickets-pur
 export class TicketsComponent {
   readonly presale = PRESALE_DEF;
   readonly packs = TICKET_PACK_DEFS;
+  readonly visiblePacks = computed(() => this.packs.filter((p) => p.id !== 'atdoor'));
   /** For template: packs that show a secondary peek line */
   protected readonly hasPeekSub = (p: TicketPackDef): boolean => p.id === 'brotherhood';
   protected readonly hasHoverSubtitle = (p: TicketPackDef): boolean => p.id === 'brotherhood';
