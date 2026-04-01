@@ -116,6 +116,7 @@ public sealed class TicketPaymentProofsController : ControllerBase
 
     /// <summary>Whether a proof was successfully submitted for this resume token (for desktop polling while phone uploads).</summary>
     [HttpGet("resume-status")]
+    [DisableRateLimiting]
     [ProducesResponseType(typeof(TicketPaymentProofResumeStatusDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status503ServiceUnavailable)]

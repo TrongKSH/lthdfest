@@ -17,7 +17,7 @@ import { TicketsPurchaseDraftService } from '../../tickets-purchase-draft.servic
 import { TicketPaymentProofService } from '../../../../services/ticket-payment-proof.service';
 import { environment } from '../../../../../environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
-import { firstValueFrom, switchMap, timer } from 'rxjs';
+import { catchError, EMPTY, firstValueFrom, switchMap, timer } from 'rxjs';
 import QRCode from 'qrcode';
 
 @Component({
@@ -170,14 +170,17 @@ export class TicketsPurchaseTransferComponent {
       if (!token) return;
 
       const sub = timer(0, 2500)
-        .pipe(switchMap(() => this.paymentProofService.getResumeSubmissionStatus(token)))
-        .subscribe({
-          next: (status) => {
-            if (status.submitted) {
-              this.submitSuccess.set(true);
-            }
-          },
-          error: () => {},
+        .pipe(
+          switchMap(() =>
+            this.paymentProofService.getResumeSubmissionStatus(token).pipe(
+              catchError(() => EMPTY),
+            ),
+          ),
+        )
+        .subscribe((status) => {
+          if (status.submitted) {
+            this.submitSuccess.set(true);
+          }
         });
 
       onCleanup(() => sub.unsubscribe());
