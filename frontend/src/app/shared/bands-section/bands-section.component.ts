@@ -41,6 +41,10 @@ export class BandsSectionComponent {
     'empathize',
     'elbowdrop',
     'underpressure',
+    'longbez',
+    'infernalchaos',
+    'surprise',
+    'cutlon',
   ]);
   private readonly featuredBands = toSignal(this.bandService.getBands(true), {
     initialValue: [] as BandListItem[],
