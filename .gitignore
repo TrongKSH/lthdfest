@@ -9,6 +9,14 @@ backend/**/.vs/
 frontend/node_modules/
 frontend/dist/
 
+# Secrets / credentials
+.env
+.env.*
+*.pem
+*.key
+*service-account*.json
+secrets.json
+
 # OS
 .DS_Store
 Thumbs.db

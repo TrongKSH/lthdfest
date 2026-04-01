@@ -14,6 +14,10 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
 
+RUN addgroup --system --gid 1001 appgroup \
+    && adduser --system --uid 1001 --ingroup appgroup appuser
+USER appuser
+
 # Render injects PORT; app must listen on 0.0.0.0 (not localhost).
 ENV ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
 EXPOSE 8080

@@ -8,16 +8,21 @@ namespace FestivalApi.Services;
 
 public sealed class TicketPaymentProofResumeTokenService
 {
+    private const int NonceSize = 12;
+    private const int TagSize = 16;
+
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     };
 
     private readonly GooglePaymentOptions _options;
+    private readonly byte[] _encryptionKey;
 
     public TicketPaymentProofResumeTokenService(IOptions<GooglePaymentOptions> options)
     {
         _options = options.Value;
+        _encryptionKey = DeriveEncryptionKey(_options.ResumeTokenSecret);
     }
 
     public bool IsConfigured => _options.HasResumeTokenSecret;
@@ -28,6 +33,10 @@ public sealed class TicketPaymentProofResumeTokenService
         return nowUtc.AddMinutes(ttlMinutes);
     }
 
+    /// <summary>
+    /// Creates an encrypted, authenticated token containing the PII payload.
+    /// Format: Base64Url( nonce[12] || ciphertext[N] || tag[16] )
+    /// </summary>
     public string CreateToken(
         string fullName,
         string phone,
@@ -46,11 +55,23 @@ public sealed class TicketPaymentProofResumeTokenService
             merchSize.Trim(),
             expiresAtUtc.ToUnixTimeSeconds());
 
-        var payloadJson = JsonSerializer.Serialize(payload, JsonOptions);
-        var payloadPart = Base64UrlEncode(Encoding.UTF8.GetBytes(payloadJson));
-        var signature = ComputeSignature(payloadPart);
-        var signaturePart = Base64UrlEncode(signature);
-        return $"{payloadPart}.{signaturePart}";
+        var payloadJson = JsonSerializer.SerializeToUtf8Bytes(payload, JsonOptions);
+
+        var nonce = new byte[NonceSize];
+        RandomNumberGenerator.Fill(nonce);
+
+        var ciphertext = new byte[payloadJson.Length];
+        var tag = new byte[TagSize];
+
+        using var aes = new AesGcm(_encryptionKey, TagSize);
+        aes.Encrypt(nonce, payloadJson, ciphertext, tag);
+
+        var combined = new byte[NonceSize + ciphertext.Length + TagSize];
+        nonce.CopyTo(combined, 0);
+        ciphertext.CopyTo(combined, NonceSize);
+        tag.CopyTo(combined, NonceSize + ciphertext.Length);
+
+        return Base64UrlEncode(combined);
     }
 
     public bool TryReadToken(
@@ -62,32 +83,39 @@ public sealed class TicketPaymentProofResumeTokenService
         if (string.IsNullOrWhiteSpace(token) || !IsConfigured)
             return false;
 
-        var separatorIndex = token.IndexOf('.', StringComparison.Ordinal);
-        if (separatorIndex <= 0 || separatorIndex >= token.Length - 1)
-            return false;
-
-        var payloadPart = token[..separatorIndex];
-        var signaturePart = token[(separatorIndex + 1)..];
-
-        var expectedSignature = ComputeSignature(payloadPart);
-        byte[] actualSignature;
+        byte[] combined;
         try
         {
-            actualSignature = Base64UrlDecode(signaturePart);
+            combined = Base64UrlDecode(token);
         }
         catch
         {
             return false;
         }
 
-        if (!CryptographicOperations.FixedTimeEquals(expectedSignature, actualSignature))
+        if (combined.Length < NonceSize + TagSize + 1)
             return false;
+
+        var nonce = combined[..NonceSize];
+        var ciphertext = combined[NonceSize..^TagSize];
+        var tag = combined[^TagSize..];
+
+        byte[] plaintext;
+        try
+        {
+            plaintext = new byte[ciphertext.Length];
+            using var aes = new AesGcm(_encryptionKey, TagSize);
+            aes.Decrypt(nonce, ciphertext, tag, plaintext);
+        }
+        catch (CryptographicException)
+        {
+            return false;
+        }
 
         ResumeTokenPayload? parsedPayload;
         try
         {
-            var payloadBytes = Base64UrlDecode(payloadPart);
-            parsedPayload = JsonSerializer.Deserialize<ResumeTokenPayload>(payloadBytes, JsonOptions);
+            parsedPayload = JsonSerializer.Deserialize<ResumeTokenPayload>(plaintext, JsonOptions);
         }
         catch
         {
@@ -113,11 +141,10 @@ public sealed class TicketPaymentProofResumeTokenService
         return true;
     }
 
-    private byte[] ComputeSignature(string payloadPart)
+    private static byte[] DeriveEncryptionKey(string? secret)
     {
-        var secret = _options.ResumeTokenSecret ?? string.Empty;
-        using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(secret));
-        return hmac.ComputeHash(Encoding.UTF8.GetBytes(payloadPart));
+        var keyMaterial = Encoding.UTF8.GetBytes(secret ?? string.Empty);
+        return SHA256.HashData(keyMaterial);
     }
 
     private static string Base64UrlEncode(byte[] bytes)

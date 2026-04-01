@@ -1,15 +1,18 @@
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Net;
 using FestivalApi.Services;
 using Google;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Text.Json.Serialization;
 
 namespace FestivalApi.Controllers;
 
 [ApiController]
 [Route("api/ticket-payment-proofs")]
+[EnableRateLimiting("payment")]
 public sealed class TicketPaymentProofsController : ControllerBase
 {
     private static readonly HashSet<string> AllowedMerchSizes = new(StringComparer.OrdinalIgnoreCase)
@@ -50,11 +53,11 @@ public sealed class TicketPaymentProofsController : ControllerBase
             });
         }
 
-        var fullName = request.FullName.Trim();
-        var phone = request.Phone.Trim();
-        var email = request.Email.Trim();
-        var purchaseType = request.PurchaseType.Trim();
-        var merchSize = request.MerchSize.Trim();
+        var fullName = request.FullName?.Trim() ?? string.Empty;
+        var phone = request.Phone?.Trim() ?? string.Empty;
+        var email = request.Email?.Trim() ?? string.Empty;
+        var purchaseType = request.PurchaseType?.Trim() ?? string.Empty;
+        var merchSize = request.MerchSize?.Trim() ?? string.Empty;
         var qtyDec = request.Qty;
 
         if (qtyDec < 1 || qtyDec != decimal.Truncate(qtyDec))
@@ -192,8 +195,7 @@ public sealed class TicketPaymentProofsController : ControllerBase
                 Title = "Could not read upload",
                 Detail =
                     "The server could not read the upload (multipart form). "
-                    + "Try again, use another browser, or use a smaller image (max 10 MB). Technical: "
-                    + ex.Message,
+                    + "Try again, use another browser, or use a smaller image (max 10 MB).",
                 Status = StatusCodes.Status400BadRequest,
             });
         }
@@ -224,12 +226,32 @@ public sealed class TicketPaymentProofsController : ControllerBase
             }
 
             var ct = file.ContentType ?? "";
+            if (ct.StartsWith("image/svg", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Invalid file type",
+                    Detail = "SVG uploads are not allowed.",
+                    Status = StatusCodes.Status400BadRequest,
+                });
+            }
+
             if (!ct.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
             {
                 return BadRequest(new ProblemDetails
                 {
                     Title = "Invalid file type",
                     Detail = "Only image uploads are allowed.",
+                    Status = StatusCodes.Status400BadRequest,
+                });
+            }
+
+            if (!await IsValidImageByMagicBytesAsync(file, cancellationToken))
+            {
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "Invalid file content",
+                    Detail = "The uploaded file does not appear to be a valid image.",
                     Status = StatusCodes.Status400BadRequest,
                 });
             }
@@ -463,14 +485,64 @@ public sealed class TicketPaymentProofsController : ControllerBase
         normalizedMerchSize = string.Join(",", parts);
         return true;
     }
+
+    private static readonly byte[] JpegMagic = [0xFF, 0xD8, 0xFF];
+    private static readonly byte[] PngMagic = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
+    private static readonly byte[] Gif87Magic = "GIF87a"u8.ToArray();
+    private static readonly byte[] Gif89Magic = "GIF89a"u8.ToArray();
+    private static readonly byte[] WebpRiff = "RIFF"u8.ToArray();
+    private static readonly byte[] WebpType = "WEBP"u8.ToArray();
+    private static readonly byte[] BmpMagic = [0x42, 0x4D];
+    private static readonly byte[] FtypBox = "ftyp"u8.ToArray();
+
+    private static readonly HashSet<string> HeicAvifBrands = new(StringComparer.Ordinal)
+    {
+        "heic", "heix", "hevc", "hevx", "heim", "heis",
+        "mif1", "msf1", "avif", "avis",
+    };
+
+    private static async Task<bool> IsValidImageByMagicBytesAsync(IFormFile file, CancellationToken ct)
+    {
+        const int headerSize = 12;
+        var header = new byte[headerSize];
+
+        await using var stream = file.OpenReadStream();
+        var bytesRead = await stream.ReadAsync(header.AsMemory(0, headerSize), ct);
+        if (bytesRead < 3)
+            return false;
+
+        if (header.AsSpan(0, 3).SequenceEqual(JpegMagic)) return true;
+        if (bytesRead >= 8 && header.AsSpan(0, 8).SequenceEqual(PngMagic)) return true;
+        if (bytesRead >= 6 && (header.AsSpan(0, 6).SequenceEqual(Gif87Magic) || header.AsSpan(0, 6).SequenceEqual(Gif89Magic))) return true;
+        if (bytesRead >= 12 && header.AsSpan(0, 4).SequenceEqual(WebpRiff) && header.AsSpan(8, 4).SequenceEqual(WebpType)) return true;
+        if (bytesRead >= 2 && header.AsSpan(0, 2).SequenceEqual(BmpMagic)) return true;
+
+        // HEIC / HEIF / AVIF: ISO BMFF ftyp box at bytes 4-7, brand at bytes 8-11
+        if (bytesRead >= 12
+            && header.AsSpan(4, 4).SequenceEqual(FtypBox)
+            && HeicAvifBrands.Contains(System.Text.Encoding.ASCII.GetString(header, 8, 4)))
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
 
 public sealed class TicketPaymentProofResumeRequestDto
 {
+    [Required]
     public string FullName { get; set; } = string.Empty;
+
+    [Required]
     public string Phone { get; set; } = string.Empty;
+
+    [Required]
     public string Email { get; set; } = string.Empty;
+
+    [Required]
     public string PurchaseType { get; set; } = string.Empty;
+
     public string MerchSize { get; set; } = string.Empty;
 
     /// <summary>Whole-number quantity; uses <see cref="decimal"/> so non-integers get a clear 400 instead of JSON model errors.</summary>

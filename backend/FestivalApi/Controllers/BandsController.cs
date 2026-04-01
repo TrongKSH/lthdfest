@@ -45,6 +45,7 @@ public class BandsController : ControllerBase
         }
 
         var bands = await query.ToListAsync(cancellationToken);
+        AnonymizeSecretBands(bands);
         return Ok(bands);
     }
 
@@ -60,8 +61,8 @@ public class BandsController : ControllerBase
             .OrderBy(b => b.LineupPosition)
             .Select(b => new LineupBandDto(
                 b.Id,
-                b.Name,
-                b.LogoUrl,
+                b.IsSecret ? "???" : b.Name,
+                b.IsSecret ? null : b.LogoUrl,
                 b.IsSecret,
                 b.LineupDay,
                 b.LineupPosition
@@ -83,5 +84,18 @@ public class BandsController : ControllerBase
         if (band == null)
             return NotFound();
         return Ok(band);
+    }
+
+    private static void AnonymizeSecretBands(List<Models.Band> bands)
+    {
+        foreach (var b in bands)
+        {
+            if (!b.IsSecret) continue;
+            b.Name = "???";
+            b.Bio = string.Empty;
+            b.BioEn = string.Empty;
+            b.HeroUrl = null;
+            b.LogoUrl = null;
+        }
     }
 }

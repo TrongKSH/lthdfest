@@ -3,6 +3,8 @@ using FestivalApi.Data;
 using FestivalApi.Options;
 using FestivalApi.Services;
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,23 @@ builder.Services.AddControllers()
 builder.Services.Configure<GooglePaymentOptions>(
     builder.Configuration.GetSection(GooglePaymentOptions.SectionName));
 builder.Services.AddMemoryCache();
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddPolicy("payment", httpContext =>
+        RateLimitPartition.GetSlidingWindowLimiter(
+            httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            _ => new SlidingWindowRateLimiterOptions
+            {
+                PermitLimit = 10,
+                Window = TimeSpan.FromMinutes(1),
+                SegmentsPerWindow = 4,
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                QueueLimit = 2,
+            }));
+});
 builder.Services.AddScoped<FestivalReadService>();
 builder.Services.AddSingleton<GoogleDriveSheetsPaymentService>();
 builder.Services.AddSingleton<TicketPaymentProofResumeTokenService>();
@@ -101,6 +120,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
+app.UseRateLimiter();
 app.MapGet("/healthz", () => Results.Ok(new { status = "ok" }));
 app.MapControllers();
 
