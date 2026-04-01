@@ -26,7 +26,9 @@ export class LineupComponent {
     'cutlon',
     'empathize',
     'elbowdrop',
-    'underpressure'
+    'underpressure',
+    'longbez',
+    'infernalchaos'
   ]);
   private static parseFilter(raw: string | null): LineupFilter {
     if (raw === 'longtranh' || raw === 'hodau') return raw;

@@ -403,7 +403,7 @@ Releases: Aug 8th, 2025
             HeroUrl = "/assets/bands/kinh/hero.jpg",
             LogoUrl = "/assets/bands/kinh/logo.png",
             IsFeaturedOnHome = true,
-            IsSecret = true,
+            IsSecret = false, // TODO: restore to true
             LineupDay = LineupDay.HoDau,
             LineupPosition = 10
         },
@@ -462,11 +462,11 @@ Chất liệu của Resurged Temptation là cảm hứng từ thể loại metal
 
 
 Thành viên:
-•   Nguyễn Thành Các - guitar rhythm 
-•   Trần Hoàng Phúc - guitar lead 
-•	Đinh Bảo Nam - lead vocalist
-•	Trương Kim Trọng - bass, backing vocal
-•	Võ Phúc Hoan - drummer",
+• Nguyễn Thành Các - guitar rhythm 
+• Trần Hoàng Phúc - guitar lead 
+• Đinh Bảo Nam - lead vocalist
+• Trương Kim Trọng - bass, backing vocal
+• Võ Phúc Hoan - drummer",
             BioEn = @"Resurged Temptation is a Vietnamese metalcore band from Saigon, founded in late 2022.
 
 The early members gathered in rehearsal spaces in late 2022 to write together.
@@ -619,7 +619,7 @@ True to the title ""Omnipotent,"" the band emphasizes that behind noisy and viol
             Bio = "",
             HeroUrl = "/assets/bands/7uppercuts/hero.png",
             LogoUrl = null,
-            IsSecret = true,
+            IsSecret = false, // TODO: restore to true
             IsFeaturedOnHome = true,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 17
@@ -630,8 +630,9 @@ True to the title ""Omnipotent,"" the band emphasizes that behind noisy and viol
         {
             Id = 18,
             Name = "9xacly",
-            Bio = "",
-            HeroUrl = "/assets/bands/9xacly/hero.png",
+            Bio = "Thành lập vào 2022, 9xacly là band nhạc hardcore punk gồm 5 thành viên:\n\n• Tòng (vocal)\n• Thái (drums)\n• Hardy (guitar)\n• Chuột Sấm Xét (guitar)\n• Vui Qá (bass)\n\nVà họ cùng nhau chơi rất vui.",
+            BioEn = "Formed in 2022, 9xacly is a 5-piece hardcore punk band consisting of:\n\n• Tòng (vocals)\n• Thái (drums)\n• Hardy (guitar)\n• Chuột Sấm Xét (guitar)\n• Vui Qá (bass)\n\nAnd they have a great time playing together.",
+            HeroUrl = "/assets/bands/9xacly/hero.jpeg",
             LogoUrl = "/assets/bands/9xacly/logo.png",
             LineupDay = LineupDay.HoDau,
             LineupPosition = 18
@@ -704,7 +705,7 @@ RELEASED WORKS:
             Bio = "",
             HeroUrl = "/assets/bands/imnotsure/hero.png",
             LogoUrl = null,
-            IsSecret = true,
+            IsSecret = false, // TODO: restore to true
             IsFeaturedOnHome = true,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 20
@@ -745,7 +746,7 @@ IC is known for intense, high-quality releases like ""The Mask on Your Face"" an
 After a hiatus from 2007 to 2013, the band returned stronger, continued evolving, and has shared stages with international acts, contributing to Asia’s growing metal movement.",
             HeroUrl = "/assets/bands/infernalchaos/hero.jpg",
             LogoUrl = "/assets/bands/infernalchaos/logo.png",
-            IsSecret = true,
+            IsSecret = false, // TODO: restore to true
             IsFeaturedOnHome = true,
             LineupDay = LineupDay.HoDau,
             LineupPosition = 21
@@ -757,9 +758,9 @@ After a hiatus from 2007 to 2013, the band returned stronger, continued evolving
             Id = 22,
             Name = "Longbez",
             Bio = "",
-            HeroUrl = "/assets/bands/longbez/hero.png",
-            LogoUrl = null,
-            IsSecret = true,
+            HeroUrl = "/assets/bands/longbez/hero.jpeg",
+            LogoUrl = "/assets/bands/longbez/logo.JPG",
+            IsSecret = false, // TODO: restore to true
             LineupDay = LineupDay.HoDau,
             LineupPosition = 22
         },
@@ -784,8 +785,8 @@ After a hiatus from 2007 to 2013, the band returned stronger, continued evolving
             Name = "Volcate",
             Bio = "",
             HeroUrl = "/assets/bands/volcate/hero.png",
-            LogoUrl = null,
-            IsSecret = true,
+            LogoUrl = "/assets/bands/volcate/logo.png",
+            IsSecret = false, // TODO: restore to true
             IsFeaturedOnHome = true,
             LineupDay = LineupDay.HoDau,
             LineupPosition = 24
