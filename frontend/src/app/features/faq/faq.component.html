@@ -4,11 +4,11 @@
     <h1 class="faq-title">{{ 'faq.title' | transloco }}</h1>
     <div class="faq-list" role="region" [attr.aria-label]="'faq.regionAria' | transloco">
       @for (id of itemIds; track id) {
-        <div class="faq-item" [class.faq-item--open]="isOpen(id)">
+        <div class="faq-item" [class.faq-item--open]="openId() === id">
           <button
             type="button"
             class="faq-q"
-            [attr.aria-expanded]="isOpen(id)"
+            [attr.aria-expanded]="openId() === id"
             [attr.aria-controls]="'faq-panel-' + id"
             [id]="'faq-trigger-' + id"
             (click)="toggle(id)"
@@ -16,14 +16,14 @@
             <span class="faq-q-text">{{ 'faq.items.' + id + '.question' | transloco }}</span>
             <span class="faq-chevron" aria-hidden="true"></span>
           </button>
-          <div class="faq-panel-shell" [class.faq-panel-shell--open]="isOpen(id)">
+          <div class="faq-panel-shell" [class.faq-panel-shell--open]="openId() === id">
             <div class="faq-panel-clip">
               <div
                 class="faq-panel"
                 [id]="'faq-panel-' + id"
                 role="region"
                 [attr.aria-labelledby]="'faq-trigger-' + id"
-                [attr.aria-hidden]="!isOpen(id)"
+                [attr.aria-hidden]="openId() !== id"
               >
                 <p class="faq-a">{{ 'faq.items.' + id + '.answer' | transloco }}</p>
               </div>

@@ -90,29 +90,33 @@
 
     @if (hasPurchaseFlow()) {
       @if (purchaseStep() === 'qty') {
-        <app-tickets-purchase
-          [type]="purchaseType()!"
-          [qty]="purchaseQty()"
-        ></app-tickets-purchase>
+        @defer {
+          <app-tickets-purchase
+            [type]="purchaseType()!"
+            [qty]="purchaseQty()"
+          ></app-tickets-purchase>
+        }
       }
 
       @if (purchaseStep() === 'info') {
-        <app-tickets-purchase-info
-          [type]="purchaseType()!"
-          [qty]="purchaseQty()"
-        ></app-tickets-purchase-info>
+        @defer {
+          <app-tickets-purchase-info
+            [type]="purchaseType()!"
+            [qty]="purchaseQty()"
+          ></app-tickets-purchase-info>
+        }
       }
 
       @if (purchaseStep() === 'confirm') {
-        <app-tickets-purchase-confirm />
+        @defer {
+          <app-tickets-purchase-confirm />
+        }
       }
 
-      @if (purchaseStep() === 'transfer') {
-        <app-tickets-purchase-transfer />
-      }
-
-      @if (purchaseStep() === 'receipt') {
-        <app-tickets-purchase-transfer />
+      @if (purchaseStep() === 'transfer' || purchaseStep() === 'receipt') {
+        @defer {
+          <app-tickets-purchase-transfer />
+        }
       }
     }
   </div>

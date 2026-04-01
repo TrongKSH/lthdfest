@@ -79,7 +79,7 @@
               @if (band.logoUrl) {
                 <img
                   class="lineup-card__logo"
-                  [class.lineup-card__logo--boost]="shouldBoostLogo(band.name)"
+                  [class.lineup-card__logo--boost]="boostLogoMap().get(band.id) ?? false"
                   [src]="band.logoUrl"
                   [alt]="band.name + ' logo'"
                   [attr.loading]="i < 6 ? 'eager' : 'lazy'"

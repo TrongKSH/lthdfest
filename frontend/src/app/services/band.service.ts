@@ -2,23 +2,25 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, shareReplay } from 'rxjs';
 import { environment } from '../../environments/environment';
-import type { Band, LineupBand } from '../models/band.model';
+import type { Band, BandListItem, LineupBand } from '../models/band.model';
 
 @Injectable({ providedIn: 'root' })
 export class BandService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = environment.apiUrl;
   private readonly allBands$ = this.http
-    .get<Band[]>(`${this.apiUrl}/api/bands`)
+    .get<BandListItem[]>(`${this.apiUrl}/api/bands`)
     .pipe(shareReplay({ bufferSize: 1, refCount: true }));
   private readonly lineupBands$ = this.http
     .get<LineupBand[]>(`${this.apiUrl}/api/bands/lineup`)
     .pipe(shareReplay({ bufferSize: 1, refCount: true }));
   private readonly featuredBands$ = this.http
-    .get<Band[]>(`${this.apiUrl}/api/bands`, { params: { featured: 'true' } })
+    .get<BandListItem[]>(`${this.apiUrl}/api/bands`, { params: { featured: 'true' } })
     .pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
-  getBands(featured?: boolean): Observable<Band[]> {
+  private readonly bandCache = new Map<number, Observable<Band | null>>();
+
+  getBands(featured?: boolean): Observable<BandListItem[]> {
     if (featured === true) return this.featuredBands$;
     return this.allBands$;
   }
@@ -28,8 +30,14 @@ export class BandService {
   }
 
   getBand(id: number): Observable<Band | null> {
-    return this.http.get<Band>(`${this.apiUrl}/api/bands/${id}`).pipe(
-      catchError(() => of(null))
-    );
+    let cached = this.bandCache.get(id);
+    if (!cached) {
+      cached = this.http.get<Band>(`${this.apiUrl}/api/bands/${id}`).pipe(
+        catchError(() => of(null)),
+        shareReplay({ bufferSize: 1, refCount: true }),
+      );
+      this.bandCache.set(id, cached);
+    }
+    return cached;
   }
 }

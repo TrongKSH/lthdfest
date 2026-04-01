@@ -1,17 +1,22 @@
 export type LineupDay = 'LongTranh' | 'HoDau';
 
-export interface Band {
+/** Slim shape returned by the band list endpoint (no bio fields). */
+export interface BandListItem {
   id: number;
   name: string;
-  bio: string;
-  /** Optional English bio from API; falls back to `bio` when empty. */
-  bioEn?: string;
   heroUrl?: string;
   logoUrl?: string;
   isFeaturedOnHome?: boolean;
   isSecret?: boolean;
   lineupDay: LineupDay;
   lineupPosition: number;
+}
+
+/** Full band detail returned by the single-band endpoint. */
+export interface Band extends BandListItem {
+  bio: string;
+  /** Optional English bio from API; falls back to `bio` when empty. */
+  bioEn?: string;
 }
 
 export interface LineupBand {

@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslocoPipe } from '@ngneat/transloco';
-import type { Band } from '../../models/band.model';
+import type { BandListItem } from '../../models/band.model';
 
 @Component({
   selector: 'app-band-card',
@@ -11,7 +11,7 @@ import type { Band } from '../../models/band.model';
   styleUrl: './band-card.component.scss',
 })
 export class BandCardComponent {
-  band = input.required<Band>();
+  band = input.required<BandListItem>();
   isPlaceholder = input<boolean>(false);
   boostLogo = input<boolean>(false);
 }

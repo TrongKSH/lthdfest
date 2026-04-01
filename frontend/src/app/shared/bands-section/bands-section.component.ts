@@ -4,21 +4,20 @@ import { TranslocoPipe } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BandCardComponent } from '../band-card/band-card.component';
 import { BandService } from '../../services/band.service';
-import type { Band } from '../../models/band.model';
+import type { BandListItem } from '../../models/band.model';
 
 const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
 
 const SLOTS_COUNT = 11; // 4 + 3 + 4 rows
 
-const PLACEHOLDER_BAND: Band = {
+const PLACEHOLDER_BAND: BandListItem = {
   id: 0,
   name: '',
-  bio: '',
   lineupDay: 'LongTranh',
   lineupPosition: 0,
 };
 
-export type BandSlot = { band: Band; isPlaceholder: boolean };
+export type BandSlot = { band: BandListItem; isPlaceholder: boolean };
 
 const PLACEHOLDER_SLOTS: BandSlot[] = Array.from({ length: SLOTS_COUNT }, () => ({
   band: PLACEHOLDER_BAND,
@@ -44,7 +43,7 @@ export class BandsSectionComponent {
     'underpressure',
   ]);
   private readonly featuredBands = toSignal(this.bandService.getBands(true), {
-    initialValue: [] as Band[],
+    initialValue: [] as BandListItem[],
   });
   private readonly timeBucket = signal(this.getCurrentTwoHourBucket());
 
@@ -83,7 +82,16 @@ export class BandsSectionComponent {
   /** Row 3: 4 bands */
   protected readonly slotsRow3 = computed(() => this.slots().slice(7, 11));
 
-  protected shouldBoostLogo(bandName: string): boolean {
+  protected readonly boostLogoMap = computed(() => {
+    const m = new Map<number, boolean>();
+    for (const slot of this.slots()) {
+      if (slot.isPlaceholder) continue;
+      m.set(slot.band.id, this.normalizeThenCheck(slot.band.name));
+    }
+    return m;
+  });
+
+  private normalizeThenCheck(bandName: string): boolean {
     const key = bandName
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')

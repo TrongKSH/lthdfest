@@ -19,8 +19,4 @@ export class FaqComponent {
   toggle(id: number): void {
     this.openId.update((current) => (current === id ? null : id));
   }
-
-  isOpen(id: number): boolean {
-    return this.openId() === id;
-  }
 }

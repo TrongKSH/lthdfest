@@ -7,6 +7,8 @@
       muted
       loop
       playsinline
+      preload="metadata"
+      poster="/assets/images/lthd-teaser-poster.jpg"
       [attr.aria-label]="eventName() || ('hero.teaserVideo' | transloco)"
       (loadedmetadata)="onVideoLoaded()"
       (play)="onVideoPlay()"

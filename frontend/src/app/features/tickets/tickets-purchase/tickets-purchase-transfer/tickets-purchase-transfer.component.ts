@@ -18,7 +18,6 @@ import { TicketPaymentProofService } from '../../../../services/ticket-payment-p
 import { environment } from '../../../../../environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, EMPTY, firstValueFrom, switchMap, timer } from 'rxjs';
-import QRCode from 'qrcode';
 
 @Component({
   selector: 'app-tickets-purchase-transfer',
@@ -370,6 +369,7 @@ export class TicketsPurchaseTransferComponent {
         }),
       );
       const url = `${window.location.origin}/tickets?step=receipt&token=${encodeURIComponent(response.resumeToken)}`;
+      const QRCode = (await import('qrcode')).default;
       const qrDataUrl = await QRCode.toDataURL(url, {
         width: 260,
         margin: 1,

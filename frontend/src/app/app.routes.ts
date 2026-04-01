@@ -10,6 +10,7 @@ export const routes: Routes = [
     path: 'lineup',
     loadComponent: () =>
       import('./features/lineup/lineup.component').then((m) => m.LineupComponent),
+    data: { preload: true },
   },
   {
     path: 'bands/:id',
@@ -25,5 +26,6 @@ export const routes: Routes = [
     path: 'tickets',
     loadComponent: () =>
       import('./features/tickets/tickets.component').then((m) => m.TicketsComponent),
+    data: { preload: true },
   },
 ];

@@ -2,9 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using FestivalApi.Data;
 using FestivalApi.Options;
 using FestivalApi.Services;
+using System.IO.Compression;
 using System.Text.Json.Serialization;
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +36,7 @@ builder.Services.AddRateLimiter(options =>
             }));
 });
 builder.Services.AddScoped<FestivalReadService>();
+builder.Services.AddScoped<BandReadService>();
 builder.Services.AddSingleton<GoogleDriveSheetsPaymentService>();
 builder.Services.AddSingleton<TicketPaymentProofResumeTokenService>();
 builder.Services.AddSingleton<ResumeProofCompletionTracker>();
@@ -42,6 +45,15 @@ builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(o =>
 {
     o.MultipartBodyLengthLimit = 10_485_760;
 });
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<BrotliCompressionProvider>();
+    options.Providers.Add<GzipCompressionProvider>();
+});
+builder.Services.Configure<BrotliCompressionProviderOptions>(o => o.Level = CompressionLevel.Fastest);
+builder.Services.Configure<GzipCompressionProviderOptions>(o => o.Level = CompressionLevel.Fastest);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -87,11 +99,11 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<FestivalDbContext>();
-    db.Database.EnsureCreated();
+    await db.Database.EnsureCreatedAsync();
     // InMemory does not apply HasData from migrations; seed explicitly.
     // Keep festivals and bands checks independent so bands are re-seeded
     // even if a festival row already exists.
-    if (!db.Festivals.Any())
+    if (!await db.Festivals.AnyAsync())
     {
         db.Festivals.Add(new FestivalApi.Models.Festival
         {
@@ -105,12 +117,12 @@ using (var scope = app.Services.CreateScope())
         });
     }
 
-    if (!db.Bands.Any())
+    if (!await db.Bands.AnyAsync())
     {
         db.Bands.AddRange(BandSeedData.All);
     }
 
-    db.SaveChanges();
+    await db.SaveChangesAsync();
 }
 
 if (app.Environment.IsDevelopment())
@@ -119,6 +131,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseResponseCompression();
 app.UseCors();
 app.UseRateLimiter();
 app.MapGet("/healthz", () => Results.Ok(new { status = "ok" }));

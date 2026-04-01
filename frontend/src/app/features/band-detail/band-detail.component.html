@@ -37,7 +37,7 @@
         <div class="bio-layout">
           <div class="bio-copy">
             @if (bioParagraphs().length) {
-              @for (paragraph of bioParagraphs(); track paragraph) {
+              @for (paragraph of bioParagraphs(); track $index) {
                 <p>{{ paragraph }}</p>
               }
             }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FestivalApi.Data;
+using FestivalApi.Services;
 
 namespace FestivalApi.Controllers;
 
@@ -9,6 +10,19 @@ namespace FestivalApi.Controllers;
 public class BandsController : ControllerBase
 {
     private readonly FestivalDbContext _db;
+    private readonly BandReadService _bandReadService;
+
+    public sealed record BandListDto(
+        int Id,
+        string Name,
+        string? HeroUrl,
+        string? LogoUrl,
+        bool IsFeaturedOnHome,
+        bool IsSecret,
+        Models.LineupDay LineupDay,
+        int LineupPosition
+    );
+
     public sealed record LineupBandDto(
         int Id,
         string Name,
@@ -18,34 +32,22 @@ public class BandsController : ControllerBase
         int LineupPosition
     );
 
-    public BandsController(FestivalDbContext db)
+    public BandsController(FestivalDbContext db, BandReadService bandReadService)
     {
         _db = db;
+        _bandReadService = bandReadService;
     }
 
     /// <summary>
     /// List all bands ordered by lineup position. Optional ?featured=true filter.
+    /// Returns a slim DTO without Bio/BioEn to reduce payload size.
     /// </summary>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Models.Band>>> GetBands(
+    public async Task<ActionResult<IEnumerable<BandListDto>>> GetBands(
         [FromQuery] bool featured = false,
         CancellationToken cancellationToken = default)
     {
-        var query = _db.Bands.AsNoTracking().AsQueryable();
-        if (featured)
-        {
-            query = query
-                .Where(b => b.IsFeaturedOnHome)
-                .OrderBy(b => b.LineupPosition)
-                .Take(11);
-        }
-        else
-        {
-            query = query.OrderBy(b => b.LineupPosition);
-        }
-
-        var bands = await query.ToListAsync(cancellationToken);
-        AnonymizeSecretBands(bands);
+        var bands = await _bandReadService.GetBandsAsync(featured, cancellationToken);
         return Ok(bands);
     }
 
@@ -56,19 +58,7 @@ public class BandsController : ControllerBase
     public async Task<ActionResult<IEnumerable<LineupBandDto>>> GetLineupBands(
         CancellationToken cancellationToken = default)
     {
-        var bands = await _db.Bands
-            .AsNoTracking()
-            .OrderBy(b => b.LineupPosition)
-            .Select(b => new LineupBandDto(
-                b.Id,
-                b.IsSecret ? "???" : b.Name,
-                b.IsSecret ? null : b.LogoUrl,
-                b.IsSecret,
-                b.LineupDay,
-                b.LineupPosition
-            ))
-            .ToListAsync(cancellationToken);
-
+        var bands = await _bandReadService.GetLineupBandsAsync(cancellationToken);
         return Ok(bands);
     }
 
@@ -86,16 +76,4 @@ public class BandsController : ControllerBase
         return Ok(band);
     }
 
-    private static void AnonymizeSecretBands(List<Models.Band> bands)
-    {
-        foreach (var b in bands)
-        {
-            if (!b.IsSecret) continue;
-            b.Name = "???";
-            b.Bio = string.Empty;
-            b.BioEn = string.Empty;
-            b.HeroUrl = null;
-            b.LogoUrl = null;
-        }
-    }
 }

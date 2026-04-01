@@ -37,14 +37,14 @@
 
           <div class="ti-confirm-price-row">
             <span class="ti-confirm-grid-label">{{ 'tickets.confirm.unitPrice' | transloco }}</span>
-            <span class="ti-confirm-grid-value">{{ formatVnd(unitPriceVnd()) }}</span>
+            <span class="ti-confirm-grid-value">{{ unitPriceFormatted() }}</span>
           </div>
         </section>
 
         <section class="ti-card ti-confirm-order">
           <div class="ti-confirm-row">
             <span class="ti-confirm-label">{{ 'tickets.confirm.subtotal' | transloco }}</span>
-            <span class="ti-confirm-amount">{{ formatVnd(subtotalVnd()) }}</span>
+            <span class="ti-confirm-amount">{{ subtotalFormatted() }}</span>
           </div>
           <p class="ti-confirm-note">{{ 'tickets.confirm.vatNote' | transloco }}</p>
 
@@ -52,7 +52,7 @@
 
           <div class="ti-confirm-row ti-confirm-row--total">
             <span class="ti-confirm-label">{{ 'tickets.confirm.total' | transloco }}</span>
-            <span class="ti-confirm-amount">{{ formatVnd(subtotalVnd()) }}</span>
+            <span class="ti-confirm-amount">{{ subtotalFormatted() }}</span>
           </div>
 
           <p class="ti-confirm-terms-note">

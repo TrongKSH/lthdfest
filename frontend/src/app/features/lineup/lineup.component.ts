@@ -48,6 +48,14 @@ export class LineupComponent {
     return allBands.filter((band) => this.belongsToFilter(band, filter));
   });
 
+  protected readonly boostLogoMap = computed(() => {
+    const m = new Map<number, boolean>();
+    for (const band of this.bands()) {
+      m.set(band.id, this.normalizeThenCheck(band.name));
+    }
+    return m;
+  });
+
   protected setFilter(filter: LineupFilter): void {
     this.activeFilter.set(filter);
   }
@@ -99,7 +107,7 @@ export class LineupComponent {
     return shuffled;
   }
 
-  protected shouldBoostLogo(bandName: string): boolean {
+  private normalizeThenCheck(bandName: string): boolean {
     const key = bandName
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')

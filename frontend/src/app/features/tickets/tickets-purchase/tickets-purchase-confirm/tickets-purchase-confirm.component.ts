@@ -67,6 +67,9 @@ export class TicketsPurchaseConfirmComponent {
 
   readonly emailForTickets = computed(() => this.draft()?.email?.trim() ?? '');
 
+  readonly unitPriceFormatted = computed(() => this.locale.formatVnd(this.unitPriceVnd()));
+  readonly subtotalFormatted = computed(() => this.locale.formatVnd(this.subtotalVnd()));
+
   constructor() {
     effect(() => {
       const t = this.purchaseType();
@@ -88,10 +91,6 @@ export class TicketsPurchaseConfirmComponent {
         );
       }
     });
-  }
-
-  formatVnd(n: number): string {
-    return this.locale.formatVnd(n);
   }
 
   onClose(): void {

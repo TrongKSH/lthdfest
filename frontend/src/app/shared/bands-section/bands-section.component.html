@@ -2,29 +2,29 @@
   <h2 id="bands-title" class="title">{{ 'bandsSection.title' | transloco }}</h2>
   <div class="grid">
     <div class="grid-row grid-row--4">
-      @for (slot of slotsRow1(); track $index) {
+      @for (slot of slotsRow1(); track slot.band.id) {
         <app-band-card
           [band]="slot.band"
           [isPlaceholder]="slot.isPlaceholder"
-          [boostLogo]="shouldBoostLogo(slot.band.name)"
+          [boostLogo]="boostLogoMap().get(slot.band.id) ?? false"
         />
       }
     </div>
     <div class="grid-row grid-row--3">
-      @for (slot of slotsRow2(); track $index) {
+      @for (slot of slotsRow2(); track slot.band.id) {
         <app-band-card
           [band]="slot.band"
           [isPlaceholder]="slot.isPlaceholder"
-          [boostLogo]="shouldBoostLogo(slot.band.name)"
+          [boostLogo]="boostLogoMap().get(slot.band.id) ?? false"
         />
       }
     </div>
     <div class="grid-row grid-row--4">
-      @for (slot of slotsRow3(); track $index) {
+      @for (slot of slotsRow3(); track slot.band.id) {
         <app-band-card
           [band]="slot.band"
           [isPlaceholder]="slot.isPlaceholder"
-          [boostLogo]="shouldBoostLogo(slot.band.name)"
+          [boostLogo]="boostLogoMap().get(slot.band.id) ?? false"
         />
       }
     </div>
@@ -32,12 +32,12 @@
   <div class="actions">
     <span class="btn-slot">
       <a routerLink="/lineup" class="btn btn--img" [attr.aria-label]="'bandsSection.discoverAria' | transloco">
-        <img src="/assets/images/discover-btn.png" alt="" class="btn-img" />
+        <img src="/assets/images/discover-btn.png" alt="" class="btn-img" loading="lazy" decoding="async" />
       </a>
     </span>
     <span class="btn-slot">
       <a href="#info" class="btn btn--img" [attr.aria-label]="'bandsSection.infoAria' | transloco">
-        <img src="/assets/images/info-btn.png" alt="" class="btn-img" />
+        <img src="/assets/images/info-btn.png" alt="" class="btn-img" loading="lazy" decoding="async" />
       </a>
     </span>
   </div>

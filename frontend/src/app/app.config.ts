@@ -5,7 +5,8 @@ import {
   isDevMode,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { PreloadAllModules, provideRouter, withInMemoryScrolling, withPreloading } from '@angular/router';
+import { provideRouter, withInMemoryScrolling, withPreloading } from '@angular/router';
+import { SelectivePreloadingStrategy } from './selective-preloading.strategy';
 import { provideHttpClient } from '@angular/common/http';
 import { provideTransloco, TranslocoService } from '@ngneat/transloco';
 import {
@@ -29,7 +30,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(
       routes,
-      withPreloading(PreloadAllModules),
+      withPreloading(SelectivePreloadingStrategy),
       withInMemoryScrolling({
         // Restore scroll on back/forward; still scroll to top on forward navigations.
         scrollPositionRestoration: 'enabled',
