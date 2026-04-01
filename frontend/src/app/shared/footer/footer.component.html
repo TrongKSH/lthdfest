@@ -33,18 +33,18 @@
       <div class="block block--links">
         <h3 class="block-title">{{ 'header.soul' | transloco }}</h3>
         <a routerLink="/lineup" class="link">{{ 'header.fullLineup' | transloco }}</a>
-        <a href="#" class="link">{{ 'header.runningOrder' | transloco }}</a>
+        <a routerLink="/lineup" [queryParams]="{ filter: 'longtranh' }" class="link">{{ 'header.runningOrder' | transloco }}</a>
       </div>
       <div class="block block--links">
         <h3 class="block-title">{{ 'header.commerce' | transloco }}</h3>
         <a routerLink="/tickets" class="link">{{ 'header.ticketsInfo' | transloco }}</a>
-        <a href="#" class="link">{{ 'header.merchandise' | transloco }}</a>
+        <span class="link link--disabled">{{ 'header.merchandise' | transloco }}</span>
       </div>
       <div class="block block--links">
         <h3 class="block-title">{{ 'header.info' | transloco }}</h3>
-        <a href="#" class="link">{{ 'header.festivalInfo' | transloco }}</a>
-        <a routerLink="/faq" class="link">{{ 'header.infoPratique' | transloco }}</a>
-        <a href="#" class="link">{{ 'header.mediaPress' | transloco }}</a>
+        <a routerLink="/" fragment="info" class="link">{{ 'header.festivalInfo' | transloco }}</a>
+        <span class="link link--disabled">{{ 'header.infoPratique' | transloco }}</span>
+        <span class="link link--disabled">{{ 'header.mediaPress' | transloco }}</span>
       </div>
     </div>
     <div class="footer-contact-faq">

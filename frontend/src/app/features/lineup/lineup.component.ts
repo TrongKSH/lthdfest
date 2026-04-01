@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslocoPipe } from '@ngneat/transloco';
 import { toSignal } from '@angular/core/rxjs-interop';
 import type { LineupBand } from '../../models/band.model';
@@ -18,6 +18,7 @@ type LineupFilter = 'all' | 'longtranh' | 'hodau';
 })
 export class LineupComponent {
   private readonly bandService = inject(BandService);
+  private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
   private bucketBoundaryTimeoutId: ReturnType<typeof setTimeout> | undefined;
   private readonly compactLogoBands = new Set([
@@ -27,7 +28,13 @@ export class LineupComponent {
     'elbowdrop',
     'underpressure'
   ]);
-  protected readonly activeFilter = signal<LineupFilter>('all');
+  private static parseFilter(raw: string | null): LineupFilter {
+    if (raw === 'longtranh' || raw === 'hodau') return raw;
+    return 'all';
+  }
+  protected readonly activeFilter = signal<LineupFilter>(
+    LineupComponent.parseFilter(this.route.snapshot.queryParamMap.get('filter')),
+  );
   protected readonly activeFilterIndex = computed(() => {
     const f = this.activeFilter();
     if (f === 'all') return 0;

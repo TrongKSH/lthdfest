@@ -48,7 +48,7 @@
           </a>
           <a
             routerLink="/lineup"
-            fragment="countdown"
+            [queryParams]="{ filter: 'longtranh' }"
             class="nav-link nav-link--sub"
             role="menuitem"
             (click)="$event.stopPropagation(); onDesktopMenuNavigate('soul')"
@@ -85,14 +85,9 @@
           >
             {{ 'header.ticketsInfo' | transloco }}
           </a>
-          <a
-            href="#"
-            class="nav-link nav-link--sub"
-            role="menuitem"
-            (click)="$event.preventDefault(); $event.stopPropagation(); onDesktopMenuNavigate('commerce')"
-          >
+          <span class="nav-link nav-link--sub nav-link--disabled" role="menuitem" aria-disabled="true">
             {{ 'header.merchandise' | transloco }}
-          </a>
+          </span>
         </div>
       </div>
 
@@ -124,22 +119,12 @@
           >
             {{ 'header.festivalInfo' | transloco }}
           </a>
-          <a
-            routerLink="/faq"
-            class="nav-link nav-link--sub"
-            role="menuitem"
-            (click)="$event.stopPropagation(); onDesktopMenuNavigate('info')"
-          >
+          <span class="nav-link nav-link--sub nav-link--disabled" role="menuitem" aria-disabled="true">
             {{ 'header.infoPratique' | transloco }}
-          </a>
-          <a
-            href="#"
-            class="nav-link nav-link--sub"
-            role="menuitem"
-            (click)="$event.preventDefault(); $event.stopPropagation(); onDesktopMenuNavigate('info')"
-          >
+          </span>
+          <span class="nav-link nav-link--sub nav-link--disabled" role="menuitem" aria-disabled="true">
             {{ 'header.mediaPress' | transloco }}
-          </a>
+          </span>
         </div>
       </div>
     </div>
@@ -177,7 +162,7 @@
         </a>
         <a
           routerLink="/lineup"
-          fragment="countdown"
+          [queryParams]="{ filter: 'longtranh' }"
           class="nav-link nav-link--sub"
           (click)="$event.stopPropagation(); closeMenu()"
         >
@@ -194,13 +179,9 @@
         >
           {{ 'header.ticketsInfo' | transloco }}
         </a>
-        <a
-          href="#"
-          class="nav-link nav-link--sub"
-          (click)="$event.preventDefault(); $event.stopPropagation(); closeMenu()"
-        >
+        <span class="nav-link nav-link--sub nav-link--disabled" aria-disabled="true">
           {{ 'header.merchandise' | transloco }}
-        </a>
+        </span>
       </div>
 
       <div class="nav-group">
@@ -213,20 +194,12 @@
         >
           {{ 'header.festivalInfo' | transloco }}
         </a>
-        <a
-          routerLink="/faq"
-          class="nav-link nav-link--sub"
-          (click)="$event.stopPropagation(); closeMenu()"
-        >
+        <span class="nav-link nav-link--sub nav-link--disabled" aria-disabled="true">
           {{ 'header.infoPratique' | transloco }}
-        </a>
-        <a
-          href="#"
-          class="nav-link nav-link--sub"
-          (click)="$event.preventDefault(); $event.stopPropagation(); closeMenu()"
-        >
+        </span>
+        <span class="nav-link nav-link--sub nav-link--disabled" aria-disabled="true">
           {{ 'header.mediaPress' | transloco }}
-        </a>
+        </span>
       </div>
     </div>
   </div>

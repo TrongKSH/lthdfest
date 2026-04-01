@@ -84,6 +84,12 @@
     outline: 2px solid var(--lthd-text);
     outline-offset: 4px;
   }
+
+  &.nav-link--disabled {
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
+  }
 }
 
 .logo-wrap {
