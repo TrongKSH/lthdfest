@@ -795,8 +795,17 @@ After a hiatus from 2007 to 2013, the band returned stronger, continued evolving
         {
             Id = 23,
             Name = "Surprise",
-            Bio = "",
-            HeroUrl = "/assets/bands/surprise/hero.png",
+            Bio = @"SURPRISE là tập thể live band & nghệ sĩ biểu diễn chuyên nghiệp hoạt động trong lĩnh vực âm nhạc sự kiện, festival và các chương trình biểu diễn cao cấp. Chúng tôi được hình thành từ những nhạc công và ca sĩ giàu kinh nghiệm, chung một tinh thần: chơi nhạc bằng năng lượng thật và cảm xúc thật. Chúng tôi đã gắn kết đồng hành cùng nhau từ năm 2024 đến nay...
+
+SURPRISE hướng đến trở thành tập thể live band & event music và các đại nhạc hội tại TP.HCM và các thành phố lân cận. Nơi âm nhạc sống không chỉ biểu diễn mà nâng tầm trải nghiệm, định hình cảm xúc và tạo nên dấu ấn không thể thay thế cho mỗi sự kiện.
+
+Nâng cao tiêu chuẩn live music trong ngành sự kiện. Xây dựng đội ngũ nghệ sĩ biểu diễn chuyên nghiệp, kỷ luật và sáng tạo. Mang âm nhạc sống trở thành linh hồn của mỗi sân khấu.",
+            BioEn = @"SURPRISE is a professional live band and performing artist collective specializing in event music, festivals, and premium live shows. Formed by experienced musicians and vocalists who share one spirit: playing music with real energy and real emotion. They have been united and performing together since 2024.
+
+SURPRISE aspires to become the leading live band and event music collective for festivals and major events in Ho Chi Minh City and neighboring cities — where live music doesn't just entertain but elevates the experience, shapes emotions, and leaves an irreplaceable mark on every event.
+
+Raising the standard of live music in the event industry. Building a team of professional, disciplined, and creative performing artists. Making live music the soul of every stage.",
+            HeroUrl = "/assets/bands/surprise/hero.jpg",
             LogoUrl = "/assets/bands/surprise/logo.png",
             IsSecret = false,
             LineupDay = LineupDay.LongTranh,
