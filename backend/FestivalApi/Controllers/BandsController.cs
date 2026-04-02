@@ -43,6 +43,7 @@ public class BandsController : ControllerBase
     /// Returns a slim DTO without Bio/BioEn to reduce payload size.
     /// </summary>
     [HttpGet]
+    [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Any)]
     public async Task<ActionResult<IEnumerable<BandListDto>>> GetBands(
         [FromQuery] bool featured = false,
         CancellationToken cancellationToken = default)
@@ -55,6 +56,7 @@ public class BandsController : ControllerBase
     /// Lightweight lineup payload for logo grid rendering.
     /// </summary>
     [HttpGet("lineup")]
+    [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Any)]
     public async Task<ActionResult<IEnumerable<LineupBandDto>>> GetLineupBands(
         CancellationToken cancellationToken = default)
     {
@@ -66,6 +68,7 @@ public class BandsController : ControllerBase
     /// Get a single band by id for detail page or modal.
     /// </summary>
     [HttpGet("{id:int}")]
+    [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Any)]
     public async Task<ActionResult<Models.Band>> GetBand(int id, CancellationToken cancellationToken = default)
     {
         var band = await _db.Bands

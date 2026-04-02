@@ -19,6 +19,7 @@ public class CountdownController : ControllerBase
     /// Returns event date and name for frontend countdown (single source of truth).
     /// </summary>
     [HttpGet]
+    [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
     public async Task<ActionResult<CountdownDto>> Get(CancellationToken cancellationToken = default)
     {
         var festival = await _festivalRead.GetPrimaryFestivalAsync(cancellationToken);

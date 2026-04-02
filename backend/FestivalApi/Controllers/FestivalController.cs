@@ -19,6 +19,7 @@ public class FestivalController : ControllerBase
     /// Get the single festival (or first event) for hero/countdown and event info.
     /// </summary>
     [HttpGet]
+    [ResponseCache(Duration = 120, Location = ResponseCacheLocation.Any)]
     public async Task<ActionResult<Festival>> GetFestival(CancellationToken cancellationToken = default)
     {
         var festival = await _festivalRead.GetPrimaryFestivalAsync(cancellationToken);
