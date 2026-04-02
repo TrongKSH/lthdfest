@@ -1,29 +1,23 @@
-# GCP Deployment Guide (Manual Console First)
+# GCP Deployment Guide
 
 This guide matches the current project setup:
 
 - Frontend: Angular static build -> Firebase Hosting
 - Backend: .NET 8 API container -> Cloud Run
 - Data persistence: Google Sheets/Drive via service account
-- DNS manager: Vercel (`longtranhhodau.xyz`)
-
-This flow is staging-first, then production on a new domain.
+- DNS: Cloudflare (`longtranhhodau.com`)
+- Firebase project: `longtranhhodau-fest`
 
 ## 1) Architecture and domains
 
-### Staging
-
-- Frontend: `staging.longtranhhodau.xyz`
-- API: `api-staging.longtranhhodau.xyz`
-
-### Production (later)
-
-- Frontend: `www.<new-domain>`
-- API: `api.<new-domain>`
+| Environment | Frontend | API |
+|---|---|---|
+| **Production** | `www.longtranhhodau.com` + `longtranhhodau.com` | `api.longtranhhodau.com` |
+| **Staging** | `staging.longtranhhodau.com` | `api-staging.longtranhhodau.com` |
 
 ## 2) Prerequisites
 
-In GCP Console for your staging project:
+In GCP Console for your project:
 
 1. Enable billing.
 2. Enable APIs:
@@ -43,7 +37,9 @@ Create these secrets (string values):
 - `google-payment-sheets-spreadsheet-id` -> target spreadsheet ID
 - `google-payment-sheets-tab-name` -> usually `Sheet1`
 - `google-payment-disable-file-storage` -> `true` for sheets-only mode
-- `cors-allowed-origins` -> `https://staging.longtranhhodau.xyz`
+- `google-payment-gcs-bucket-name` -> GCS bucket name (when file storage is enabled)
+- `google-payment-resume-token-secret` -> random string for mobile receipt resume tokens
+- `cors-allowed-origins` -> `https://longtranhhodau.com,https://www.longtranhhodau.com,https://staging.longtranhhodau.com`
 
 Notes:
 
@@ -58,7 +54,7 @@ The backend pipeline file is:
 
 It builds/pushes image and deploys Cloud Run with baseline runtime settings:
 
-- Service: `festival-api-staging`
+- Service: `festival-api-staging` (staging) or `festival-api-prod` (production)
 - Region: `asia-southeast1`
 - Min instances: `1`
 - Max instances: `10`
@@ -67,6 +63,11 @@ It builds/pushes image and deploys Cloud Run with baseline runtime settings:
 - Memory: `512Mi`
 - Timeout: `30s`
 
+For production, use the same `cloudbuild.yaml` with different Cloud Build trigger substitutions:
+
+- `_SERVICE_NAME=festival-api-prod`
+- `_ENV=prod`
+
 ### Cloud Run environment mapping (already expected by code)
 
 - `CORS_ALLOWED_ORIGINS` <- `cors-allowed-origins`
@@ -74,6 +75,8 @@ It builds/pushes image and deploys Cloud Run with baseline runtime settings:
 - `Google__Payment__SheetsSpreadsheetId` <- `google-payment-sheets-spreadsheet-id`
 - `Google__Payment__SheetsTabName` <- `google-payment-sheets-tab-name`
 - `Google__Payment__DisableFileStorage` <- `google-payment-disable-file-storage`
+- `Google__Payment__GcsBucketName` <- `google-payment-gcs-bucket-name`
+- `Google__Payment__ResumeTokenSecret` <- `google-payment-resume-token-secret`
 
 ### Health check
 
@@ -84,16 +87,17 @@ It builds/pushes image and deploys Cloud Run with baseline runtime settings:
 Frontend deployment files:
 
 - `frontend/firebase.json`
-- `frontend/.firebaserc`
+- `frontend/.firebaserc` (project: `longtranhhodau-fest`)
 - `frontend/cloudbuild.yaml`
 
 ### Runtime API config
 
 `frontend/public/runtime-config.js` is loaded before Angular app boot.
 
-Set:
+Set per environment:
 
-- `globalThis.__LT_HD_API_URL__ = "https://api-staging.longtranhhodau.xyz"`
+- **Staging:** `globalThis.__LT_HD_API_URL__ = "https://api-staging.longtranhhodau.com"`
+- **Production:** `globalThis.__LT_HD_API_URL__ = "https://api.longtranhhodau.com"`
 - `globalThis.__LT_HD_PAYMENT_PROOF_IMAGE_OPTIONAL__ = true` (sheets-only mode)
 
 Important caching behavior:
@@ -105,23 +109,44 @@ Important caching behavior:
 
 - Angular output is served from `dist/frontend/browser`.
 
-## 6) Custom domain mapping with Vercel DNS
+## 6) Custom domain mapping with Cloudflare DNS
 
-1. In Firebase Hosting, add custom domain: `staging.longtranhhodau.xyz`.
-2. In Cloud Run service, add custom domain: `api-staging.longtranhhodau.xyz`.
-3. Copy DNS records shown by Firebase/Cloud Run (TXT/CNAME/A/AAAA).
-4. Add those exact records in Vercel DNS for `longtranhhodau.xyz`.
-5. Wait for domain verification and managed SSL certificate issuance.
+Domain: `longtranhhodau.com` (purchased on Cloudflare Registrar — DNS is managed directly).
+
+### Firebase Hosting domains
+
+1. In Firebase Hosting console, add custom domains:
+   - `longtranhhodau.com` (apex)
+   - `www.longtranhhodau.com`
+   - `staging.longtranhhodau.com`
+2. Firebase provides DNS records (TXT for verification, A for apex, CNAME for subdomains).
+3. Add those records in Cloudflare DNS with **DNS only** mode (grey cloud, not proxied).
+
+### Cloud Run API domains
+
+1. In Cloud Run, add custom domain mappings:
+   - `api.longtranhhodau.com` -> production service
+   - `api-staging.longtranhhodau.com` -> staging service
+2. Cloud Run provides a CNAME record (typically `ghs.googlehosted.com`).
+3. Add the CNAME records in Cloudflare DNS with **DNS only** mode.
+
+### Cloudflare settings
+
+- **SSL/TLS encryption mode:** Full (strict) — GCP provides valid certificates.
+- **Proxy status:** DNS only (grey cloud) for all GCP-pointed records so Firebase/Cloud Run manage TLS.
 
 ## 7) Validation checklist
 
 After deploy and DNS propagation:
 
 1. Frontend loads:
-  - `https://staging.longtranhhodau.xyz`
+  - `https://longtranhhodau.com`
+  - `https://www.longtranhhodau.com`
+  - `https://staging.longtranhhodau.com`
 2. API reachable:
-  - `https://api-staging.longtranhhodau.xyz/healthz`
-3. Browser CORS works from staging frontend to staging API.
+  - `https://api.longtranhhodau.com/healthz`
+  - `https://api-staging.longtranhhodau.com/healthz`
+3. Browser CORS works from frontend to API.
 4. Submit one test payment proof flow.
 5. Confirm new row appears in Google Sheet.
 
@@ -140,28 +165,18 @@ Target expectations:
 - Repeat visit (warm/cache): around 1.5-2.5s
 - API read p95 (warm): around 500-800ms
 
-## 9) Production rollout later
-
-Repeat same setup in production:
-
-1. Create production Cloud Run service and production Firebase Hosting target/site.
-2. Create production secrets in Secret Manager.
-3. Set production runtime config values.
-4. Map new domain:
-  - `www.<new-domain>` -> Firebase Hosting
-  - `api.<new-domain>` -> Cloud Run
-5. Keep staging domain as rollback during initial launch window.
-
-## 10) Troubleshooting quick reference
+## 9) Troubleshooting quick reference
 
 - **403/502 from Google APIs**
   - Check service account JSON secret is valid.
   - Check spreadsheet is shared with service account email.
   - Check Sheets API/Drive API enabled as needed.
 - **CORS blocked in browser**
-  - Verify `cors-allowed-origins` secret matches frontend domain exactly.
+  - Verify `cors-allowed-origins` secret matches frontend domain exactly (including `https://`).
 - **Frontend points to wrong API**
   - Update `frontend/public/runtime-config.js` and redeploy Hosting.
 - **Slow first request**
   - Confirm Cloud Run min instances is `1`.
-
+- **SSL certificate not provisioning**
+  - Ensure Cloudflare proxy status is **DNS only** (grey cloud) for GCP records.
+  - Wait up to 24h for propagation (usually under 1h).
