@@ -730,7 +730,7 @@ RELEASED WORKS:
             Bio = "",
             HeroUrl = "/assets/bands/imnotsure/hero.JPG",
             LogoUrl = null,
-            IsSecret = false,
+            IsSecret = true,
             IsFeaturedOnHome = true,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 20
