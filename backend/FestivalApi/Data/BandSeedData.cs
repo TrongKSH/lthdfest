@@ -728,9 +728,9 @@ RELEASED WORKS:
             Id = 20,
             Name = "I'm Not Sure",
             Bio = "",
-            HeroUrl = "/assets/bands/imnotsure/hero.png",
+            HeroUrl = "/assets/bands/imnotsure/hero.JPG",
             LogoUrl = null,
-            IsSecret = true,
+            IsSecret = false,
             IsFeaturedOnHome = true,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 20
