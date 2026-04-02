@@ -128,7 +128,7 @@ Personal Gmail **My Drive** cannot hold uploads from a **service account** (403 
    Inside that Shared drive, create a folder (e.g. `uploads`). Open it and copy the ID from the URL:  
    `https://drive.google.com/drive/folders/THIS_IS_THE_FOLDER_ID`
 
-4. **Configuration** (local or Render env vars)
+4. **Configuration** (local or Cloud Run env vars)
 
    | Key | Value |
    |-----|--------|
@@ -193,7 +193,7 @@ Use **`dotnet user-secrets`** (with an **s** in `user-secrets`).
 | **502** on append | Sheet id, tab name, and APIs (Sheets API enabled in GCP). |
 | **403** / Drive / `storageQuotaExceeded` | The folder ID is still under **personal My Drive**, or the service account is **not** a member of the **Shared drive** that contains that folder. Create a **new** folder **inside** the Shared drive, copy its URL id, update `DrivePaymentRootFolderId`, and remove any old personal-Drive folder id. |
 | **403** / GCS `AccessDenied` | Bucket name correct? Service account has **Storage Object Admin** on **this** bucket? Cloud Storage API enabled? |
-| **`PKCS8 data must be contained within BEGIN PRIVATE KEY`** (Render/env) | The `Google__Payment__ServiceAccountJson` value is mangled. Use the **full** JSON from GCP. On Render, paste as a **Secret**; prefer **one line**: `jq -c . your-key.json` then paste the output. Do not strip `private_key` or break newlines inside the JSON string. |
+| **`PKCS8 data must be contained within BEGIN PRIVATE KEY`** (env var) | The `Google__Payment__ServiceAccountJson` value is mangled. Use the **full** JSON from GCP. In Secret Manager, prefer **one line**: `jq -c . your-key.json` then paste the output. Do not strip `private_key` or break newlines inside the JSON string. |
 
 ---
 

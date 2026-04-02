@@ -4,7 +4,7 @@ using System.Text.Json.Nodes;
 namespace FestivalApi.Services;
 
 /// <summary>
-/// Fixes common mangling of GCP service account JSON when stored in env vars (e.g. Render, Docker).
+/// Fixes common mangling of GCP service account JSON when stored in env vars (e.g. Cloud Run, Docker).
 /// The PKCS8 error usually means <c>private_key</c> lost real newlines or has literal <c>\n</c> instead.
 /// </summary>
 public static class GoogleServiceAccountJsonNormalizer

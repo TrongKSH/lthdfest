@@ -87,13 +87,13 @@ builder.Services.AddCors(options =>
     {
         var origins = new List<string>();
 
-        // appsettings + Cors__AllowedOrigins__0, __1, ... on Render
+        // appsettings + Cors__AllowedOrigins__0, __1, ... env vars
         var fromConfig =
             builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
         foreach (var o in fromConfig.Where(x => !string.IsNullOrWhiteSpace(x)))
             origins.Add(o.Trim());
 
-        // One env var on Render: CORS_ALLOWED_ORIGINS=https://a.com,https://b.com
+        // CORS_ALLOWED_ORIGINS=https://a.com,https://b.com
         var csv = builder.Configuration["CORS_ALLOWED_ORIGINS"];
         if (!string.IsNullOrWhiteSpace(csv))
         {

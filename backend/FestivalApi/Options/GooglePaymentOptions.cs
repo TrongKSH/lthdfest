@@ -7,7 +7,7 @@ public sealed class GooglePaymentOptions
 {
     public const string SectionName = "Google:Payment";
 
-    /// <summary>Full service account JSON (preferred on Render as a secret).</summary>
+    /// <summary>Full service account JSON (preferred as a secret).</summary>
     public string? ServiceAccountJson { get; set; }
 
     /// <summary>Parent Drive folder ID (daily subfolders created inside). Not needed if <see cref="GcsBucketName"/> is set.</summary>

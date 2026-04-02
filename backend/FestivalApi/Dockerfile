@@ -1,5 +1,4 @@
-# Build and run ASP.NET Core 8 on Render (Docker Web Service).
-# Render does not offer a native .NET runtime; Docker is required.
+# Build and run ASP.NET Core 8 on GCP Cloud Run.
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
@@ -18,7 +17,7 @@ RUN addgroup --system --gid 1001 appgroup \
     && adduser --system --uid 1001 --ingroup appgroup appuser
 USER appuser
 
-# Render injects PORT; app must listen on 0.0.0.0 (not localhost).
+# Cloud Run injects PORT; app must listen on 0.0.0.0 (not localhost).
 ENV ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
 EXPOSE 8080
 CMD ["sh", "-c", "exec dotnet FestivalApi.dll --urls \"http://0.0.0.0:${PORT:-8080}\""]
