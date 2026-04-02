@@ -1,5 +1,6 @@
 substitutions:
-  _FIREBASE_PROJECT_ID: replace-with-your-firebase-project-id
+  _FIREBASE_PROJECT_ID: longtranhhodau-fest
+  _HOSTING_TARGET: hosting
 
 steps:
   - name: node:22
@@ -12,7 +13,7 @@ steps:
     entrypoint: bash
     args:
       - -c
-      - cd frontend && npm i -g firebase-tools && firebase deploy --project ${_FIREBASE_PROJECT_ID} --only hosting
+      - cd frontend && npm i -g firebase-tools && firebase deploy --project ${_FIREBASE_PROJECT_ID} --only ${_HOSTING_TARGET}
 
 options:
   logging: CLOUD_LOGGING_ONLY

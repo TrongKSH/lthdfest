@@ -1,5 +1,13 @@
 {
   "projects": {
     "default": "longtranhhodau-fest"
+  },
+  "targets": {
+    "longtranhhodau-fest": {
+      "hosting": {
+        "prod": ["longtranhhodau-fest"],
+        "staging": ["longtranhhodau-fest-staging"]
+      }
+    }
   }
 }
