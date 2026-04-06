@@ -31,13 +31,17 @@
   </div>
   <div class="actions">
     <span class="btn-slot">
-      <a routerLink="/lineup" class="btn btn--img" [attr.aria-label]="'bandsSection.discoverAria' | transloco">
-        <img src="/assets/images/discover-btn.png" alt="" class="btn-img" loading="lazy" decoding="async" />
+      <a
+        routerLink="/lineup"
+        class="btn btn--pill-filled"
+        [attr.aria-label]="'bandsSection.discoverAria' | transloco"
+      >
+        <span class="btn-pill-label">{{ 'bandsSection.discoverLabel' | transloco }}</span>
       </a>
     </span>
     <span class="btn-slot">
-      <a href="#info" class="btn btn--img" [attr.aria-label]="'bandsSection.infoAria' | transloco">
-        <img src="/assets/images/info-btn.png" alt="" class="btn-img" loading="lazy" decoding="async" />
+      <a href="#info" class="btn btn--pill-outline" [attr.aria-label]="'bandsSection.infoAria' | transloco">
+        <span class="btn-pill-label">{{ 'bandsSection.infoLabel' | transloco }}</span>
       </a>
     </span>
   </div>

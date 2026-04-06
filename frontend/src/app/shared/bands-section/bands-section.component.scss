@@ -113,24 +113,41 @@ $band-slot-max: 320px;
   }
 }
 
-.btn--img {
+/* Texture PNGs + translatable label (same slot widths as former img buttons) */
+.btn--pill-filled,
+.btn--pill-outline {
   min-width: 0;
+  width: 100%;
   height: auto;
-  padding: 0;
-  background: transparent;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  aspect-ratio: 1042 / 297;
+  box-sizing: border-box;
   backface-visibility: hidden;
   transform-origin: center center;
-
-  .btn-img {
-    display: block;
-    max-width: 320px;
-    height: auto;
-    vertical-align: middle;
-  }
 
   &:hover {
     transform: scale(1.02);
   }
+}
+
+.btn--pill-filled {
+  background-image: url('/assets/images/background-button.png');
+  color: #000;
+}
+
+.btn--pill-outline {
+  background-image: url('/assets/images/background-blank-button.png');
+  color: #fff;
+}
+
+.btn-pill-label {
+  display: block;
+  text-align: center;
+  line-height: 1.1;
 }
 
 .btn--outline {
@@ -187,8 +204,9 @@ $band-slot-max: 320px;
     width: 280px;
   }
 
-  .btn--img .btn-img {
-    max-width: 280px;
+  .btn--pill-filled,
+  .btn--pill-outline {
+    height: auto;
   }
 }
 
@@ -227,12 +245,9 @@ $band-slot-max: 320px;
     width: 224px;
   }
 
-  .btn--img {
+  .btn--pill-filled,
+  .btn--pill-outline {
     height: auto;
-    max-width: none;
-
-    .btn-img {
-      max-width: 224px;
-    }
+    padding: 0.45rem 0.75rem;
   }
 }

@@ -55,7 +55,9 @@
   "bandsSection": {
     "title": "HƠN 20 BAN NHẠC",
     "discoverAria": "Khám phá",
-    "infoAria": "Thông tin"
+    "infoAria": "Thông tin",
+    "discoverLabel": "KHÁM PHÁ",
+    "infoLabel": "THÔNG TIN"
   },
   "announcement": {
     "prevAria": "Thông báo trước",

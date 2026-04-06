@@ -55,7 +55,9 @@
   "bandsSection": {
     "title": "20+ BANDS",
     "discoverAria": "Discover lineup",
-    "infoAria": "Festival information"
+    "infoAria": "Festival information",
+    "discoverLabel": "DISCOVER",
+    "infoLabel": "INFORMATION"
   },
   "announcement": {
     "prevAria": "Previous announcement",
