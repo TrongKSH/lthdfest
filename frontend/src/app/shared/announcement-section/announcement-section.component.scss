@@ -29,15 +29,15 @@
   padding: 0;
   border: none;
   border-radius: 10px;
-  background: rgba(6, 6, 6, 0.65);
-  backdrop-filter: blur(6px);
+  background: transparent;
   color: var(--lthd-text);
   cursor: pointer;
   transform: translateY(-50%);
-  transition: background 0.15s ease;
+  transition: color 0.15s ease, transform 0.15s ease, opacity 0.15s ease;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.12);
+    color: var(--lthd-text-muted);
+    transform: translateY(-50%) scale(1.06);
   }
 
   &:focus {
@@ -46,7 +46,9 @@
 
   &:focus-visible {
     outline: none;
-    background: rgba(255, 255, 255, 0.16);
+    color: var(--lthd-text);
+    transform: translateY(-50%) scale(1.06);
+    opacity: 1;
   }
 }
 
@@ -118,7 +120,7 @@ $announcement-slide-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1025px) {
   .announcement__inner {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
     gap: var(--lthd-space-12, 3rem);
@@ -151,13 +153,44 @@ $announcement-slide-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   object-position: center;
 }
 
-@media (max-width: 767px) {
+/* Tablet + phone: stacked layout; desktop two-column from 1025px (covers iPad Pro portrait) */
+@media (max-width: 1024px) {
+  .announcement__live {
+    padding-inline: var(--lthd-gutter, 1.5rem);
+  }
+
+  /* Full poster visible (no crop); content stacks below */
   .announcement__media {
-    max-height: min(75vh, 640px);
+    position: relative;
+    aspect-ratio: unset;
+    max-height: none;
+    overflow: hidden;
+  }
+
+  .announcement__img {
+    position: static;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: center top;
+  }
+
+  .announcement__body {
+    display: none;
+  }
+
+  .announcement__title,
+  .announcement__sub {
+    text-align: center;
+  }
+
+  .announcement__event {
+    margin: var(--lthd-space-4, 1rem) 0 var(--lthd-space-2, 0.5rem);
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1025px) {
   .announcement__media {
     align-self: stretch;
     height: 100%;
@@ -209,7 +242,7 @@ $announcement-slide-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1025px) {
   .announcement__copy {
     min-height: 0;
     height: 100%;
@@ -224,7 +257,7 @@ $announcement-slide-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   min-height: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1025px) {
   .announcement__copy-body {
     overflow-x: hidden;
     overflow-y: auto;
@@ -269,6 +302,7 @@ $announcement-slide-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 .announcement__body {
   margin: 0 0 var(--lthd-space-4, 1rem);
   color: var(--lthd-text-muted);
+  white-space: pre-line;
 }
 
 .announcement__event {
