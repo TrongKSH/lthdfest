@@ -1,39 +1,170 @@
 .announcement {
   --announcement-headline-size: clamp(1.625rem, 5vw, 2.5rem);
+  /* Lock poster slot so different source images do not change layout size */
+  --announcement-poster-aspect: 3 / 4;
+  /* Two-column row: fixed height stops vertical shift; tall enough to show copy without scroll (like design ref) */
+  --announcement-row-height: min(90vh, 1200px);
 
   padding: var(--lthd-space-16, 4rem) var(--lthd-gutter, 1.5rem);
   background: var(--lthd-bg);
   color: var(--lthd-text);
 }
 
+.announcement__viewport {
+  position: relative;
+  /* Slightly wider than default page container so the carousel reads closer to the reference */
+  max-width: min(100%, 1600px);
+  margin: 0 auto;
+}
+
+.announcement__nav-btn {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  min-height: 56px;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: rgba(6, 6, 6, 0.65);
+  backdrop-filter: blur(6px);
+  color: var(--lthd-text);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+    background: rgba(255, 255, 255, 0.16);
+  }
+}
+
+.announcement__nav-btn--prev {
+  left: 0;
+}
+
+.announcement__nav-btn--next {
+  right: 0;
+}
+
+.announcement__live {
+  padding-inline: clamp(3.75rem, 10vw, 4.5rem);
+  margin: 0 auto;
+}
+
 .announcement__inner {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--lthd-space-8, 2rem);
-  max-width: var(--lthd-container-max, 1400px);
   margin: 0 auto;
-  align-items: start;
+  align-items: stretch;
+  min-height: 0;
+}
+
+/* Slow horizontal slide: next = enters from the right; prev = enters from the left */
+$announcement-slide-distance: min(28vw, 220px);
+$announcement-slide-duration: 2.00s;
+$announcement-slide-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+.announcement__inner--from-next {
+  will-change: transform, opacity;
+  animation: announcementSlideFromNext $announcement-slide-duration $announcement-slide-ease both;
+}
+
+.announcement__inner--from-prev {
+  will-change: transform, opacity;
+  animation: announcementSlideFromPrev $announcement-slide-duration $announcement-slide-ease both;
+}
+
+@keyframes announcementSlideFromNext {
+  from {
+    opacity: 0.5;
+    transform: translate3d($announcement-slide-distance, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes announcementSlideFromPrev {
+  from {
+    opacity: 0.5;
+    transform: translate3d(calc(-1 * #{$announcement-slide-distance}), 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement__inner--from-next,
+  .announcement__inner--from-prev {
+    animation: none;
+  }
 }
 
 @media (min-width: 768px) {
   .announcement__inner {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
     gap: var(--lthd-space-12, 3rem);
-    /* Same row height as the poster image; text column stretches to match */
     align-items: stretch;
+    height: var(--announcement-row-height);
+    min-height: var(--announcement-row-height);
+    min-width: 0;
   }
 }
 
+/* Fixed-aspect frame + cover: swapping JPGs does not change layout dimensions */
 .announcement__media {
-  display: flex;
-  align-items: flex-start;
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--announcement-poster-aspect);
+  overflow: hidden;
+  border-radius: 4px;
+  background: #080808;
+  flex-shrink: 0;
 }
 
 .announcement__img {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  height: auto;
-  border-radius: 4px;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 767px) {
+  .announcement__media {
+    max-height: min(75vh, 640px);
+  }
+}
+
+@media (min-width: 768px) {
+  .announcement__media {
+    align-self: stretch;
+    height: 100%;
+    aspect-ratio: unset;
+    max-height: none;
+    min-height: 0;
+  }
 }
 
 .announcement__copy {
@@ -75,6 +206,29 @@
   > * {
     position: relative;
     z-index: 2;
+  }
+}
+
+@media (min-width: 768px) {
+  .announcement__copy {
+    min-height: 0;
+    height: 100%;
+  }
+}
+
+/* Scrollable text: long copy scrolls inside fixed-height panel (desktop) */
+.announcement__copy-body {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+@media (min-width: 768px) {
+  .announcement__copy-body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -153,6 +307,6 @@
   }
 }
 
-.announcement__copy > p:last-of-type {
+.announcement__copy-body > p:last-of-type {
   margin-bottom: 0;
 }

@@ -58,20 +58,38 @@
     "infoAria": "Thông tin"
   },
   "announcement": {
-    "imageAlt": "Thông báo Long Tranh Hổ Đấu Festival — Morning Waits",
-    "heading": "Morning Waits",
-    "subheading": "Đại thụ metalcore về làng!",
-    "paragraphs": [
-      "Thành lập khoảng 2014, Morning Waits theo dòng melodic metalcore, chịu ảnh hưởng từ Killswitch Engage, As I Lay Dying và Parkway Drive.",
-      "Sau thời gian vắng bóng sân khấu, ban nhạc trở lại với Long Tranh Hổ Đấu Festival — màn tái ngộ đầy mong đợi cùng khán giả."
-    ],
-    "eventTitle": "Long Tranh Hổ Đấu Festival",
-    "schedule": "14:00 – 23:00 | Thứ Sáu và Thứ Bảy, 08–09/05/2026",
-    "location": "MH Studio — 327 Trần Xuân Soạn, Tân Kiểng, Quận 7, TP. Hồ Chí Minh",
+    "prevAria": "Thông báo trước",
+    "nextAria": "Thông báo tiếp theo",
     "facebookPostIntro": "Bài viết chính thức:",
     "facebookLinkLabel": "Xem trên Facebook",
     "facebookLinkTitle": "Mở bài viết thông báo trên Facebook trong tab mới",
-    "logoAlt": "Long Tranh Hổ Đấu — logo LTHD"
+    "logoAlt": "Long Tranh Hổ Đấu — logo LTHD",
+    "items": [
+      {
+        "imageAlt": "Thông báo Long Tranh Hổ Đấu Festival — Morning Waits",
+        "heading": "Morning Waits",
+        "subheading": "Đại thụ metalcore về làng!",
+        "paragraphs": [
+          "Thành lập khoảng 2014, Morning Waits theo dòng melodic metalcore, chịu ảnh hưởng từ Killswitch Engage, As I Lay Dying và Parkway Drive.",
+          "Sau thời gian vắng bóng sân khấu, ban nhạc trở lại với Long Tranh Hổ Đấu Festival — màn tái ngộ đầy mong đợi cùng khán giả."
+        ],
+        "eventTitle": "Long Tranh Hổ Đấu Festival",
+        "schedule": "14:00 – 23:00 | Thứ Sáu và Thứ Bảy, 08–09/05/2026",
+        "location": "MH Studio — 327 Trần Xuân Soạn, Tân Kiểng, Quận 7, TP. Hồ Chí Minh"
+      },
+      {
+        "imageAlt": "Long Tranh Hổ Đấu Festival — tin mới",
+        "heading": "Sắp có thêm tin",
+        "subheading": "Tiếp tục công bố line-up",
+        "paragraphs": [
+          "Theo dõi kênh chính thức để nhận thông báo nghệ sĩ tiếp theo, giờ diễn và cập nhật festival.",
+          "Long Tranh Hổ Đấu Festival — hai ngày metal và cộng đồng, hẹn gặp tại Quận 7."
+        ],
+        "eventTitle": "Long Tranh Hổ Đấu Festival",
+        "schedule": "14:00 – 23:00 | Thứ Sáu và Thứ Bảy, 08–09/05/2026",
+        "location": "MH Studio — 327 Trần Xuân Soạn, Tân Kiểng, Quận 7, TP. Hồ Chí Minh"
+      }
+    ]
   },
   "bandCard": {
     "secretBand": "Ban nhạc bí mật",

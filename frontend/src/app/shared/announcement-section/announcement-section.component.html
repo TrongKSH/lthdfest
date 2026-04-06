@@ -3,48 +3,88 @@
   class="announcement"
   aria-labelledby="announcement-heading"
 >
-  <div class="announcement__inner">
-    <div class="announcement__media">
-      <img
-        class="announcement__img"
-        src="/assets/announcement/announcement.jpg"
-        [attr.alt]="'announcement.imageAlt' | transloco"
-        loading="lazy"
-        decoding="async"
-      />
-    </div>
-    <div class="announcement__copy">
-      <h2 id="announcement-heading" class="announcement__title">
-        {{ 'announcement.heading' | transloco }}
-      </h2>
-      <p class="announcement__sub">{{ 'announcement.subheading' | transloco }}</p>
-      @for (p of paragraphs(); track $index) {
-        <p class="announcement__body">{{ p }}</p>
-      }
-      <p class="announcement__event">{{ 'announcement.eventTitle' | transloco }}</p>
-      <p class="announcement__meta">{{ 'announcement.schedule' | transloco }}</p>
-      <p class="announcement__meta">{{ 'announcement.location' | transloco }}</p>
-      <p class="announcement__facebook">
-        <span class="announcement__facebook-intro">{{ 'announcement.facebookPostIntro' | transloco }}</span>
-        <a
-          class="announcement__facebook-link"
-          [href]="facebookPostUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-          [attr.title]="'announcement.facebookLinkTitle' | transloco"
+  <div class="announcement__viewport">
+    @if (slideTotal() > 1) {
+      <button
+        type="button"
+        class="announcement__nav-btn announcement__nav-btn--prev"
+        [attr.aria-label]="'announcement.prevAria' | transloco"
+        aria-controls="announcement-live-region"
+        (click)="previous()"
+      >
+        <lucide-icon name="ChevronLeft" [size]="iconSize" strokeWidth="2" aria-hidden="true"></lucide-icon>
+      </button>
+      <button
+        type="button"
+        class="announcement__nav-btn announcement__nav-btn--next"
+        [attr.aria-label]="'announcement.nextAria' | transloco"
+        aria-controls="announcement-live-region"
+        (click)="next()"
+      >
+        <lucide-icon name="ChevronRight" [size]="iconSize" strokeWidth="2" aria-hidden="true"></lucide-icon>
+      </button>
+    }
+
+    <div
+      id="announcement-live-region"
+      class="announcement__live"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      @for (idx of [currentIndex()]; track idx) {
+        <div
+          class="announcement__inner"
+          [class.announcement__inner--from-next]="lastNav() === 'next'"
+          [class.announcement__inner--from-prev]="lastNav() === 'prev'"
         >
-          {{ 'announcement.facebookLinkLabel' | transloco }}
-        </a>
-      </p>
-      <div class="announcement__copy-footer">
-        <img
-          class="announcement__logo"
-          src="/assets/images/lthd-logo.png"
-          [attr.alt]="'announcement.logoAlt' | transloco"
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
+          <div class="announcement__media">
+            <img
+              class="announcement__img"
+              [src]="activeImageSrc()"
+              [attr.alt]="activeItem()?.imageAlt ?? ''"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="announcement__copy">
+            <div class="announcement__copy-body">
+              <h2 id="announcement-heading" class="announcement__title">
+                {{ activeItem()?.heading }}
+              </h2>
+              @if (activeItem()?.subheading?.trim()) {
+                <p class="announcement__sub">{{ activeItem()?.subheading }}</p>
+              }
+              @for (p of activeParagraphs(); track $index) {
+                <p class="announcement__body">{{ p }}</p>
+              }
+              <p class="announcement__event">{{ activeItem()?.eventTitle }}</p>
+              <p class="announcement__meta">{{ activeItem()?.schedule }}</p>
+              <p class="announcement__meta">{{ activeItem()?.location }}</p>
+              <p class="announcement__facebook">
+                <span class="announcement__facebook-intro">{{ 'announcement.facebookPostIntro' | transloco }}</span>
+                <a
+                  class="announcement__facebook-link"
+                  [href]="activeFacebookUrl()"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  [attr.title]="'announcement.facebookLinkTitle' | transloco"
+                >
+                  {{ 'announcement.facebookLinkLabel' | transloco }}
+                </a>
+              </p>
+            </div>
+            <div class="announcement__copy-footer">
+              <img
+                class="announcement__logo"
+                src="/assets/images/lthd-logo.png"
+                [attr.alt]="'announcement.logoAlt' | transloco"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+        </div>
+      }
     </div>
   </div>
 </section>

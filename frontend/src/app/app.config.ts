@@ -18,6 +18,8 @@ import {
   Mail,
   Phone,
   CircleQuestionMark,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-angular';
 
 import { initAppLanguage } from './i18n/lang-init';
@@ -66,6 +68,8 @@ export const appConfig: ApplicationConfig = {
         Mail,
         Phone,
         CircleQuestionMark,
+        ChevronLeft,
+        ChevronRight,
       })
     ),
   ],
