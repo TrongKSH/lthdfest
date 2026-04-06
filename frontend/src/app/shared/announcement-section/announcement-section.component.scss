@@ -249,7 +249,7 @@ $announcement-slide-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 }
 
-/* Scrollable text: long copy scrolls inside fixed-height panel (desktop) */
+/* Scrollable text (desktop): scrollbar hidden; wheel/trackpad still scrolls */
 .announcement__copy-body {
   position: relative;
   z-index: 2;
@@ -262,6 +262,12 @@ $announcement-slide-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 

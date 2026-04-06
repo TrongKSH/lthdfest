@@ -17,7 +17,7 @@ import {
   type AnnouncementSlideI18n,
 } from './announcement-slides.config';
 
-const ANNOUNCEMENT_AUTO_ADVANCE_MS = 10000;
+const ANNOUNCEMENT_AUTO_ADVANCE_MS = 20000;
 
 @Component({
   selector: 'app-announcement-section',
