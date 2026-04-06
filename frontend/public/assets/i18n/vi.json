@@ -57,6 +57,22 @@
     "discoverAria": "Khám phá",
     "infoAria": "Thông tin"
   },
+  "announcement": {
+    "imageAlt": "Thông báo Long Tranh Hổ Đấu Festival — Morning Waits",
+    "heading": "Morning Waits",
+    "subheading": "Đại thụ metalcore về làng!",
+    "paragraphs": [
+      "Thành lập khoảng 2014, Morning Waits theo dòng melodic metalcore, chịu ảnh hưởng từ Killswitch Engage, As I Lay Dying và Parkway Drive.",
+      "Sau thời gian vắng bóng sân khấu, ban nhạc trở lại với Long Tranh Hổ Đấu Festival — màn tái ngộ đầy mong đợi cùng khán giả."
+    ],
+    "eventTitle": "Long Tranh Hổ Đấu Festival",
+    "schedule": "14:00 – 23:00 | Thứ Sáu và Thứ Bảy, 08–09/05/2026",
+    "location": "MH Studio — 327 Trần Xuân Soạn, Tân Kiểng, Quận 7, TP. Hồ Chí Minh",
+    "facebookPostIntro": "Bài viết chính thức:",
+    "facebookLinkLabel": "Xem trên Facebook",
+    "facebookLinkTitle": "Mở bài viết thông báo trên Facebook trong tab mới",
+    "logoAlt": "Long Tranh Hổ Đấu — logo LTHD"
+  },
   "bandCard": {
     "secretBand": "Ban nhạc bí mật",
     "secretAlt": "Ban nhạc bí mật",

@@ -1,0 +1,50 @@
+<section
+  id="announcement"
+  class="announcement"
+  aria-labelledby="announcement-heading"
+>
+  <div class="announcement__inner">
+    <div class="announcement__media">
+      <img
+        class="announcement__img"
+        src="/assets/announcement/announcement.jpg"
+        [attr.alt]="'announcement.imageAlt' | transloco"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    <div class="announcement__copy">
+      <h2 id="announcement-heading" class="announcement__title">
+        {{ 'announcement.heading' | transloco }}
+      </h2>
+      <p class="announcement__sub">{{ 'announcement.subheading' | transloco }}</p>
+      @for (p of paragraphs(); track $index) {
+        <p class="announcement__body">{{ p }}</p>
+      }
+      <p class="announcement__event">{{ 'announcement.eventTitle' | transloco }}</p>
+      <p class="announcement__meta">{{ 'announcement.schedule' | transloco }}</p>
+      <p class="announcement__meta">{{ 'announcement.location' | transloco }}</p>
+      <p class="announcement__facebook">
+        <span class="announcement__facebook-intro">{{ 'announcement.facebookPostIntro' | transloco }}</span>
+        <a
+          class="announcement__facebook-link"
+          [href]="facebookPostUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          [attr.title]="'announcement.facebookLinkTitle' | transloco"
+        >
+          {{ 'announcement.facebookLinkLabel' | transloco }}
+        </a>
+      </p>
+      <div class="announcement__copy-footer">
+        <img
+          class="announcement__logo"
+          src="/assets/images/lthd-logo.png"
+          [attr.alt]="'announcement.logoAlt' | transloco"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </div>
+</section>

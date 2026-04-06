@@ -57,6 +57,22 @@
     "discoverAria": "Discover lineup",
     "infoAria": "Festival information"
   },
+  "announcement": {
+    "imageAlt": "Long Tranh Hổ Đấu Festival — Morning Waits announcement graphic",
+    "heading": "Morning Waits",
+    "subheading": "Metalcore heavyweights return!",
+    "paragraphs": [
+      "Founded around 2014, Morning Waits plays melodic metalcore rooted in the sound of Killswitch Engage, As I Lay Dying, and Parkway Drive.",
+      "After time away from the stage, the band is back for Long Tranh Hổ Đấu Festival — a long-awaited reunion for fans."
+    ],
+    "eventTitle": "Long Tranh Hổ Đấu Festival",
+    "schedule": "14:00 – 23:00 | Friday and Saturday, May 8–9, 2026",
+    "location": "MH Studio — 327 Trần Xuân Soạn, Tân Kiểng, District 7, Ho Chi Minh City",
+    "facebookPostIntro": "Official post:",
+    "facebookLinkLabel": "View on Facebook",
+    "facebookLinkTitle": "Opens the announcement post on Facebook in a new tab",
+    "logoAlt": "Long Tranh Hổ Đấu — LTHD logo"
+  },
   "bandCard": {
     "secretBand": "Secret band",
     "secretAlt": "Secret band",

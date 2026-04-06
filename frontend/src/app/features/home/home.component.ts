@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/c
 import { HeroSectionComponent } from '../../shared/hero-section/hero-section.component';
 import { NewsTickerComponent } from '../../shared/news-ticker/news-ticker.component';
 import { BandsSectionComponent } from '../../shared/bands-section/bands-section.component';
+import { AnnouncementSectionComponent } from '../../shared/announcement-section/announcement-section.component';
 import { CountdownSectionComponent } from '../../shared/countdown-section/countdown-section.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { FestivalService } from '../../services/festival.service';
@@ -14,6 +15,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     HeroSectionComponent,
     NewsTickerComponent,
     BandsSectionComponent,
+    AnnouncementSectionComponent,
     CountdownSectionComponent,
     FooterComponent,
   ],
