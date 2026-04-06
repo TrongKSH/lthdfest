@@ -99,7 +99,7 @@ If you wonder why you should listen to Morning Waits, it's the raw passion, the 
             HeroUrl = "/assets/bands/morningwait/hero.jpg",
             LogoUrl = "/assets/bands/morningwait/logo.png",
             IsFeaturedOnHome = true,
-            LineupDay = LineupDay.LongTranh,
+            LineupDay = LineupDay.HoDau,
             LineupPosition = 2
         },
         #endregion
@@ -516,7 +516,7 @@ Members:
 • Vo Phuc Hoan - drummer",
             HeroUrl = "/assets/bands/resurgedtemptation/hero.jpg",
             LogoUrl = "/assets/bands/resurgedtemptation/logo.png",
-            LineupDay = LineupDay.HoDau,
+            LineupDay = LineupDay.LongTranh,
             LineupPosition = 12,
             IsFeaturedOnHome = true,
         },

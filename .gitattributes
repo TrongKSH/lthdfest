@@ -1,0 +1,8 @@
+# Normalize line endings: LF in the repository (avoids CRLF churn on Windows/macOS).
+* text=auto
+
+*.cs text eol=lf
+*.json text eol=lf
+*.html text eol=lf
+*.scss text eol=lf
+*.ts text eol=lf
