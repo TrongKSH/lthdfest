@@ -19,12 +19,43 @@ This document explains how to update band logos/heroes without breaking performa
 2. Keep same filename if possible (`hero*`, `logo*`) to avoid backend URL edits.
 3. Run optimizer:
    - `cd frontend`
-   - `npm run assets:optimize:bands`
+   - All bands: `npm run assets:optimize:bands` (or `npm run assets:optimize`)
+   - One band only: `npm run assets:optimize -- public/assets/bands/<band-name>`
 4. Run budget check:
    - `npm run assets:check:bands`
 5. If budget check passes, done.
 6. If filename/path changed, update URLs in:
    - `backend/FestivalApi/Data/BandSeedData.cs`
+
+## Optimizing a chosen folder (one band or non-band assets)
+
+The optimizer script is `frontend/scripts/optimize-band-assets.mjs`. With **no arguments** it processes every band under `public/assets/bands`. With a **folder path** (relative to `frontend`, or absolute), it only walks that directory tree.
+
+Run from `frontend`:
+
+```bash
+npm run assets:optimize -- public/assets/bands/<band-name>
+```
+
+Examples:
+
+```bash
+npm run assets:optimize -- public/assets/bands/1818
+npm run assets:optimize -- public/assets/announcement
+```
+
+**Rules:**
+
+- Paths **under** `public/assets/bands`: same as the full run — only files whose names start with `hero` or `logo` are optimized.
+- **Any other** folder (e.g. `public/assets/announcement`): every JPEG/PNG in that tree is optimized using the same “wide banner” settings as heroes (max width 1920, hero-style quality).
+
+Usage summary:
+
+```bash
+node scripts/optimize-band-assets.mjs --help
+```
+
+The budget check script (`npm run assets:check:bands`) still validates **all** bands under `public/assets/bands`; run it after changes even when you only optimized one band folder.
 
 ## If You Only Have One Source Image and It Fails Budget
 
@@ -37,8 +68,8 @@ Tune these values:
 - Hero JPEG quality (example: `74 -> 65`)
 - Logo PNG quality (example: `80 -> 65`)
 
-Then run again:
-- `npm run assets:optimize:bands`
+Then run again (entire bands tree or a single folder — see [Optimizing a chosen folder](#optimizing-a-chosen-folder-one-band-or-non-band-assets)):
+- `npm run assets:optimize:bands` and/or `npm run assets:optimize -- public/assets/bands/<band-name>`
 - `npm run assets:check:bands`
 
 ## Quality vs Budget Tradeoff Guidance

@@ -790,23 +790,48 @@ After a hiatus from 2007 to 2013, the band returned stronger, continued evolving
             LineupPosition = 22
         },
         #endregion
-        #region Band 23 — Surprise
+        #region Band 23 — HappyCo
         new Band
         {
             Id = 23,
-            Name = "Surprise",
-            Bio = @"SURPRISE là tập thể live band & nghệ sĩ biểu diễn chuyên nghiệp hoạt động trong lĩnh vực âm nhạc sự kiện, festival và các chương trình biểu diễn cao cấp. Chúng tôi được hình thành từ những nhạc công và ca sĩ giàu kinh nghiệm, chung một tinh thần: chơi nhạc bằng năng lượng thật và cảm xúc thật. Chúng tôi đã gắn kết đồng hành cùng nhau từ năm 2024 đến nay...
+            Name = "Happyco.",
+            Bio = @"happyco. (viết tắt của happy company) aka công ti vui vẻ là một ban nhạc Hardcore Punk, Post-hardcore và một chút Alternative - 4 thành viên đến từ Sài Gòn, Việt Nam. Được thành lập vào ngày 04.11.2018 bởi Thịnh (vocal/rhythm guitarist), Tè (bassist), Thầy (lead guitarist) và chính thức đi vào hoạt động năm 2022 sau khi tìm được mảnh ghép cuối cùng là Trúc (drummer). Định hướng cũng như mong muốn của happyco. là kết nối thêm nhiều người nghe từ nhiều dòng nhạc, sub-genre khác nhau. Từ đó có thể vượt qua khỏi rào cản cũng như định kiến từ ""genre"".
 
-SURPRISE hướng đến trở thành tập thể live band & event music và các đại nhạc hội tại TP.HCM và các thành phố lân cận. Nơi âm nhạc sống không chỉ biểu diễn mà nâng tầm trải nghiệm, định hình cảm xúc và tạo nên dấu ấn không thể thay thế cho mỗi sự kiện.
+2. EP đầu tay ‘Displacement over Time (d/t)’
 
-Nâng cao tiêu chuẩn live music trong ngành sự kiện. Xây dựng đội ngũ nghệ sĩ biểu diễn chuyên nghiệp, kỷ luật và sáng tạo. Mang âm nhạc sống trở thành linh hồn của mỗi sân khấu.",
-            BioEn = @"SURPRISE is a professional live band and performing artist collective specializing in event music, festivals, and premium live shows. Formed by experienced musicians and vocalists who share one spirit: playing music with real energy and real emotion. They have been united and performing together since 2024.
+‘Displacement over Time (d/t)’ là EP đầu tay của happyco. (aka Công ti vui vẻ), gồm 7 bài hát thuộc các thể loại Hardcore Punk, Post-hardcore và Alternative. EP đã chính thức ra mắt trên mọi nền tảng vào ngày 22.08.2025 với track V/S/ON được release theo dạng single trước đó vào tháng 06.2024. Lyrics Video cho các ca khúc trong EP đã được đăng tải trên kênh YouTube của happyco. vào ngày 08.09.2025.
 
-SURPRISE aspires to become the leading live band and event music collective for festivals and major events in Ho Chi Minh City and neighboring cities — where live music doesn't just entertain but elevates the experience, shapes emotions, and leaves an irreplaceable mark on every event.
+Được ấp ủ từ năm 2020, bắt đầu từ những bản demo tự sáng tác đầu tiên, nhưng mãi đến năm 2022 khi Trúc gia nhập nhóm với vai trò drummer, các sáng tác mới dần được hoàn thiện. Từ đó, Công ti đã bắt tay vào thu âm vào cuối năm 2024 cùng đội ngũ 1010 Network. Công đoạn mix, master và phát hành được hoàn thiện trong năm 2025. 7 bài trong EP được chia thành:
 
-Raising the standard of live music in the event industry. Building a team of professional, disciplined, and creative performing artists. Making live music the soul of every stage.",
-            HeroUrl = "/assets/bands/surprise/hero.jpg",
-            LogoUrl = "/assets/bands/surprise/logo.png",
+- A Side:
++ ‘V/S/ON’
++ ‘Ouroboros’
++ ‘Birthdays’
++ ‘Bajiquan Stance’
+- B Side:
++ ‘Howl’
++ ‘Grapefruit Flower’
++ ‘1 in the Morning’
+
+Nội dung của ‘Displacement over Time (d/t)’  là hành trình đấu tranh và quyết định phá vỡ vòng lặp tự hủy (break the cycle) - một quá trình giằng xé với chính bản thân để vượt qua sự thất bại, cô đơn, trống rỗng, căm ghét và nghi ngờ bản thân. Nhân vật chính trong EP đã chọn cách nhìn lại quá khứ (B Side), đối diện, và cuối cùng phá vỡ vòng lặp đó để trở thành một phiên bản tốt hơn của chính mình (‘Birthdays’, ‘Bajiquan Stance’), cũng giống như hình ảnh bẻ đôi con rắn cạp đang đuôi (‘Ouroboros’) - biểu tượng của vòng lặp và tự hủy .
+
+Phong cách mà happyco. muốn hướng đến trong EP là sự tự do sáng tạo, không bị bó buộc trong bất kỳ genre cụ thể nào, nhưng vẫn giữ được nguồn năng lượng đặc trưng của hardcore. Công ti mong muốn EP ‘Displacement over Time (d/t)’ không chỉ là sản phẩm âm nhạc mà còn là một làn gió mới cho scene Hardcore Việt Nam, mang đến một nguồn năng lượng tích cực, mạnh mẽ mà không nhất thiết phải bạo lực hay cực đoan. Thông qua đó, Công ti mong muốn kết nối nhiều người đến với  Hardcore hơn, phá bỏ những định kiến tiêu cực về scene và mang nguồn năng lượng tươi mới đến với người nghe.",
+            BioEn = @"happyco. (short for happy company), also known as Công ti vui vẻ, is a hardcore punk, post-hardcore, and slightly alternative band — four members from Saigon, Vietnam. Formed on 4 November 2018 by Thinh (vocals / rhythm guitarist), Te (bassist), and Thay (lead guitarist), the group went fully active in 2022 when Truc joined as drummer. happyco.’s aim is to connect more listeners from different scenes and sub-genres, so they can move past the barriers and stereotypes around the idea of ""genre.""
+
+2. Debut EP ‘Displacement over Time (d/t)’
+
+‘Displacement over Time (d/t)’ is happyco.’s debut EP: seven songs in hardcore punk, post-hardcore, and alternative. It was released on all platforms on 22 August 2025, after V/S/ON came out as a single in June 2024. Lyric videos for the EP tracks were published on happyco.’s YouTube channel on 8 September 2025.
+
+The EP was nurtured from 2020, starting with the first self-written demos, but it was only in 2022, when Truc joined on drums, that new material steadily came together. From there the band recorded in late 2024 with the 1010 Network team; mixing, mastering, and release were completed in 2025. The seven tracks are grouped as:
+
+• A side: V/S/ON, Ouroboros, Birthdays, Bajiquan Stance
+• B side: Howl, Grapefruit Flower, 1 in the Morning
+
+‘Displacement over Time (d/t)’ is about fighting to break a self-destructive cycle (break the cycle) — a struggle with oneself to move past failure, loneliness, emptiness, resentment, and self-doubt. The main character looks back at the past (B side), faces it, and finally breaks that loop to become a better version of themselves (‘Birthdays’, ‘Bajiquan Stance’), much like the image of snapping the ouroboros — the serpent biting its tail (‘Ouroboros’) — a symbol of the cycle and self-destruction.
+
+happyco. want this EP to feel creatively free: not boxed into any single genre, but still carrying hardcore’s defining energy. They hope ‘Displacement over Time (d/t)’ is not only a musical release but a new wind for Vietnam’s hardcore scene — positive, forceful energy that does not have to mean violence or extremes. Through it they hope to connect more people with hardcore, push back on negative scene stereotypes, and bring a fresher energy to listeners.",
+            HeroUrl = "/assets/bands/happyco/hero.jpg",
+            LogoUrl = "/assets/bands/happyco/logo.png",
             IsSecret = false,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 23

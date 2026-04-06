@@ -29,7 +29,6 @@ export class LineupComponent {
     'underpressure',
     'longbez',
     'infernalchaos',
-    'surprise',
     'cutlon'
   ]);
   private static parseFilter(raw: string | null): LineupFilter {

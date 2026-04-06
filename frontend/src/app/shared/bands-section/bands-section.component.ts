@@ -43,7 +43,6 @@ export class BandsSectionComponent {
     'underpressure',
     'longbez',
     'infernalchaos',
-    'surprise',
     'cutlon',
   ]);
   private readonly featuredBands = toSignal(this.bandService.getBands(true), {
