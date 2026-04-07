@@ -428,7 +428,7 @@ Releases: Aug 8th, 2025
             HeroUrl = "/assets/bands/kinh/hero.jpg",
             LogoUrl = "/assets/bands/kinh/logo.png",
             IsFeaturedOnHome = true,
-            IsSecret = true,
+            IsSecret = false,
             LineupDay = LineupDay.HoDau,
             LineupPosition = 10
         },
