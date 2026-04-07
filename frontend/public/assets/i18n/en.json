@@ -68,7 +68,20 @@
     "logoAlt": "Long Tranh Hổ Đấu — LTHD logo",
     "items": [
       {
-        "imageAlt": "Long Tranh Hổ Đấu Festival announcement — Morning Waits",
+        "imageAlt": "Long Tranh Hổ Đấu Festival — KINH announcement",
+        "heading": "KINH",
+        "subheading": "HEADLINE — “NGỌA HỔ”",
+        "paragraphs": [
+          "One of Saigon’s standout names in death metal, KINH delivers music that is heavy, brutal, and sharp as a tiger’s claws on the hunt. Relentless grooves, a signature growl, and the way they own the stage thicken the air from the very first moment.",
+          "The Tiger side headliner has taken their place.",
+          "If you’re ready to go toe-to-toe, hold on to your tickets before the arena fills up."
+        ],
+        "eventTitle": "Long Tranh Hổ Đấu Festival",
+        "schedule": "14:00 – 23:00 | Friday and Saturday, May 8–9, 2026",
+        "location": "MH Studio — 327 Trần Xuân Soạn, Tân Kiểng, District 7, Ho Chi Minh City"
+      },
+      {
+        "imageAlt": "Long Tranh Hổ Đấu Festival — Amongst The Fallen announcement",
         "heading": "AMONGST THE FALLEN",
         "subheading": "Fall down, stand up, keep playing!",
         "paragraphs": [
@@ -87,6 +100,18 @@
           "HOW TO ENTER:\n\nB1: Draw or take a photo on the theme \"Dragon\" or \"Hồ\"\nB2: Submit to the organizers via the form\nB3: Entries will be posted at 8:00 PM on 21 Apr 2025 for scoring",
           "SCORING:\nReact — 1 point\nComment — 1 point\nShare — 3 points",
           "SUBMISSION DEADLINE: 11:00 PM Mon, 20 Apr 2026\nWINNERS ANNOUNCED: 8:00 PM Sat, 25 Apr 2026\nPRIZE CEREMONY: 7:00 PM on 8–9 May 2026 (at the event)"
+        ],
+        "eventTitle": "Long Tranh Hổ Đấu Festival",
+        "schedule": "14:00 – 23:00 | Friday and Saturday, May 8–9, 2026",
+        "location": "MH Studio — 327 Trần Xuân Soạn, Tân Kiểng, District 7, Ho Chi Minh City"
+      },
+      {
+        "imageAlt": "Long Tranh Hổ Đấu Festival — Morning Waits announcement",
+        "heading": "MORNING WAITS",
+        "subheading": "Metalcore heavyweights hit town",
+        "paragraphs": [
+          "From North to South, the seasoned melodic metalcore act from the capital Hanoi officially touches down at Long Tranh Hổ Đấu!",
+          "Back on the metal battlefield as part of the Tiger side this time around, Morning Waits promise to hit the crowd with standout releases from across their years as a band."
         ],
         "eventTitle": "Long Tranh Hổ Đấu Festival",
         "schedule": "14:00 – 23:00 | Friday and Saturday, May 8–9, 2026",
