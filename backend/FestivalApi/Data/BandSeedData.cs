@@ -629,9 +629,17 @@ True to the title ""Omnipotent,"" the band emphasizes that behind noisy and viol
         {
             Id = 16,
             Name = "1818",
-            Bio = "",
-            HeroUrl = "/assets/bands/1818/hero.png",
-            LogoUrl = null,
+Bio = @"18.18 là ban nhạc pop-punk/indie rock đến từ Sài Gòn, thành lập năm 2023. Bắt đầu từ nền tảng hardcore/heavy metal, nhóm giữ nguyên nguồn năng lượng thô ráp, nhịp độ mạnh và tinh thần tự do, rồi chuyển hóa thành chất pop-punk hiện đại: bắt tai, giàu giai điệu nhưng vẫn sắc cạnh.
+
+Đội hình gồm Billy Bitexco, Cuongnhoc, Ian và Hạc Kim — mỗi thành viên mang một màu sắc riêng, hòa quyện thành âm thanh đặc trưng của 18.18: tiết tấu nhanh, hook ngắn gọn, guitar sáng, trống dứt khoát và vocal giàu cảm xúc.
+
+Nhóm ghi dấu qua các ca khúc như Khùng, Mãi Mãi In My Mind, Hey Girl và Ảo Ảnh Anime, đồng thời trở thành một trong những đại diện trẻ nổi bật của scene indie/punk hiện tại.",
+BioEn = @"18.18 is a pop-punk/indie rock band from Saigon, formed in 2023. Emerging from a hardcore/heavy metal background, the band preserves its raw energy, driving tempo, and free-spirited attitude, transforming them into a modern pop-punk sound that is catchy, melodic, and still sharp-edged.
+
+The lineup features Billy Bitexco, Cuongnhoc, Ian, and Hac Kim - each member brings a distinct color, blending into 18.18's signature sound: fast-paced melodies, concise hooks, bright guitars, punchy drums, and emotionally charged vocals.
+
+The band has made its mark with tracks such as Khung, Mai Mai In My Mind, Hey Girl, and Ao Anh Anime, and is now recognized as one of the most notable young acts in today's indie/punk scene.",            HeroUrl = "/assets/bands/1818/hero.JPG",
+            LogoUrl = "/assets/bands/1818/logo.png",
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 16
         },
