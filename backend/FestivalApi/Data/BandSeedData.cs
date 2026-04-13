@@ -638,8 +638,11 @@ BioEn = @"18.18 is a pop-punk/indie rock band from Saigon, formed in 2023. Emerg
 
 The lineup features Billy Bitexco, Cuongnhoc, Ian, and Hac Kim - each member brings a distinct color, blending into 18.18's signature sound: fast-paced melodies, concise hooks, bright guitars, punchy drums, and emotionally charged vocals.
 
-The band has made its mark with tracks such as Khung, Mai Mai In My Mind, Hey Girl, and Ao Anh Anime, and is now recognized as one of the most notable young acts in today's indie/punk scene.",            HeroUrl = "/assets/bands/1818/hero.JPG",
+The band has made its mark with tracks such as Khung, Mai Mai In My Mind, Hey Girl, and Ao Anh Anime, and is now recognized as one of the most notable young acts in today's indie/punk scene.",            
+            HeroUrl = "/assets/bands/1818/hero.JPG",
             LogoUrl = "/assets/bands/1818/logo.png",
+            IsSecret = false,
+            IsFeaturedOnHome = true,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 16
         },
@@ -651,8 +654,8 @@ The band has made its mark with tracks such as Khung, Mai Mai In My Mind, Hey Gi
             Name = "7 Uppercuts",
             Bio = "",
             HeroUrl = "/assets/bands/7uppercuts/hero.png",
-            LogoUrl = null,
-            IsSecret = true,
+            LogoUrl = "/assets/bands/7uppercuts/logo.png",
+            IsSecret = false,
             IsFeaturedOnHome = true,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 17
@@ -737,8 +740,8 @@ RELEASED WORKS:
             Name = "I'm Not Sure",
             Bio = "",
             HeroUrl = "/assets/bands/imnotsure/hero.JPG",
-            LogoUrl = null,
-            IsSecret = true,
+            LogoUrl = "/assets/bands/imnotsure/logo.png",
+            IsSecret = false,
             IsFeaturedOnHome = true,
             LineupDay = LineupDay.LongTranh,
             LineupPosition = 20

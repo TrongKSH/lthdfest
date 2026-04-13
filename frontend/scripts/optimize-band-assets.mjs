@@ -64,14 +64,18 @@ async function optimize(filePath, kind) {
   const ext = path.extname(filePath);
   if (!imageExt.has(ext)) return false;
 
-  const image = sharp(filePath, { failOn: 'none' });
-  const metadata = await image.metadata();
+  const input = sharp(filePath, { failOn: 'none' });
+  const metadata = await input.metadata();
 
-  const resized = image.resize({
-    width: targetWidth(kind),
-    withoutEnlargement: true,
-    fit: 'inside',
-  });
+  // Apply EXIF orientation to pixels before resize; otherwise portrait phone JPEGs
+  // (landscape pixels + Orientation tag) save as landscape after re-encode.
+  const resized = sharp(filePath, { failOn: 'none' })
+    .rotate()
+    .resize({
+      width: targetWidth(kind),
+      withoutEnlargement: true,
+      fit: 'inside',
+    });
 
   const lowerExt = ext.toLowerCase();
   if (lowerExt === '.png') {
