@@ -8,10 +8,10 @@ export const ANNOUNCEMENT_IMAGE_SRCS = [
 
 /** One Facebook URL per slide (can repeat). */
 export const ANNOUNCEMENT_FACEBOOK_URLS = [
-  'https://www.facebook.com/share/v/1GPrhGq9Ea/',
-  'https://www.facebook.com/share/p/1QATMRTH6H/',
-  'https://www.facebook.com/share/p/18drzprToa/',
-  'https://www.facebook.com/share/p/1Ku7cnuheo/',
+  'https://www.facebook.com/share/p/1AsRFowMKW/',
+  'https://www.facebook.com/share/p/18VpGdbAHu/',
+  'https://www.facebook.com/share/p/1J3msw2Cuv/',
+  'https://www.facebook.com/share/p/18DwQuPGma/',
 ] as const;
 
 export type AnnouncementSlideI18n = {
