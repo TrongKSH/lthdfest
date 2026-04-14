@@ -8,7 +8,7 @@ import {
   untracked,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { filter, interval, startWith } from 'rxjs';
+import { filter, interval, map } from 'rxjs';
 import { TranslocoPipe, TranslocoService } from '@ngneat/transloco';
 import { LucideAngularModule } from 'lucide-angular';
 import {
@@ -33,18 +33,15 @@ export class AnnouncementSectionComponent {
 
   private readonly transloco = inject(TranslocoService);
 
-  private readonly lang = toSignal(
-    this.transloco.langChanges$.pipe(startWith(this.transloco.getActiveLang())),
-    { initialValue: this.transloco.getActiveLang() },
-  );
-
   readonly currentIndex = signal(0);
 
-  readonly items = computed(() => {
-    this.lang();
-    const raw = this.transloco.translateObject('announcement.items') as unknown;
-    return Array.isArray(raw) ? (raw as AnnouncementSlideI18n[]) : [];
-  });
+  /** From i18n; reactive to translation load (unlike synchronous `translateObject`). */
+  readonly items = toSignal(
+    this.transloco.selectTranslateObject<unknown>('announcement.items').pipe(
+      map((raw) => (Array.isArray(raw) ? (raw as AnnouncementSlideI18n[]) : [])),
+    ),
+    { initialValue: [] as AnnouncementSlideI18n[] },
+  );
 
   readonly activeItem = computed(() => {
     const list = this.items();
