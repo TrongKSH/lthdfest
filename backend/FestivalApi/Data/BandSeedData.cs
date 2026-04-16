@@ -56,7 +56,7 @@ Members:
 • Quan Vinh Kien - lead vocalist
 • Nguyen Huy Khiem - bassist
 • Truong Kim Trong - drummer",
-            HeroUrl = "/assets/bands/ksh/hero.jpeg",
+            HeroUrl = "/assets/bands/ksh/hero.JPG",
             LogoUrl = "/assets/bands/ksh/logo.png",
             IsFeaturedOnHome = true,
             LineupDay = LineupDay.HoDau,
@@ -782,7 +782,7 @@ IC is known for intense, high-quality releases like ""The Mask on Your Face"" an
 After a hiatus from 2007 to 2013, the band returned stronger, continued evolving, and has shared stages with international acts, contributing to Asia’s growing metal movement.",
             HeroUrl = "/assets/bands/infernalchaos/hero.jpg",
             LogoUrl = "/assets/bands/infernalchaos/logo.png",
-            IsSecret = true,
+            IsSecret = false,
             IsFeaturedOnHome = true,
             LineupDay = LineupDay.HoDau,
             LineupPosition = 21
@@ -793,10 +793,15 @@ After a hiatus from 2007 to 2013, the band returned stronger, continued evolving
         {
             Id = 22,
             Name = "Longbez",
-            Bio = "",
+            Bio = @"LONGBEZ là vocalist/rapper trình diễn độc lập, với âm nhạc chịu ảnh hưởng từ Trap Metal, Dark Trap và Nu-metal. Theo anh chia sẻ, LONGBEZ vẫn đang trên con đường lai tạo, pha trộn nhiều thể loại rap thể nghiệm để tạo nên một màu sắc độc nhất vô nhị. Một điều đáng nhắc đến là LongBez dự định mang đến một nhân vật không kém phần “quái đãn” để song “sát” phần trình diễn của mình.
+
+Nổi danh trong giới underground qua các track như ""Among The Foolish Around"" (2020), ""WeirDos"" (2021), ""CUT"" (2025) và EP ""ACCEPTANCE"" (2023), âm nhạc mà LONGBEZ mang lại có vẻ hỗn loạn, tăm tối, cộng hưởng với những con beat giàu năng lượng, đậm đặc trưng Trap và chất scream từ Metal. Theo anh cho biết, những sản phẩm mới cũng đang trong quá trình ""nấu"" và sẽ ra mắt trong thời gian tới cùng sự hợp tác của những gương mặt cộm cán trong làng Hiphop.",
+            BioEn = @"LONGBEZ is an independent vocalist/rapper whose music is shaped by Trap Metal, Dark Trap, and Nu-metal influences. He says he is still on a path of hybrid experimentation, blending multiple experimental rap styles to create a sound that is uniquely his own. Notably, LongBez also plans to introduce an equally “bizarre” persona to complement and amplify his live performances.
+
+He became known in the underground scene through tracks such as ""Among The Foolish Around"" (2020), ""WeirDos"" (2021), and ""CUT"" (2025), along with the EP ""ACCEPTANCE"" (2023). LONGBEZ’s music carries a chaotic, dark atmosphere, driven by hard-hitting beats rooted in Trap and infused with Metal-style screams. He also shared that new releases are currently ""cooking"" and are expected to drop soon, including collaborations with prominent names in the hip-hop scene.",
             HeroUrl = "/assets/bands/longbez/hero.jpeg",
             LogoUrl = "/assets/bands/longbez/logo.JPG",
-            IsSecret = true,
+            IsSecret = false,
             LineupDay = LineupDay.HoDau,
             LineupPosition = 22
         },
@@ -856,7 +861,7 @@ happyco. want this EP to feel creatively free: not boxed into any single genre, 
             Bio = "",
             HeroUrl = "/assets/bands/volcate/hero.png",
             LogoUrl = "/assets/bands/volcate/logo.png",
-            IsSecret = true,
+            IsSecret = false,
             IsFeaturedOnHome = true,
             LineupDay = LineupDay.HoDau,
             LineupPosition = 24
