@@ -11,7 +11,7 @@ export const ANNOUNCEMENT_FACEBOOK_URLS = [
   "https://www.facebook.com/share/p/1CjiifLEfS/",
   "https://www.facebook.com/share/p/18XsbMAyeo/",
   "https://www.facebook.com/share/p/1AstEBYqax/",
-  "https://www.facebook.com/share/p/1GSmyeXbsQ/"
+  "https://www.facebook.com/share/p/1Fjzrjw1Nv/"
 ] as const;
 
 export type AnnouncementSlideI18n = {
