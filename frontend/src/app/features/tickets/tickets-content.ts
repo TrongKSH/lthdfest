@@ -12,6 +12,9 @@ export type TicketPackVariant =
 export type TicketWhenKey = 'full' | 'may8' | 'may9';
 export type MerchSize = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
+/** When true, card buy buttons are disabled and purchase URLs are redirected. Set to false to reopen sales. */
+export const TICKET_PURCHASE_GATE_CLOSED = true;
+
 export interface TicketPackDef {
   id: string;
   variant: TicketPackVariant;

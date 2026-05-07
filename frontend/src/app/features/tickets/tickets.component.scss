@@ -347,6 +347,18 @@
     outline: 2px solid #fff;
     outline-offset: 3px;
   }
+
+  &:disabled {
+    opacity: 0.45;
+    filter: grayscale(0.9);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  &:disabled:hover {
+    transform: none;
+    filter: grayscale(0.9);
+  }
 }
 
 /* Pack cards — same idle/hover pattern as PRE-SALE */
@@ -608,6 +620,18 @@
   &:focus-visible {
     outline: 2px solid #fff;
     outline-offset: 3px;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    filter: grayscale(0.9);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  &:disabled:hover {
+    transform: none;
+    filter: grayscale(0.9);
   }
 }
 

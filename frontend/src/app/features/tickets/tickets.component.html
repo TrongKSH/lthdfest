@@ -26,6 +26,7 @@
           <button
             type="button"
             class="tickets-presale__btn"
+            [disabled]="purchaseGateClosed"
             (click)="$event.stopPropagation(); onPresaleBuy()"
           >
             <span class="tickets-buy-label">{{ 'tickets.packs.presale.buyLabel' | transloco }}</span>
@@ -78,6 +79,7 @@
               <button
                 type="button"
                 class="tickets-pack__btn"
+                [disabled]="purchaseGateClosed"
                 (click)="$event.stopPropagation(); onPackBuy(pack)"
               >
                 <span class="tickets-buy-label">{{ ('tickets.packs.' + pack.id + '.buyLabel') | transloco }}</span>
